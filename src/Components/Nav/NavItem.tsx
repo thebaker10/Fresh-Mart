@@ -5,7 +5,7 @@ type Props = {
 
 export function NavItem(props:Props) {
     return (
-        <li className={`text-xl hover:cursor-pointer ${ props.active ? "text-yellow" : null}`}>
+        <li className={`text-xl hover:cursor-pointer ${ props.active ? "text-green" : null}`}>
             {props.text}
         </li>
     )
