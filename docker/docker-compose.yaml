@@ -1,0 +1,16 @@
+services:
+  api:
+    build: .
+    ports:
+      - 443:443
+      - 8080:8080
+    volumes:
+      - ./api:/var/www/html
+  db:
+    image: mariadb:10.9.2
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mariadb:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=notsafeforproduction
