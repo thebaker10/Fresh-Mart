@@ -1,9 +1,9 @@
 export function Footer() {
     return (
-        <div className="pt-24">
-        <footer className="p-4 bg-white dark:bg-gray-900">
+        // <div className="pt-24">
+        <footer className="py-4 bg-white dark:bg-gray-900 w-full block px-12">
             <div className="md:flex md:justify-between">
-                <div className="pl-12">
+                <div className="">
                     <div className="flex items-center self-center text-2xl font-semibold whitespace-nowrap gap-2">
                         <span className="text-green">Fresh</span>
                         <span className=" dark:text-white">Market</span>
@@ -57,6 +57,6 @@ export function Footer() {
                 </div>
             </div>
         </footer>
-        </div>
+        // </div>
     )
 }
