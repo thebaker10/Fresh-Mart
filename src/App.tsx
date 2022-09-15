@@ -1,10 +1,10 @@
 import { HomePage } from "./Pages/HomePage";
-//import { ProductPage } from "./Pages/ProductPage"
+import { ProductPage } from "./Pages/ProductPage"
 
 function App() {
   return (
-    <HomePage></HomePage>
-    //<ProductPage></ProductPage>
+    //<HomePage></HomePage>
+    <ProductPage></ProductPage>
   );
 }
 
