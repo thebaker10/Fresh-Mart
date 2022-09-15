@@ -1,4 +1,4 @@
-import { Rating } from "../Nav/Card/Rating"
+import { Rating } from "../Card/Rating"
 
 type Props={
     username: string,

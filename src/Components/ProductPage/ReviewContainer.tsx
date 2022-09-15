@@ -1,4 +1,4 @@
-import { Rating } from "../Nav/Card/Rating"
+import { Rating } from "../Card/Rating"
 import { Review } from "./Review";
 
 type Props={
@@ -21,6 +21,8 @@ export function ReviewContainer(props:Props) {
             <Review username={"Baker"} stars={Math.round(Math.random()*5)} date = {"Reviewed on: 3/9/22"} reviewTitle = {"I always buy these"} review={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}></Review>
             <Review username={"Louise"} stars={Math.round(Math.random()*5)} date = {"Reviewed on: 5/28/22"} reviewTitle = {"Not what I thought it was"} review={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}></Review>
             <Review username={"Nick"} stars={Math.round(Math.random()*5)} date = {"Reviewed on: 1/1/22"} reviewTitle = {"Good"} review={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}></Review>
+            <hr className="mt-2"></hr>
+            <button className="mt-2 mb-10">View more</button>
         </div>
     )
 }
