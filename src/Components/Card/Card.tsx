@@ -9,18 +9,15 @@ type Props={
 
 export function Card(props:Props) {
     return (
-        
-   
-
-        
+    
         <div className="py-6">
           <div className="flex max-w-md bg-white shadow-lg rounded-lg overflow-hidden">
             <div className="w-1/3 bg-cover">
-                <img src={"https://source.unsplash.com/400x600/?" + props.name + " fruit"} alt="" />
+                {/* <img src={"https://source.unsplash.com/400x600/?" + props.name + " fruit"} alt="" /> */}
             </div> 
             <div className="w-2/3 p-4">
-              <h1 className="text-gray-900 font-bold text-2xl">{props.name}</h1>
-              <p className="mt-2 text-gray-600 text-sm">{props.description}</p>
+              <h1 className="text-gray-900 font-bold text-xl">{props.name}</h1>
+              <p className="mt-2 text-black text-sm">{props.description}</p>
               <div className="flex item-center mt-2">
                 <Rating nStars={props.stars}/>
               </div>
@@ -31,8 +28,5 @@ export function Card(props:Props) {
             </div>
           </div>
         </div>
-
-
-
     )
 }
