@@ -14,3 +14,12 @@ services:
       - ./mariadb:/var/lib/mysql
     environment:
       - MARIADB_ROOT_PASSWORD=notsafeforproduction
+  search:
+    image: opensearchproject/opensearch
+    ports:
+      - '127.0.0.1:9200:9200'
+      - '127.0.0.1:9300:9300' 
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - ./search:/usr/share/opensearch/data
