@@ -1,0 +1,7 @@
+FROM php:8.1.10-apache
+ENV APACHE_DOCUMENT_ROOT /var/www/html
+#COPY ./api /var/www/html
+RUN curl https://getcomposer.org/download/latest-stable/composer.phar -o /usr/local/bin/composer
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+#CMD [ "php", "./your-script.php" ]
