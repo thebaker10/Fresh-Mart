@@ -3,7 +3,7 @@ services:
     build: .
     ports:
       - 443:443
-      - 8080:8080
+      - 80:80
     volumes:
       - ./api:/var/www/html
   db:
@@ -23,3 +23,9 @@ services:
       - discovery.type=single-node
     volumes:
       - ./search:/usr/share/opensearch/data
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - '127.0.0.1:8181:80'
+    environment:
+      - MYSQL_ROOT_PASSWORD=notsafeforproduction
