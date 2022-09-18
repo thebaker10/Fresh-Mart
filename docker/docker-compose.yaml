@@ -5,7 +5,7 @@ services:
       - 443:443
       - 80:80
     volumes:
-      - ./api:/var/www/html
+      - ./api:/var/www/html/api
   db:
     image: mariadb:10.9.2
     ports:
