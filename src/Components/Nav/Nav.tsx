@@ -2,6 +2,7 @@ import { faCartShopping, faHeart, faUser } from "@fortawesome/free-solid-svg-ico
 import { IconItem } from "./IconItem";
 import { Logo } from "./Logo";
 import { NavItem } from "./NavItem";
+import { UserIcon } from "./UserIcon";
 
 export function Nav() {
     return (
@@ -18,6 +19,7 @@ export function Nav() {
                 <IconItem icon={faUser} />
                 <IconItem icon={faHeart} />
                 <IconItem icon={faCartShopping} />
+                {/* <UserIcon/> */}
             </ul>
         </nav>
     )
