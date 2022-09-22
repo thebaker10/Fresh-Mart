@@ -2,7 +2,7 @@ services:
   api:
     build:
       context: ./
-      dockerfile: ./dockerFile
+      dockerfile: ./Dockerfile
     ports:
       - 443:443
       - 80:80
