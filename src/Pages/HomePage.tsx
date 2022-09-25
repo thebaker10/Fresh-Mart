@@ -1,4 +1,5 @@
 import { Card } from "../Components/Card/Card";
+import { CheckOut } from "../Components/CheckOut";
 import { Footer } from "../Components/Footer";
 import { Nav } from "../Components/Nav/Nav";
 // import { UserIcon } from "../Components/Nav/UserIcon";
