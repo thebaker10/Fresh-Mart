@@ -1,11 +1,13 @@
 services:
   api:
-    build: .
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
     ports:
       - 443:443
-      - 8080:8080
+      - 80:80
     volumes:
-      - ./api:/var/www/html
+      - ./api:/var/www/html/api
   db:
     image: mariadb:10.9.2
     ports:
@@ -14,3 +16,18 @@ services:
       - ./mariadb:/var/lib/mysql
     environment:
       - MARIADB_ROOT_PASSWORD=notsafeforproduction
+  search:
+    image: opensearchproject/opensearch
+    ports:
+      - '127.0.0.1:9200:9200'
+      - '127.0.0.1:9300:9300' 
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - ./search:/usr/share/opensearch/data
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - '127.0.0.1:8181:80'
+    environment:
+      - MYSQL_ROOT_PASSWORD=notsafeforproduction
