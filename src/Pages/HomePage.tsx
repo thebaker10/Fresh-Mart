@@ -8,7 +8,7 @@ export function HomePage() {
     return (
         <div className="h-screen ">
             <Nav></Nav>
-            <div className="flex flex-wrap gap-x-4 gap-y-2 mx-auto px-10 min-h-screen bg-lightGray">
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 mx-auto px-1 min-h-screen bg-lightGray">
                 <Card name={"Apple"}  stars={Math.round(Math.random()*5)} price={Math.random()*10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}/>
                 <Card name={"Orange"}  stars={Math.round(Math.random()*5)} price={Math.random()*10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}/>
                 <Card name={"Onion"}  stars={Math.round(Math.random()*5)} price={Math.random()*10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}/>

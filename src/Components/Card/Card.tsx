@@ -23,7 +23,7 @@ export function Card(props:Props) {
               </div>
               <div className="flex item-center justify-between mt-3">
                 <h1 className="text-black font-bold text-xl">${props.price.toFixed(2)}</h1>
-                <button className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded">Add to Card</button>
+                <button className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded">Add to Cart</button>
               </div>
             </div>
           </div>
