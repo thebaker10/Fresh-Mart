@@ -10,5 +10,3 @@ curl https://getcomposer.org/download/latest-stable/composer.phar -o /usr/bin/co
 chmod 755 /usr/bin/composer && \
 chown -R www-data:www-data /var/www/html/api
 USER www-data
-#RUN composer install
-#CMD [ "php", "./your-script.php" ]
