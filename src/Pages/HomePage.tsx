@@ -1,4 +1,5 @@
 import { Card } from "../Components/Card/Card";
+import { CheckOut } from "../Components/CheckOut";
 import { Footer } from "../Components/Footer";
 import { Nav } from "../Components/Nav/Nav";
 import {Slider} from "../Components/Card/Slider"
@@ -19,8 +20,7 @@ export function HomePage() {
                 
                 <Slider title = {"Dairy & Eggs"}></Slider>
                 <Slider title = {"Bread & Pantry"}></Slider>
-                <Slider title = {"Snacks"}></Slider>
-                
+                <Slider title = {"Snacks"}></Slider>       
             </div>
 
             <Footer></Footer>
