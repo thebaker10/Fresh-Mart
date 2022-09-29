@@ -1,6 +1,6 @@
 import { Rating } from "../Card/Rating"
 import { IconItem } from "../Nav/IconItem";
-import {faHeart, faPlus, faMinus} from "@fortawesome/free-solid-svg-icons";
+import {faHeartCircleMinus, faHeartCirclePlus} from "@fortawesome/free-solid-svg-icons";
 import { QuantitySelector } from "./QuantitySelector";
 
 type Props={
@@ -39,7 +39,7 @@ export function ProductDetails(props:Props) {
                 <div className="flex gap-1 flex-row  justify-center items-center">
                   <button className="px-3 py-3 bg-green text-white text-xs font-bold uppercase rounded">Add to Cart</button>
                   <ul className="flex gap-8 justify-center items-center mt-2 mb-2">
-                    <p className="px-2 pt-2 bg-green text-white text-xs font-bold uppercase rounded"><IconItem icon={faHeart} /></p>
+                    <button className="px-2 pt-2 bg-green text-white text-xs font-bold uppercase rounded"><IconItem icon={faHeartCirclePlus} /></button>
                   </ul>
                 </div>
 
