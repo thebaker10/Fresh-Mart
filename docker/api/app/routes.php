@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Application\Action\Category\CategoryAction;
+use App\Application\Action\Category\CategoryListAction;
+use App\Application\Action\Category\DepartmentAction;
+use App\Application\Action\Category\DepartmentListAction;
 use App\Application\Actions\HomePageAction;
 use App\Application\Actions\ProductAction;
 use App\Application\Actions\User\ListUsersAction;
@@ -20,6 +24,16 @@ return function (App $app) {
     $app->get('/', HomePageAction::class);
 
     $app->get('/product/{category}/{productSlug}', ProductAction::class);
+
+    $app->group('/categories', function(Group $group){
+        $group->get('', CategoryListAction::class);
+        $group->get('{category_id}', CategoryAction::class);
+    });
+
+    $app->group('departments', function(Group $group){
+        $group->get('', DepartmentListAction::class);
+        $group->get('{department_id}', DepartmentAction::class);
+    });
 
     $app->group('/users', function (Group $group) {
         $group->get('', ListUsersAction::class);

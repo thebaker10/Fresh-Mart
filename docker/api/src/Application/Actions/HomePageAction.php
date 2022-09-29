@@ -83,7 +83,8 @@ class HomePageAction extends Action
                             'productMSRP' => 0.75,
                             'productPrice' => 0.60,
                             'productImageLink' => 'https://via.placeholder.com/500?text=Yellow Pepper',
-                            'reviewAverageScore' => 3.5
+                            'reviewAverageScore' => 3.5,
+                            'slug' => '/produce/yellow-pepper'
                         ]
                     ]
                 ]
