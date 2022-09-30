@@ -1,4 +1,4 @@
-import { Nav } from "./Nav/Nav"
+import { Nav } from "../Components/Nav/Nav"
 
 export function CheckOut() {
 
@@ -47,7 +47,7 @@ export function CheckOut() {
                                         <span className="text-right px-2">State</span>
                                         <input name="state" className="focus:outline-none px-3" placeholder="MN" />
                                     </label>
-                                    <label className="xl:w-1/4 xl:inline-flex py-3 items-center flex xl:border-none border-t border-gray-200 py-3">
+                                    <label className="xl:w-1/4 xl:inline-flex py-3 items-center flex xl:border-none border-t border-gray-200">
                                         <span className="text-right px-2 xl:px-0 xl:text-none">ZIP</span>
                                         <input name="postal_code" className="focus:outline-none px-3" placeholder="55555" />
                                     </label>

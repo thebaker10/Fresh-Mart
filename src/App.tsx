@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CheckOut } from "./Components/CheckOut";
+import { CheckOut } from "./Pages/CheckOutPage";
 import { LoginPage } from "./Components/LoginPage";
 import { RegistrationPage } from "./Components/RegistrationPage";
 import { HomePage } from "./Pages/HomePage";
