@@ -10,8 +10,8 @@ type Props={
 export function Card(props:Props) {
     return (
     
-        <div className="py-6">
-          <div className="flex max-w-md bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="p-5">
+          <div className="flex max-w-md m-auto bg-white shadow-lg rounded-lg overflow-hidden">
             <div className="w-1/3 bg-cover">
                 <img src={"https://source.unsplash.com/400x600/?" + props.name + " fruit"} alt="" />
             </div> 
