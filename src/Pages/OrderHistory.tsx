@@ -7,7 +7,7 @@ type Parameters = {
     
 }
 
-export function OrderPage() {
+export function OrderHistory() {
     const params = useParams<Parameters>()
     return (
         <div className="bg-lightGray">
