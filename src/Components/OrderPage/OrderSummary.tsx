@@ -26,7 +26,7 @@ export function OrderSummary(props:Props) {
             <div className="p-3 my-5 bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="flex space-between pl-5">
                     <div className="w-1/2">
-                        <div className="flex-auto">
+                        <div className="">
                             <p className="font-bold">ORDER SUMMARY</p>
                             <div className="flex pt-2">
                                 <p className="font-medium flex-1">{"Item(s) Subtotal:"}</p>

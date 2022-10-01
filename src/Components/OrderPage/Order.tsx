@@ -14,19 +14,19 @@ export function Order(props:Props) {
             
             <div className="flex space-between text-center ">
                 <div className="flex-auto">
-                    <p className="font-medium text-sm">ORDER PLACED</p>
+                    <p className="font-bold text-sm">ORDER PLACED</p>
                     <p>{props.date}</p>
                 </div>
                 <div className="flex-auto">
-                    <p className="font-medium text-sm">ITEMS</p>
+                    <p className="font-bold text-sm">ITEMS</p>
                     <p>{props.itemQty}</p>
                 </div>
                 <div className="flex-auto">
-                    <p className="font-medium text-sm">TOTAL</p>
+                    <p className="font-bold text-sm">TOTAL</p>
                     <p>${props.totalPrice}</p>
                 </div>
                 <div className="flex-auto">
-                    <p className="font-medium text-sm">ORDER # {props.orderNum}</p>
+                    <p className="font-bold text-sm">ORDER # {props.orderNum}</p>
                     <a href={'http://localhost:3000/OrderDetails/'+props.orderID} className="font-medium text-sm hover:underline dark:text-blue">View order details</a>
                 </div>
             </div>

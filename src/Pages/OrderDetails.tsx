@@ -16,7 +16,7 @@ export function OrderDetails() {
                 <div className="mx-auto max-w-4xl mt-5">
                     <h1 className="text-gray-900 font-bold text-2xl">Order Details</h1>
                     <OrderSummary orderID={8} orderNum={"39561"} totalPrice={32.45} itemQty={11} date={"10/4/2022"} firstName={"Nick"} lastName={"Handberg"} address={"1132 Desert Broom Court"} city={"Newark"} state={"NJ"} zip={"07102"} country={"United States"}></OrderSummary>
-                    <OrderItems orderID={8} orderNum={"39561"} totalPrice={32.45} itemQty={11} date={"10/4/2022"}></OrderItems>
+                    <OrderItems></OrderItems>
                 </div>
                 
             <Footer></Footer>
