@@ -6,7 +6,7 @@ namespace App\Application\Actions\User;
 
 use Psr\Http\Message\ResponseInterface as Response;
 
-class ViewUserAction extends UserAction
+class UserViewAction extends UserAction
 {
     /**
      * {@inheritdoc}

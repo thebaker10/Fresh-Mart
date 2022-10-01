@@ -7,9 +7,13 @@ use App\Application\Action\Category\CategoryListAction;
 use App\Application\Action\Category\DepartmentAction;
 use App\Application\Action\Category\DepartmentListAction;
 use App\Application\Actions\HomePageAction;
-use App\Application\Actions\ProductAction;
-use App\Application\Actions\User\ListUsersAction;
-use App\Application\Actions\User\ViewUserAction;
+use App\Application\Actions\Product\ProductAction;
+use App\Application\Actions\Product\ProductReviewAction;
+use App\Application\Actions\User\UserListAction;
+use App\Application\Actions\User\UserAction;
+use App\Application\Actions\User\UserOrderListAction;
+use App\Application\Actions\User\UserOrderViewAction;
+use App\Application\Actions\User\UserViewAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -23,7 +27,10 @@ return function (App $app) {
 
     $app->get('/', HomePageAction::class);
 
-    $app->get('/product/{category}/{productSlug}', ProductAction::class);
+    $app->group('/products', function(Group $group){
+        $group->get('/products/{productSlug}', ProductAction::class);
+        $group->get('/products/{productSlug}/reviews', ProductReviewAction::class);
+    });
 
     $app->group('/categories', function(Group $group){
         $group->get('', CategoryListAction::class);
@@ -36,7 +43,9 @@ return function (App $app) {
     });
 
     $app->group('/users', function (Group $group) {
-        $group->get('', ListUsersAction::class);
-        $group->get('/{id}', ViewUserAction::class);
+        $group->get('', UserListAction::class);
+        $group->get('/{user_id}', UserViewAction::class);
+        $group->get('{user_id}/orders', UserOrderListAction::class);
+        $group->get('/{user_id}/orders/{order_id}', UserOrderViewAction::class);
     });
 };
