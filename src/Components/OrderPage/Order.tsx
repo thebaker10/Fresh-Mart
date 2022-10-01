@@ -1,4 +1,3 @@
-import { Rating } from "../Card/Rating"
 
 type Props={
     orderID: number,
@@ -28,7 +27,7 @@ export function Order(props:Props) {
                 </div>
                 <div className="flex-auto">
                     <p className="font-medium text-sm">ORDER # {props.orderNum}</p>
-                    <a href="http://localhost:3000/OrderDetails/" className="font-medium text-sm hover:underline dark:text-blue">View order details</a>
+                    <a href={'http://localhost:3000/OrderDetails/'+props.orderID} className="font-medium text-sm hover:underline dark:text-blue">View order details</a>
                 </div>
             </div>
         </div>
