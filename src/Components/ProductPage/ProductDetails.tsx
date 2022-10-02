@@ -19,22 +19,28 @@ export function ProductDetails(props:Props) {
             <div className="w-auto ">
                 <img className="bg-white shadow-lg rounded-lg overflow-hidden" src={"https://source.unsplash.com/400x400/?" + props.name + " fruit"} alt="" />
             </div> 
-            <div className="w-2/5 p-4">
+            <div className="w-2/5 px-6 py-1 divide-darkGray">
               <h1 className="text-gray-900 font-bold text-2xl">{props.name}</h1>
               <div className="flex item-center mt-2">
                 <Rating nStars={props.stars}/>
                 <p className="ml-2">{props.numOfReviews} reviews</p>
               </div>
-              <h1 className="text-gray-900 font-bold text-2xl mt-5">${props.price.toFixed(2)}</h1>
+              <hr className="mt-3"></hr>
+              <p className=" font-medium text-1xl mt-5">MSRP: <span className="line-through">${props.msrp.toFixed(2)}</span></p>
+              <p className=" font-medium text-1xl">Our Price: <span className="font-bold text-lg">${props.price.toFixed(2)}</span></p>
+              <p className=" font-medium ">Savings: ${(props.msrp-props.price).toFixed(2)} <span className="text-sm">{"("+(props.price/props.msrp*100).toFixed(0)}%{")"}</span></p>
+              <hr className="mt-3"></hr>
               <div>
                 <h1 className="text-gray-900 font-bold mt-5">Product Description</h1>
                 <p>{props.description}</p>
               </div>
             </div>
+            
             <div className="w-1/5 p-4 flex flex-row  justify-center items-center">
-              <div className="bg-white shadow-lg rounded-lg overflow-hidden p-2 text-center">
-                <p className="text-black font-bold text-xl">MSRP: ${props.msrp.toFixed(2)}</p>
-                <p className="text-black font-bold text-xl">Price: ${props.price.toFixed(2)}</p>
+              <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4">
+                <p className="text-black font-bold text-xl mb-4">${props.price.toFixed(2)}</p>
+                <p className="mb-2 text-sm">FREE delivery on orders of $15 or more!</p>
+                <p className="text-green font-bold mb-5">IN STOCK</p>
 
                 <QuantitySelector></QuantitySelector>
 
@@ -44,6 +50,7 @@ export function ProductDetails(props:Props) {
                     <button className="px-2 pt-2 bg-green text-white text-xs font-bold uppercase rounded"><IconItem icon={faHeartCirclePlus} /></button>
                   </ul>
                 </div>
+                <p className="mt-5 text-sm">Return policy: <a href="" className="font-medium text-primary-600 dark:text-blue">Returns accepted within 7 days of order. Exclusions apply.</a></p>
 
               </div>  
             </div>
