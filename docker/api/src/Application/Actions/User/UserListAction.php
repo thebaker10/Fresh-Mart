@@ -4,19 +4,42 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
+use App\Application\Actions\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class UserListAction extends UserAction
+class UserListAction extends Action
 {
     /**
      * {@inheritdoc}
      */
     protected function action(): Response
     {
-        $users = $this->userRepository->findAll();
 
-        $this->logger->info("Users list was viewed.");
 
-        return $this->respondWithData($users);
+
+
+        $fakeUsersResponse = [
+
+            [
+                'user_id' => 1,
+                'firstName' => 'John',
+                'lastName' => 'Doe',
+                'balance' => 199.00,
+                'shoppingCart' => [
+                    'items' => []
+                ]
+            ],
+            [
+                'user_id' => 2,
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'balance' => 250.00,
+                'shoppingCart' => [
+                    'items' => []
+                ]
+            ]
+        ];
+
+        return $this->respondWithData($fakeUsersResponse);
     }
 }
