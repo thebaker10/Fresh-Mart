@@ -7,21 +7,23 @@ type Props={
     name: string,
     description: string,
     stars: number,
-    price: number
-    msrp: number
+    price: number,
+    msrp: number,
+    numOfReviews: number,
 }
 
 export function ProductDetails(props:Props) {
     return (
         <div className="mx-auto max-w-6xl">
-          <div className="flex item-center justify-between mt-10">
-            <div className="w-2/5 p-4">
-                <img src={"https://source.unsplash.com/400x400/?" + props.name + " fruit"} alt="" />
+          <div className="flex item-center  mt-10">
+            <div className="w-auto ">
+                <img className="bg-white shadow-lg rounded-lg overflow-hidden" src={"https://source.unsplash.com/400x400/?" + props.name + " fruit"} alt="" />
             </div> 
             <div className="w-2/5 p-4">
               <h1 className="text-gray-900 font-bold text-2xl">{props.name}</h1>
-              <div className="flex item-center mt-5">
+              <div className="flex item-center mt-2">
                 <Rating nStars={props.stars}/>
+                <p className="ml-2">{props.numOfReviews} reviews</p>
               </div>
               <h1 className="text-gray-900 font-bold text-2xl mt-5">${props.price.toFixed(2)}</h1>
               <div>
@@ -30,7 +32,7 @@ export function ProductDetails(props:Props) {
               </div>
             </div>
             <div className="w-1/5 p-4 flex flex-row  justify-center items-center">
-              <div className="shadow-lg rounded-lg overflow-hidden p-2 text-center">
+              <div className="bg-white shadow-lg rounded-lg overflow-hidden p-2 text-center">
                 <p className="text-black font-bold text-xl">MSRP: ${props.msrp.toFixed(2)}</p>
                 <p className="text-black font-bold text-xl">Price: ${props.price.toFixed(2)}</p>
 
