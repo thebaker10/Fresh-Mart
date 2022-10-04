@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Application\Actions\User;
 
+use App\Application\Actions\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class UserOrderListAction extends UserAction
+class UserOrderListAction extends Action
 {
     /**
      * {@inheritdoc}
@@ -17,13 +18,60 @@ class UserOrderListAction extends UserAction
 
         $fakeOrderResponse = [
             [
-                'user_id' => $user_id,
-                'categoryId' => 1,
-                'productName' => 'Yellow Pepper',
-                'productMSRP' => 0.75,
-                'productPrice' => 0.60,
-                'productImageLink' => 'https://via.placeholder.com/500?text=Yellow Pepper',
-                'reviewAverageScore' => 3.5
+                'orderID' => 1,
+                'orderNum' => 'A1234',
+                'userID' => 1,
+                'orderDate' => '2022-09-30 20:15:00',
+                'orderPrice' => 16.20,
+                'itemQuantity' => 27,
+                'lineItems' => [
+                    [
+                        'orderID' => 1,
+                        'productID' => 1,
+                        'lineItemPrice' => 0.60,
+                        'quantity' => 24
+                    ],
+                    [
+                        'orderID' => 1,
+                        'productID' => 3,
+                        'lineItemPrice' => 0.60,
+                        'quantity' => 3
+                    ]
+                ],
+                'firstName' => 'John',
+                'lastName' => 'Doe',
+                'address' => '123 1st Street',
+                'city' => 'Anywhere',
+                'state' => 'CA',
+                'zip' => '90132'
+            ],
+            [
+                'orderID' => 2,
+                'orderNum' => 'A1234',
+                'userID' => 1,
+                'orderDate' => '2022-09-30 20:15:00',
+                'orderPrice' => 16.20,
+                'itemQuantity' => 27,
+                'lineItems' => [
+                    [
+                        'orderID' => 2,
+                        'productID' => 1,
+                        'lineItemPrice' => 0.60,
+                        'quantity' => 24
+                    ],
+                    [
+                        'orderID' => 2,
+                        'productID' => 3,
+                        'lineItemPrice' => 0.60,
+                        'quantity' => 3
+                    ]
+                ],
+                'firstName' => 'John',
+                'lastName' => 'Doe',
+                'address' => '123 1st Street',
+                'city' => 'Anywhere',
+                'state' => 'CA',
+                'zip' => '90132'
             ]
         ];
 

@@ -10,7 +10,6 @@ use App\Application\Actions\HomePageAction;
 use App\Application\Actions\Product\ProductAction;
 use App\Application\Actions\Product\ProductReviewAction;
 use App\Application\Actions\User\UserListAction;
-use App\Application\Actions\User\UserAction;
 use App\Application\Actions\User\UserOrderListAction;
 use App\Application\Actions\User\UserOrderViewAction;
 use App\Application\Actions\User\UserViewAction;
@@ -45,7 +44,7 @@ return function (App $app) {
     $app->group('/users', function (Group $group) {
         $group->get('', UserListAction::class);
         $group->get('/{user_id}', UserViewAction::class);
-        $group->get('{user_id}/orders', UserOrderListAction::class);
+        $group->get('/{user_id}/orders', UserOrderListAction::class);
         $group->get('/{user_id}/orders/{order_id}', UserOrderViewAction::class);
     });
 };

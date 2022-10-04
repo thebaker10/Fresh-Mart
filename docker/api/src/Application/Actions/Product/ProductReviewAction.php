@@ -22,25 +22,31 @@ class ProductReviewAction extends Action
 
         $fakeProductResponse = [
             [
-                'reviewId' => 1,
-                'productId' => $product_id,
-                'userId' => 1,
+                'review_id' => 1,
+                'product_id' => $product_id,
+                'user_id' => 1,
+                'user_name' => 'AUserName',
                 'rating' => 3,
-                'reviewContent' => 'I really liked this food item. I am very impressed by its taste and texture.'
+                'review' => 'I really liked this food item. I am very impressed by its taste and texture.',
+                'date' => '2022-12-15 00:00:00'
             ],
             [
-                'reviewId' => 2,
-                'productId' => $product_id,
-                'userId' => 1,
+                'review_id' => 2,
+                'product_id' => $product_id,
+                'user_id' => 1,
+                'user_name' => 'AUserName',
                 'rating' => 1,
-                'reviewContent' => 'I did not like it.  I think if was spoiled.'
+                'review' => 'I did not like it.  I think if was spoiled.',
+                'date' => '2022-12-15 00:00:00'
             ],
             [
-                'reviewId' => 3,
-                'productId' => $product_id,
-                'userId' => 1,
+                'review_id' => 3,
+                'product_id' => $product_id,
+                'user_id' => 1,
+                'user_name' => 'AUserName',
                 'rating' => 5,
-                'reviewContent' => 'This is great!'
+                'review' => 'This is great!',
+                'date' => '2022-12-15 00:00:00'
             ]
         ];
 

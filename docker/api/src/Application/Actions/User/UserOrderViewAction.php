@@ -18,24 +18,32 @@ class UserOrderViewAction extends Action
 
         $fakeOrderResponse = [
             [
-                'order_id' => $order_id,
-                'user_id' => 1,
+                'orderID' => $order_id,
+                'orderNum' => 'A1234',
+                'userID' => 1,
                 'orderDate' => '2022-09-30 20:15:00',
                 'orderPrice' => 16.20,
+                'itemQuantity' => 27,
                 'lineItems' => [
                     [
-                        'order_id' => $order_id,
-                        'product_id' => 1,
+                        'orderID' => $order_id,
+                        'productID' => 1,
                         'lineItemPrice' => 0.60,
                         'quantity' => 24
                     ],
                     [
-                        'order_id' => $order_id,
-                        'product_id' => 3,
+                        'orderID' => $order_id,
+                        'productID' => 3,
                         'lineItemPrice' => 0.60,
                         'quantity' => 3
                     ]
-                ]
+                ],
+                'firstName' => 'John',
+                'lastName' => 'Doe',
+                'address' => '123 1st Street',
+                'city' => 'Anywhere',
+                'state' => 'CA',
+                'zip' => '90132'
             ]
         ];
 

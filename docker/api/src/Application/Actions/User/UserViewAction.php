@@ -18,7 +18,7 @@ class UserViewAction extends Action
 
         $fakeUserResponse = [
             [
-                'user_id' => $user_id,
+                'userID' => $user_id,
                 'firstName' => 'John',
                 'lastName' => 'Doe',
                 'balance' => 199.00,

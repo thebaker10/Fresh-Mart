@@ -21,7 +21,7 @@ class UserListAction extends Action
         $fakeUsersResponse = [
 
             [
-                'user_id' => 1,
+                'userID' => 1,
                 'firstName' => 'John',
                 'lastName' => 'Doe',
                 'balance' => 199.00,
@@ -30,7 +30,7 @@ class UserListAction extends Action
                 ]
             ],
             [
-                'user_id' => 2,
+                'userID' => 2,
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
                 'balance' => 250.00,

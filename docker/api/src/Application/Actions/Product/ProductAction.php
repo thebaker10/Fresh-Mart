@@ -22,13 +22,13 @@ class ProductAction extends Action
 
         $fakeProductResponse = [
             [
-                'productId' => 5,
-                'categoryId' => 1,
-                'productName' => 'Yellow Pepper',
-                'productMSRP' => 0.75,
-                'productPrice' => 0.60,
-                'productImageLink' => 'https://via.placeholder.com/500?text=Yellow Pepper',
-                'reviewAverageScore' => 3.5,
+                'product_id' => 5,
+                'category_id' => 1,
+                'name' => 'Yellow Pepper',
+                'msrp' => 0.75,
+                'price' => 0.60,
+                'image_link' => 'https://via.placeholder.com/500?text=Yellow Pepper',
+                'stars' => 3.5,
                 'slug' => $slug
             ]
         ];
