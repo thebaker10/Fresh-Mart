@@ -16,10 +16,10 @@ export function Nav() {
             </ul>
 
             <ul className="flex gap-8">
-                <IconItem icon={faUser} />
+                {/* <IconItem icon={faUser} /> */}
                 <IconItem icon={faHeart} />
                 <IconItem icon={faCartShopping} />
-                {/* <UserIcon/> */}
+                <UserIcon/>
             </ul>
         </nav>
     )
