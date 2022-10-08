@@ -1,32 +1,47 @@
 <?php
 
-declare(strict_types=1);
+// src/Domain/User.php
 
-namespace App\Domain\User;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Table;
 
-use JsonSerializable;
-
-class User implements JsonSerializable
+#[Entity, Table(name: 'users')]
+final class User
 {
-    private ?int $id;
+    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
+    private int $user_id;
 
+    #[Column(type: 'string', unique: true, nullable: false)]
+    private string $first_name;
+
+    #[Column(type: 'string', unique: true, nullable: false)]
+    private string $last_name;
+
+    #[Column(type: 'string', unique: true, nullable: false)]
     private string $username;
 
-    private string $firstName;
+    #[Column(type: 'double', unique: true, nullable: false)]
+    private string $user_balance;
 
-    private string $lastName;
+    public function __construct()
+    { }
 
-    public function __construct(?int $id, string $username, string $firstName, string $lastName)
+    public function getUserId(): int
     {
-        $this->id = $id;
-        $this->username = strtolower($username);
-        $this->firstName = ucfirst($firstName);
-        $this->lastName = ucfirst($lastName);
+        return $this->user_id;
     }
 
-    public function getId(): ?int
+    public function getFirstName(): string
     {
-        return $this->id;
+        return $this->first_name;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->last_name;
     }
 
     public function getUsername(): string
@@ -34,24 +49,8 @@ class User implements JsonSerializable
         return $this->username;
     }
 
-    public function getFirstName(): string
+    public function getUserBalance(): float
     {
-        return $this->firstName;
-    }
-
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize(): array
-    {
-        return [
-            'id' => $this->id,
-            'username' => $this->username,
-            'firstName' => $this->firstName,
-            'lastName' => $this->lastName,
-        ];
+        return $this->user_balance;
     }
 }
