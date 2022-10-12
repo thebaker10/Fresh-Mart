@@ -48,6 +48,31 @@ export function AboutPage() {
                     </div>
                 </div>
             </div>
+            <div className=" dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden m-5 min-h-full">
+                <div className="flex">
+                    <div className="flex-auto space-between w-1/2">
+                        <div className="font-bold mt-10 ml-24 flex gap-1 text-2xl">
+                            <span className="text-green">Fresh</span>
+                            <span className="text-white">Market</span>
+                        </div>
+                        
+                        <div className="font-bold ml-24  text-5xl">
+                            
+                            <p className="text-white absolute z-10 max-w-screen-xl leading-relaxed">Leave the shopping to us</p>
+                        </div>
+                        <div className="font-bold ml-24 mt-20 mb-10 text-2xl ">
+                            
+                            <p className="text-white max-w-screen-xl leading-relaxed">Skip the annoyances of traditional grocery stores. Order online and get your groceries delivered fast!</p>
+                        </div>
+                    </div>
+                    <div id="about-image" className="flex-auto space-between bg-cover w-1/2 z-0">
+                        
+                            <img src={"https://source.unsplash.com/1000x300/?" + " grocery"} alt="" />
+                        
+                    </div>
+                    
+                </div>
+            </div>
             
             <Footer></Footer>
         </div>
