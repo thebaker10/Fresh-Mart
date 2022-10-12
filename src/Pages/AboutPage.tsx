@@ -32,8 +32,21 @@ export function AboutPage() {
                     
                 </div>
             </div>
-            <div className="w-screen h-screen">
-                
+            <div className="mb-5">
+                <div className="flex">
+                    <div className="flex-auto m-5 space-between bg-white w-1/3 shadow-lg rounded-lg overflow-hidden">
+                        <p className="font-bold ml-12 mt-12 text-5xl text-green">Fresh</p>
+                        <p className=" ml-12 mr-12 mt-4 mb-12 text-4xl leading-relaxed">Our vegetables, fruit, dairy, and produce are sourced from local farms allowing us to bring you only the freshest groceries.</p>
+                    </div>
+                    <div className="flex-auto m-5 space-between bg-white w-1/3 shadow-lg rounded-lg overflow-hidden">
+                        <p className="font-bold ml-12 mr-12 mt-12 text-5xl text-green">Fast</p>
+                        <p className=" ml-12 mr-12 mt-4 mb-12 text-4xl leading-relaxed">Our delivery service is always quick and never leaves you waiting for your orders. <span className="font-bold">FREE</span> delivery on orders of $15 or more.</p>
+                    </div>
+                    <div className="flex-auto m-5 space-between bg-white w-1/3 shadow-lg rounded-lg overflow-hidden">
+                        <p className="font-bold ml-12 mr-12 mt-12 text-5xl text-green">Cheap</p>
+                        <p className=" ml-12 mr-12 mt-4 mb-12 text-4xl leading-relaxed">We have the lowest prices for our products while never sacrificing quality. We offer frequent sales to save you money on the essentials.</p>
+                    </div>
+                </div>
             </div>
             
             <Footer></Footer>
