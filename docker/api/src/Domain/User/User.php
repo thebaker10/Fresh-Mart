@@ -8,12 +8,17 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 
-#[Entity, Table(name: 'users')]
-class User
+#[Entity, Table(name: 'user')]
+class User implements \JsonSerializable
 {
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $user_id;
+
+    #[Column(type: 'string', unique: false, nullable: false)]
+    private string $password_hash;
 
     #[Column(type: 'string', unique: true, nullable: false)]
     private string $first_name;
@@ -24,8 +29,16 @@ class User
     #[Column(type: 'string', unique: true, nullable: false)]
     private string $username;
 
-    #[Column(type: 'double', unique: true, nullable: false)]
+    #[Column(type: 'decimal', unique: true, nullable: false)]
     private string $user_balance;
+
+    public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance){
+        $this->setFirstName($first_name);
+        $this->setLastName($last_name);
+        $this->setUserBalance($user_balance);
+        $this->setUsername($username);
+        $this->setPasswordHash($password);
+    }
 
     /**
      * @return int
@@ -33,14 +46,6 @@ class User
     public function getUserId(): int
     {
         return $this->user_id;
-    }
-
-    /**
-     * @param int $user_id
-     */
-    public function setUserId(int $user_id): void
-    {
-        $this->user_id = $user_id;
     }
 
     /**
@@ -105,5 +110,26 @@ class User
     public function setUserBalance(string $user_balance): void
     {
         $this->user_balance = $user_balance;
+    }
+
+    public function setPasswordHash(string $password): void{
+        $hash = password_hash($password, PASSWORD_BCRYPT );
+        $this->password_hash = $hash;
+    }
+
+    public function verifyPassword(string $password): bool{
+        return $this->password_hash === password_hash($password, PASSWORD_BCRYPT);
+    }
+
+    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'username' => "string", 'balance' => "string"])]
+    public function jsonSerialize(): array
+    {
+        return [
+            'userId' => $this->getUserId(),
+            'firstName' => $this->getFirstName(),
+            'lastName' => $this->getLastName(),
+            'username' => $this->getUserBalance(),
+            'balance' => $this->getUserBalance()
+        ];
     }
 }

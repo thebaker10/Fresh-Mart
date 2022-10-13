@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Actions\User;
 
 use App\Application\Actions\Action;
+use App\Domain\User\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -19,7 +20,6 @@ use Slim\Logger;
 use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
-use User;
 
 class UserViewAction extends Action
 {
@@ -40,17 +40,16 @@ class UserViewAction extends Action
      */
     protected function action(): Response
     {
-        $user_id = $this->resolveArg('user_id');
+        $user_id = (int) $this->resolveArg('user_id');
 
-        $em = $this->em;
         try {
-            $user = $em->find(User::class, $user_id);
-            //print_r($user);
+            $userRepository = $this->em->getRepository(User::class);
+            $user = $userRepository->find($user_id);
         } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
             return $this->respondWithData(null, 404);
         }
 
-        $fakeUserResponse = [
+      /*  $fakeUserResponse = [
             [
                 'userID' => $user_id,
                 'firstName' => 'John',
@@ -61,7 +60,8 @@ class UserViewAction extends Action
                 ]
             ]
         ];
+      */
 
-        return $this->respondWithData($fakeUserResponse);
+        return $this->respondWithData($user);
     }
 }
