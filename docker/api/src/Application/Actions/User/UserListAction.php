@@ -17,7 +17,6 @@ class UserListAction extends Action
 
 
 
-
         $fakeUsersResponse = [
 
             [

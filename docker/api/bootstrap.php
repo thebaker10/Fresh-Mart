@@ -1,36 +1,19 @@
 <?php
 
-// bootstrap.php
 
-use Doctrine\Common\Cache\Psr6\DoctrineProvider;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
-use Symfony\Component\Cache\Adapter\ArrayAdapter;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+declare(strict_types=1);
+
+// bootstrap file for public/index.php and cli-config.php
+
 use UMA\DIC\Container;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$container = new Container(require __DIR__ . '/app/settings.php');
 
-$container->set(EntityManager::class, static function (Container $c): EntityManager {
-    /** @var array $settings */
-    $settings = $c->get('settings');
+if (!file_exists(__DIR__ . '/app/settings.php')) {
+    copy(__DIR__ . '/settings.php.dist', __DIR__ . '/app/settings.php');
+}
 
-    // Use the ArrayAdapter or the FilesystemAdapter depending on the value of the 'dev_mode' setting
-    // You can substitute the FilesystemAdapter for any other cache you prefer from the symfony/cache library
-    $cache = $settings['doctrine']['dev_mode'] ?
-        DoctrineProvider::wrap(new ArrayAdapter()) :
-        DoctrineProvider::wrap(new FilesystemAdapter(directory: $settings['doctrine']['cache_dir']));
+$array = (array) require __DIR__ . '/app/settings.php';
 
-    $config = Setup::createAttributeMetadataConfiguration(
-        $settings['doctrine']['metadata_dirs'],
-        $settings['doctrine']['dev_mode'],
-        null,
-        $cache
-    );
-
-    return EntityManager::create($settings['doctrine']['connection'], $config);
-});
-
-return $container;
+return new Container($containerConfig);
