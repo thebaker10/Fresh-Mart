@@ -48,6 +48,14 @@ class UserPostAction extends Action
         $balance = (float) $payload['balance'];
         $user = new User($firstName, $lastName, $username, $password, $balance);
 
+        /*
+         * CF 2022-10-13
+         * Method for adding a new entity in the database:
+         * Create a new instance of the entity's class
+         * Call $this->>em->persist($instance) to tell Doctrine ORM that we will be saving this to the database
+         * Call $this->>em->flush() to perform the insert/update
+         */
+
         try {
             $this->em->persist($user);
             $this->em->flush();

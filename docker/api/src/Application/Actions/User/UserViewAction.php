@@ -49,6 +49,13 @@ class UserViewAction extends Action
         $user_id = (int) $this->resolveArg('user_id');
 
         try {
+            /*
+             * CF 2022-10-13
+             * To retrieve an entity:
+             *  Call $this->em->getRepository(Entity::class) to tell Doctrine ORM the type of entity we are searching fo
+             *  Call $repository->find($primaryKey) to get the database record
+             */
+
             $userRepository = $this->em->getRepository(User::class);
             $user = $userRepository->find($user_id);
         } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
