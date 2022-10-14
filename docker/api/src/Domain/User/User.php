@@ -32,6 +32,9 @@ class User implements \JsonSerializable
     #[Column(type: 'decimal', unique: true, nullable: false)]
     private string $user_balance;
 
+    //TODO Add Shopping Cart Relationship
+    private array $shopping_cart = [];
+
     public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance){
         $this->setFirstName($first_name);
         $this->setLastName($last_name);
@@ -112,6 +115,7 @@ class User implements \JsonSerializable
         $this->user_balance = $user_balance;
     }
 
+
     public function setPasswordHash(string $password): void{
         $hash = password_hash($password, PASSWORD_BCRYPT );
         $this->password_hash = $hash;
@@ -121,7 +125,7 @@ class User implements \JsonSerializable
         return $this->password_hash === password_hash($password, PASSWORD_BCRYPT);
     }
 
-    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'username' => "string", 'balance' => "string"])]
+    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'username' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
     public function jsonSerialize(): array
     {
         return [
@@ -129,7 +133,10 @@ class User implements \JsonSerializable
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
             'username' => $this->getUserBalance(),
-            'balance' => $this->getUserBalance()
+            'balance' => $this->getUserBalance(),
+            //@TODO Get shopping cart from relationship once cart entity has bee ncreated
+            //Update Annotation as well
+            'shoppingCart'=> []
         ];
     }
 }

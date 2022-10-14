@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\TransactionRequiredException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -26,6 +28,10 @@ class UserViewAction extends Action
 
     private EntityManager $em;
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
@@ -48,20 +54,6 @@ class UserViewAction extends Action
         } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
             return $this->respondWithData(null, 404);
         }
-
-      /*  $fakeUserResponse = [
-            [
-                'userID' => $user_id,
-                'firstName' => 'John',
-                'lastName' => 'Doe',
-                'balance' => 199.00,
-                'shoppingCart' => [
-                    'items' => []
-                ]
-            ]
-        ];
-      */
-
         return $this->respondWithData($user);
     }
 }
