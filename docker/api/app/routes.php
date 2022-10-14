@@ -44,6 +44,13 @@ return function (App $app) {
 
     $app->group('/users', function (Group $group) {
         $group->get('/', UserListAction::class);
+
+        /*
+         * CF 2022-10-13
+         *  Screenshot of sending a POST request in Postman
+         * https://drive.google.com/file/d/1HQAGJyRCDSN4c79x0DcFzm4UjC3MYWOp/view?usp=sharing
+         * https://www.postman.com/downloads/
+         */
         $group->post('/', UserPostAction::class);
 
         $group->get('/{user_id}', UserViewAction::class);
