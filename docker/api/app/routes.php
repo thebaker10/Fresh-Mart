@@ -12,6 +12,7 @@ use App\Application\Actions\Product\ProductReviewAction;
 use App\Application\Actions\User\UserListAction;
 use App\Application\Actions\User\UserOrderListAction;
 use App\Application\Actions\User\UserOrderViewAction;
+use App\Application\Actions\User\UserPostAction;
 use App\Application\Actions\User\UserViewAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -42,8 +43,11 @@ return function (App $app) {
     });
 
     $app->group('/users', function (Group $group) {
-        $group->get('', UserListAction::class);
+        $group->get('/', UserListAction::class);
+        $group->post('/', UserPostAction::class);
+
         $group->get('/{user_id}', UserViewAction::class);
+
         $group->get('/{user_id}/orders', UserOrderListAction::class);
         $group->get('/{user_id}/orders/{order_id}', UserOrderViewAction::class);
     });
