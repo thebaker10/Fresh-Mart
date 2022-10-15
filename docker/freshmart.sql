@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 14, 2022 at 04:10 AM
+-- Generation Time: Oct 15, 2022 at 04:04 AM
 -- Server version: 10.9.2-MariaDB-1:10.9.2+maria~ubu2204
 -- PHP Version: 8.0.23
 
@@ -145,13 +145,16 @@ CREATE TABLE `user_order` (
 -- Indexes for table `cart`
 --
 ALTER TABLE `cart`
-    ADD PRIMARY KEY (`cart_id`);
+    ADD PRIMARY KEY (`cart_id`),
+  ADD KEY `cart_user` (`user_id`);
 
 --
 -- Indexes for table `cart_item`
 --
 ALTER TABLE `cart_item`
-    ADD PRIMARY KEY (`cart_item_id`);
+    ADD PRIMARY KEY (`cart_item_id`),
+  ADD KEY `cart_item_cart` (`cart_id`),
+  ADD KEY `cart_item_product` (`product_id`);
 
 --
 -- Indexes for table `category`
@@ -264,6 +267,19 @@ ALTER TABLE `user_order`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+    ADD CONSTRAINT `cart_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `cart_item`
+--
+ALTER TABLE `cart_item`
+    ADD CONSTRAINT `cart_item_cart` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `cart_item_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `category`
