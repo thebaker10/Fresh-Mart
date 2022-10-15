@@ -2,6 +2,7 @@ import { Footer } from "../Components/Footer";
 import { Nav } from "../Components/Nav/Nav";
 import {faComments, faList} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon, FontAwesomeIconProps} from "@fortawesome/react-fontawesome"
+import { ChatButton } from "../Components/ChatButton";
 
 export function ContactPage() {
     return (
@@ -47,6 +48,7 @@ export function ContactPage() {
                 </div>
             </div>
             <Footer></Footer>
+            <ChatButton></ChatButton>
         </div>
     )
 }
