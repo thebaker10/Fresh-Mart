@@ -1,18 +1,22 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 // src/Domain/User.php
 namespace App\Domain\User;
 
+use App\Domain\Cart\Cart;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\PersistentCollection;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
+use JsonSerializable;
 
 #[Entity, Table(name: 'user')]
-class User implements \JsonSerializable
+class User implements JsonSerializable
 {
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $user_id;
@@ -26,14 +30,14 @@ class User implements \JsonSerializable
     #[Column(type: 'string', unique: true, nullable: false)]
     private string $last_name;
 
-    #[Column(type: 'string', unique: true, nullable: false)]
+    #[Column(name: 'username', type: 'string', unique: true, nullable: false)]
     private string $username;
 
     #[Column(type: 'decimal', unique: true, nullable: false)]
     private string $user_balance;
 
-    //TODO Add Shopping Cart Relationship
-    private array $shopping_cart = [];
+    #[OneToMany(mappedBy: 'user_id', targetEntity: Cart::class)]
+    private PersistentCollection $shopping_cart;
 
     public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance){
         $this->setFirstName($first_name);
@@ -132,11 +136,9 @@ class User implements \JsonSerializable
             'userId' => $this->getUserId(),
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
-            'username' => $this->getUserBalance(),
+            'username' => $this->getUsername(),
             'balance' => $this->getUserBalance(),
-            //@TODO Get shopping cart from relationship once cart entity has bee ncreated
-            //Update Annotation as well
-            'shoppingCart'=> []
+            'shoppingCart'=> $this->shopping_cart
         ];
     }
 }

@@ -12,15 +12,8 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\TransactionRequiredException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Log\LoggerInterface;
 use Slim\Factory\AppFactory;
-use Slim\Handlers\Strategies\RequestHandler;
 use Slim\Logger;
-use Slim\Psr7\Factory\StreamFactory;
-use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
 class UserViewAction extends Action
@@ -59,7 +52,8 @@ class UserViewAction extends Action
             $userRepository = $this->em->getRepository(User::class);
             $user = $userRepository->find($user_id);
         } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
-            return $this->respondWithData(null, 404);
+            $this->logger->alert($e->getMessage());
+            return $this->respondWithData(null, 500);
         }
         return $this->respondWithData($user);
     }
