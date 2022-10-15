@@ -3,6 +3,7 @@ import { Slider } from "../Components/Card/Slider";
 import { Footer } from "../Components/Footer";
 import { Nav } from "../Components/Nav/Nav";
 import { SpecialBanner } from "../Components/SpecialBanner";
+import { ChatButton } from "../Components/ChatButton";
 
 export function HomePage() {
     return (
@@ -41,6 +42,7 @@ export function HomePage() {
                     <Slider title={"Snacks"}></Slider>
                 </div>
                 <Footer></Footer>
+                <ChatButton></ChatButton>
         </div>
     )
 }

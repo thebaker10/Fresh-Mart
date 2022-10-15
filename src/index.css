@@ -8,6 +8,7 @@
 
 .react-multiple-carousel__arrow{
     background: #111827;
+    z-index: 1;
 }
 
 .react-multiple-carousel__arrow--right {
@@ -36,4 +37,8 @@
 
 #chatButton:hover #supportHidden{
     display: inline-block;
+}
+
+#chatButton{
+    z-index: 2000;
 }
