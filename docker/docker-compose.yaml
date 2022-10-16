@@ -16,6 +16,8 @@ services:
       - ./mariadb:/var/lib/mysql
     environment:
       - MARIADB_ROOT_PASSWORD=notsafeforproduction
+    command:
+      --lower_case_table_names=1
   search:
     image: opensearchproject/opensearch
     ports:

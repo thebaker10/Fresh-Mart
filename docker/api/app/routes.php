@@ -2,8 +2,17 @@
 
 declare(strict_types=1);
 
-use App\Application\Actions\User\ListUsersAction;
-use App\Application\Actions\User\ViewUserAction;
+use App\Application\Action\Category\CategoryAction;
+use App\Application\Action\Category\CategoryListAction;
+use App\Application\Action\Category\DepartmentAction;
+use App\Application\Action\Category\DepartmentListAction;
+use App\Application\Actions\HomePageAction;
+use App\Application\Actions\Product\ProductAction;
+use App\Application\Actions\Product\ProductReviewAction;
+use App\Application\Actions\User\UserListAction;
+use App\Application\Actions\User\UserOrderListAction;
+use App\Application\Actions\User\UserOrderViewAction;
+use App\Application\Actions\User\UserViewAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -15,13 +24,27 @@ return function (App $app) {
         return $response;
     });
 
-    $app->get('/', function (Request $request, Response $response) {
-        $response->getBody()->write('Hello world!');
-        return $response;
+    $app->get('/', HomePageAction::class);
+
+    $app->group('/products', function(Group $group){
+        $group->get('/products/{productSlug}', ProductAction::class);
+        $group->get('/products/{productSlug}/reviews', ProductReviewAction::class);
+    });
+
+    $app->group('/categories', function(Group $group){
+        $group->get('', CategoryListAction::class);
+        $group->get('{category_id}', CategoryAction::class);
+    });
+
+    $app->group('departments', function(Group $group){
+        $group->get('', DepartmentListAction::class);
+        $group->get('{department_id}', DepartmentAction::class);
     });
 
     $app->group('/users', function (Group $group) {
-        $group->get('', ListUsersAction::class);
-        $group->get('/{id}', ViewUserAction::class);
+        $group->get('', UserListAction::class);
+        $group->get('/{user_id}', UserViewAction::class);
+        $group->get('/{user_id}/orders', UserOrderListAction::class);
+        $group->get('/{user_id}/orders/{order_id}', UserOrderViewAction::class);
     });
 };

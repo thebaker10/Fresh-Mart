@@ -4,6 +4,7 @@ import { ProductDetails } from "../Components/ProductPage/ProductDetails";
 import { ReviewContainer } from "../Components/ProductPage/ReviewContainer";
 import { useParams } from "react-router-dom";
 import { Slider } from "../Components/Card/Slider";
+import { ChatButton } from "../Components/ChatButton";
 
 type Parameters = {
     productID: string
@@ -18,6 +19,7 @@ export function ProductPage() {
             <Slider title = {"Similar Products"}></Slider>
             <ReviewContainer stars={Math.round(Math.random() * 5)} numOfReviews={Math.round(Math.random() * 500)}></ReviewContainer>
             <Footer></Footer>
+            <ChatButton></ChatButton>
         </div>
 
     )
