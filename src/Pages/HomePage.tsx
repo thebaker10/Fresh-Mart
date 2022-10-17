@@ -3,7 +3,7 @@ import { Slider } from "../Components/Card/Slider";
 import { Footer } from "../Components/Footer";
 import { Nav } from "../Components/Nav/Nav";
 import { SpecialBanner } from "../Components/SpecialBanner";
-import { TawkTo } from "../Components/TawkTo";
+import TawkTo from "../Components/TawkTo";
 
 export function HomePage() {
     return (
