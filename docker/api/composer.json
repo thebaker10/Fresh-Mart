@@ -29,7 +29,8 @@
         "php-di/php-di": "^6.4",
         "slim/psr7": "^1.5",
         "slim/slim": "^4.10",
-        "symfony/cache": "^6.1"
+        "symfony/cache": "^6.1",
+        "uma/dic": "*"
     },
     "require-dev": {
         "jangregor/phpstan-prophecy": "^1.0.0",
