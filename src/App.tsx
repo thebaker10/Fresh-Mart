@@ -6,7 +6,12 @@ import { HomePage } from "./Pages/HomePage";
 import { ProductPage } from "./Pages/ProductPage"
 import {OrderHistory} from "./Pages/OrderHistory"
 import {OrderDetails} from "./Pages/OrderDetails"
+
 import {AboutPage} from "./Pages/AboutPage";
+import {ContactPage} from "./Pages/ContactPage";
+
+import { FavoritePage } from "./Pages/FavoritePage";
+
 
 function App() {
   return (
@@ -19,7 +24,12 @@ function App() {
         <Route path="LoginPage" element={<LoginPage/>}></Route>
         <Route path="OrderHistory" element={<OrderHistory/>}></Route>
         <Route path="OrderDetails/:orderID" element={<OrderDetails/>}></Route>
+
         <Route path="About" element={<AboutPage/>}></Route>
+        <Route path="Contact" element={<ContactPage/>}></Route>
+
+        <Route path="FavoritePage" element={<FavoritePage/>}></Route>
+        
       </Routes>
     </BrowserRouter>
   );
