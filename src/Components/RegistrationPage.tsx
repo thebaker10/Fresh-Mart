@@ -15,11 +15,11 @@ export function RegistrationPage() {
                         <form className="space-y-4 md:space-y-6" action="#" onSubmit={submitForm}>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                                <input type="text" name="fName" id="fName" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" />
+                                <input type="text" name="firstName" id="firstName" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" />
                             </div>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                                <input type="text" name="lName" id="lName" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" />
+                                <input type="text" name="lastName" id="lastName" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" />
                             </div>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
@@ -53,20 +53,28 @@ export function RegistrationPage() {
 }
 
 
-function submitForm(e:SubmitEvent){
+function submitForm(e:any){
 
     e.preventDefault();
     let formData = new FormData(e.target as HTMLFormElement);
 
+    //@TODO Add Form validation
+
     //@TODO Add Loading Indicator
     alert('Submitting POST request...');
+
+    let data:any = {};
+
+    formData.forEach((value:any,key:any) => {
+        data[key] = value;
+    });
 
     //CF 2022-10-16
     //Fetch is asynchronous, so it returns a Promise.  When it is resolved (the request is completed),
     // it moves onto the then block. If an error is thrown, it is caught in the catch block.
-    fetch('/users', {
+    fetch('http://localhost/users/', {
         method: 'POST',
-        body: formData,
+        body: JSON.stringify(data),
         headers: {
             'Content-Type': 'application/json'
         },
