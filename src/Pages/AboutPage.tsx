@@ -1,3 +1,4 @@
+import { ChatButton } from "../Components/ChatButton";
 import { Footer } from "../Components/Footer";
 import { Nav } from "../Components/Nav/Nav";
 
@@ -75,6 +76,7 @@ export function AboutPage() {
             </div>
             
             <Footer></Footer>
+            <ChatButton></ChatButton>
         </div>
     )
 }

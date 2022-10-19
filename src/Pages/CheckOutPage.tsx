@@ -1,5 +1,5 @@
 import { Nav } from "../Components/Nav/Nav"
-
+import { ChatButton } from "../Components/ChatButton";
 export function CheckOut() {
 
 
@@ -152,7 +152,8 @@ export function CheckOut() {
                     </div>
                 </div>
             </div>
+            <ChatButton></ChatButton>
         </div>
-
+        
     )
 }
