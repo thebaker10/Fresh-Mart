@@ -1,5 +1,5 @@
 import { Nav } from "../Components/Nav/Nav"
-import { ChatButton } from "../Components/ChatButton";
+import TawkTo from "../Components/TawkTo";
 export function CheckOut() {
 
 
@@ -152,7 +152,7 @@ export function CheckOut() {
                     </div>
                 </div>
             </div>
-            <ChatButton></ChatButton>
+            <TawkTo></TawkTo>
         </div>
         
     )

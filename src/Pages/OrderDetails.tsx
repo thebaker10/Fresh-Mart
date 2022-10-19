@@ -3,7 +3,7 @@ import { Nav } from "../Components/Nav/Nav";
 import { useParams } from "react-router-dom";
 import {OrderSummary} from "../Components/OrderPage/OrderSummary"
 import {OrderItems} from "../Components/OrderPage/OrderItems"
-import { ChatButton } from "../Components/ChatButton";
+import TawkTo from "../Components/TawkTo";
 
 type Parameters = {
     
@@ -21,7 +21,7 @@ export function OrderDetails() {
                 </div>
                 
             <Footer></Footer>
-            <ChatButton></ChatButton>
+            <TawkTo></TawkTo>
         </div>
 
     )

@@ -2,7 +2,7 @@ import { Footer } from "../Components/Footer";
 import { Nav } from "../Components/Nav/Nav";
 import { useParams } from "react-router-dom";
 import {Order} from "../Components/OrderPage/Order"
-import { ChatButton } from "../Components/ChatButton";
+import TawkTo from "../Components/TawkTo";
 
 type Parameters = {
     
@@ -27,7 +27,7 @@ export function OrderHistory() {
                 </div>
                 
             <Footer></Footer>
-            <ChatButton></ChatButton>
+            <TawkTo></TawkTo>
         </div>
 
     )
