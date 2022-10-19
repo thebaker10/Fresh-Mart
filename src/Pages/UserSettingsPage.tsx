@@ -11,9 +11,13 @@ export function UserSettingsPage() {
             <Nav></Nav>
             
             <div className="mx-auto max-w-4xl my-5 px-5 py-5 bg-white rounded-xl">
-                <ChangeUserIcon/>
                 
+                <ChangeUserIcon/>
+
+                
+
                 <ChangePassword/>
+
             </div>
 
             
