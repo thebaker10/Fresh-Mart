@@ -12,6 +12,7 @@ use App\Application\Actions\Product\ProductReviewAction;
 use App\Application\Actions\User\UserListAction;
 use App\Application\Actions\User\UserOrderListAction;
 use App\Application\Actions\User\UserOrderViewAction;
+use App\Application\Actions\User\UserPostAction;
 use App\Application\Actions\User\UserViewAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -42,8 +43,18 @@ return function (App $app) {
     });
 
     $app->group('/users', function (Group $group) {
-        $group->get('', UserListAction::class);
+        $group->get('/', UserListAction::class);
+
+        /*
+         * CF 2022-10-13
+         *  Screenshot of sending a POST request in Postman
+         * https://drive.google.com/file/d/1HQAGJyRCDSN4c79x0DcFzm4UjC3MYWOp/view?usp=sharing
+         * https://www.postman.com/downloads/
+         */
+        $group->post('/', UserPostAction::class);
+
         $group->get('/{user_id}', UserViewAction::class);
+
         $group->get('/{user_id}/orders', UserOrderListAction::class);
         $group->get('/{user_id}/orders/{order_id}', UserOrderViewAction::class);
     });

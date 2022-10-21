@@ -1,57 +1,142 @@
 <?php
 
-declare(strict_types=1);
-
+// src/Domain/User.php
 namespace App\Domain\User;
 
-use JsonSerializable;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Table;
+use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 
-class User implements JsonSerializable
+#[Entity, Table(name: 'user')]
+class User implements \JsonSerializable
 {
-    private ?int $id;
+    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
+    private int $user_id;
 
+    #[Column(type: 'string', unique: false, nullable: false)]
+    private string $password_hash;
+
+    #[Column(type: 'string', unique: true, nullable: false)]
+    private string $first_name;
+
+    #[Column(type: 'string', unique: true, nullable: false)]
+    private string $last_name;
+
+    #[Column(type: 'string', unique: true, nullable: false)]
     private string $username;
 
-    private string $firstName;
+    #[Column(type: 'decimal', unique: true, nullable: false)]
+    private string $user_balance;
 
-    private string $lastName;
+    //TODO Add Shopping Cart Relationship
+    private array $shopping_cart = [];
 
-    public function __construct(?int $id, string $username, string $firstName, string $lastName)
-    {
-        $this->id = $id;
-        $this->username = strtolower($username);
-        $this->firstName = ucfirst($firstName);
-        $this->lastName = ucfirst($lastName);
+    public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance){
+        $this->setFirstName($first_name);
+        $this->setLastName($last_name);
+        $this->setUserBalance($user_balance);
+        $this->setUsername($username);
+        $this->setPasswordHash($password);
     }
 
-    public function getId(): ?int
+    /**
+     * @return int
+     */
+    public function getUserId(): int
     {
-        return $this->id;
+        return $this->user_id;
     }
 
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->first_name;
+    }
+
+    /**
+     * @param string $first_name
+     */
+    public function setFirstName(string $first_name): void
+    {
+        $this->first_name = $first_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->last_name;
+    }
+
+    /**
+     * @param string $last_name
+     */
+    public function setLastName(string $last_name): void
+    {
+        $this->last_name = $last_name;
+    }
+
+    /**
+     * @return string
+     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
-    public function getFirstName(): string
+    /**
+     * @param string $username
+     */
+    public function setUsername(string $username): void
     {
-        return $this->firstName;
+        $this->username = $username;
     }
 
-    public function getLastName(): string
+    /**
+     * @return string
+     */
+    public function getUserBalance(): string
     {
-        return $this->lastName;
+        return $this->user_balance;
     }
 
-    #[\ReturnTypeWillChange]
+    /**
+     * @param string $user_balance
+     */
+    public function setUserBalance(string $user_balance): void
+    {
+        $this->user_balance = $user_balance;
+    }
+
+
+    public function setPasswordHash(string $password): void{
+        $hash = password_hash($password, PASSWORD_BCRYPT );
+        $this->password_hash = $hash;
+    }
+
+    public function verifyPassword(string $password): bool{
+        return $this->password_hash === password_hash($password, PASSWORD_BCRYPT);
+    }
+
+    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'username' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
     public function jsonSerialize(): array
     {
         return [
-            'id' => $this->id,
-            'username' => $this->username,
-            'firstName' => $this->firstName,
-            'lastName' => $this->lastName,
+            'userId' => $this->getUserId(),
+            'firstName' => $this->getFirstName(),
+            'lastName' => $this->getLastName(),
+            'username' => $this->getUserBalance(),
+            'balance' => $this->getUserBalance(),
+            //@TODO Get shopping cart from relationship once cart entity has bee ncreated
+            //Update Annotation as well
+            'shoppingCart'=> []
         ];
     }
 }

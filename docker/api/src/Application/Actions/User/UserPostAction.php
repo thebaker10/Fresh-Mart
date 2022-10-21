@@ -43,9 +43,9 @@ class UserPostAction extends Action
         $payload = $this->request->getParsedBody();
         $firstName = $payload['firstName'];
         $lastName = $payload['lastName'];
-        $username = $firstName.$lastName;
+        $username = $payload['username'];
         $password = $payload['password'];
-        $balance = (float) 50;
+        $balance = (float) $payload['balance'];
         $user = new User($firstName, $lastName, $username, $password, $balance);
 
         /*
@@ -63,8 +63,6 @@ class UserPostAction extends Action
             $this->logger->error($e->getMessage());
             return $this->respondWithData(['message' => 'Error while creating new user.'], 500);
         }
-
-        $this->response->withHeader('Access-Control-Allow-Origin', '*');
 
         return $this->respondWithData(['message' => 'User successfully added', 'user_id' => $user->getUserId()], 201);
     }
