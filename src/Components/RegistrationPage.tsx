@@ -12,14 +12,14 @@ export function RegistrationPage() {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Create a account
                         </h1>
-                        <form className="space-y-4 md:space-y-6" action="#">
+                        <form className="space-y-4 md:space-y-6" action="#" onSubmit={submitForm}>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                                <input type="text" name="fName" id="fName" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" />
+                                <input type="text" name="firstName" id="firstName" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="First Name" />
                             </div>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                                <input type="text" name="lName" id="lName" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" />
+                                <input type="text" name="lastName" id="lastName" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Last Name" />
                             </div>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
@@ -50,4 +50,52 @@ export function RegistrationPage() {
             </div>
         </section>
     )
+}
+
+
+function submitForm(e:any){
+
+    e.preventDefault();
+    let formData = new FormData(e.target as HTMLFormElement);
+
+    //@TODO Add Form validation
+
+    //@TODO Add Loading Indicator
+    alert('Submitting POST request...');
+
+    let data:any = {};
+
+    formData.forEach((value:any,key:any) => {
+        data[key] = value;
+    });
+
+    //CF 2022-10-16
+    //Fetch is asynchronous, so it returns a Promise.  When it is resolved (the request is completed),
+    // it moves onto the then block. If an error is thrown, it is caught in the catch block.
+    fetch('http://localhost/users/', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    }).then((response) => {
+        //CF 2022-10-16
+        //Note that we don't need to catch an error here because we are catching it later.
+        //response.ok tells us whether the response contains a successful HTTP Status Code (like 200 rather than 500)
+        if(!response.ok){
+            throw Error('An error occurred while submitting the registration data.');
+        }
+
+        //response.json() also returns a promise
+        response.json().then((body) => {
+
+            alert('User created Successfully!');
+            console.log(body);
+            //@TODO Redirect the user to the homepage
+        });
+    }).catch((error) => {
+        //@TODO Show error message here
+        console.log(error);
+    })
 }
