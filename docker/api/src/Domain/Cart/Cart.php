@@ -8,9 +8,13 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\PersistentCollection;
+use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 
 #[Entity, Table(name: 'cart')]
 class Cart implements \JsonSerializable{
@@ -18,15 +22,20 @@ class Cart implements \JsonSerializable{
     #[Id, Column(name: 'cart_id', type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $cart_id;
 
-    #[OneToOne(mappedBy: 'shopping_cart', targetEntity: User::class)]
+    #[OneToOne(inversedBy: 'shopping_cart', targetEntity: User::class)]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private User $user;
 
-    #[OneToOne(inversedBy: 'cart', targetEntity: CartItem::class)]
-    private ArrayCollection $cart_items;
+    #[OneToMany(mappedBy: 'cart', targetEntity: CartItem::class)]
+    #[JoinColumn(name: 'cart_id', referencedColumnName: 'cart_id')]
+    private PersistentCollection $cart_items;
 
-    //#[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'username' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
+    #[Pure] #[ArrayShape(['cartId' => "int", 'userId' => "int", 'cartItems' => "\Doctrine\Common\Collections\ArrayCollection"])]
     public function jsonSerialize(): array{
         return [
+            'cartId' => $this->cart_id,
+            'userId' => $this->user->getUserId(),
+            'cartItems' => $this->cart_items->getValues()
         ];
     }
 }

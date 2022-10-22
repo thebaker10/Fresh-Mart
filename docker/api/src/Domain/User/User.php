@@ -8,7 +8,9 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\PersistentCollection;
 use JetBrains\PhpStorm\ArrayShape;
@@ -36,8 +38,8 @@ class User implements JsonSerializable
     #[Column(type: 'decimal', unique: true, nullable: false)]
     private string $user_balance;
 
-    #[OneToMany(mappedBy: 'user_id', targetEntity: Cart::class)]
-    private PersistentCollection $shopping_cart;
+    #[OneToOne(mappedBy: 'user', targetEntity: Cart::class)]
+    private Cart $shopping_cart;
 
     public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance){
         $this->setFirstName($first_name);
@@ -138,7 +140,7 @@ class User implements JsonSerializable
             'lastName' => $this->getLastName(),
             'username' => $this->getUsername(),
             'balance' => $this->getUserBalance(),
-            'shoppingCart'=> $this->shopping_cart
+            'shoppingCart' => $this->shopping_cart
         ];
     }
 }

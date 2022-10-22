@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
@@ -21,14 +22,18 @@ class CartItem implements \JsonSerializable{
     private int $cart_item_id;
 
     #[ManyToOne(targetEntity: Cart::class, inversedBy: 'cart_items')]
+    #[JoinColumn(name: 'cart_id', referencedColumnName: 'cart_id')]
     private Cart $cart;
 
-    #[OneToOne(targetEntity: Product::class)]
-    private Product $product;
+   #[ManyToOne(targetEntity: Product::class,inversedBy: 'cart_items')]
+   #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
+   private Product $product;
 
-    //#[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'username' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
+    #[ArrayShape(['cartItemId' => "int", 'product' => "\App\Domain\Product\Product"])]
     public function jsonSerialize(): array{
         return [
+            'cartItemId' => $this->cart_item_id,
+            'product' => $this->product
         ];
     }
 }
