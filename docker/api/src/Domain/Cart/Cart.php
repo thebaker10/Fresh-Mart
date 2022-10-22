@@ -1,9 +1,9 @@
 <?php
+/** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Domain\Cart;
 
 use App\Domain\User\User;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;

@@ -8,14 +8,18 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\PersistentCollection;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
+
+/**
+ *  2022-10-22 CF
+ * The comments starting with a "#" that appear above the lines of code are PHP 8 attributes
+ * These provide machine-readable markup for things like Doctrine to provide additional information
+ * The ORM uses this information to load the information from the database into the entity model
+ */
 
 #[Entity, Table(name: 'user')]
 class User implements JsonSerializable

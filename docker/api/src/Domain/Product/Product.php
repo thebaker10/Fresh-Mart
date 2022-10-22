@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Domain\Product;
 
@@ -11,14 +12,16 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\PersistentCollection;
+use JetBrains\PhpStorm\ArrayShape;
+use JsonSerializable;
 
 #[Entity, Table(name: 'product')]
-class Product implements \JsonSerializable{
+class Product implements JsonSerializable{
 
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $product_id;
 
-    //@todo replace this with a relationship
+    //@TODO replace this with a relationship
     #[Column(type: 'integer', unique: true, nullable: false)]
     private int $category_id;
 
@@ -37,8 +40,7 @@ class Product implements \JsonSerializable{
 
 
 
-    //#[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'username' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
-    public function jsonSerialize(): array{
+    #[ArrayShape(['productId' => "int", 'categoryId' => "int", 'productName' => "string", 'product_msrp' => "float", 'product_price' => "float"])] public function jsonSerialize(): array{
         return [
             'productId' => $this->product_id,
             'categoryId' => $this->category_id,
