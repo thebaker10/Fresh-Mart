@@ -30,7 +30,7 @@ class Cart implements \JsonSerializable{
     #[JoinColumn(name: 'cart_id', referencedColumnName: 'cart_id')]
     private PersistentCollection $cart_items;
 
-    #[Pure] #[ArrayShape(['cartId' => "int", 'userId' => "int", 'cartItems' => "\Doctrine\Common\Collections\ArrayCollection"])]
+    #[ArrayShape(['cartId' => "int", 'userId' => "int", 'cartItems' => "\Doctrine\Common\Collections\ArrayCollection"])]
     public function jsonSerialize(): array{
         return [
             'cartId' => $this->cart_id,
