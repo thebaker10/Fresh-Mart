@@ -8,7 +8,6 @@ import {OrderHistory} from "./Pages/OrderHistory"
 import {OrderDetails} from "./Pages/OrderDetails"
 import {AboutPage} from "./Pages/AboutPage";
 import {ContactPage} from "./Pages/ContactPage";
-import { UserSettingsPage } from "./Pages/UserSettingsPage";
 
 function App() {
   return (
@@ -23,7 +22,6 @@ function App() {
         <Route path="OrderDetails/:orderID" element={<OrderDetails/>}></Route>
         <Route path="About" element={<AboutPage/>}></Route>
         <Route path="Contact" element={<ContactPage/>}></Route>
-        <Route path="userSettings" element={<UserSettingsPage/>}></Route>
       </Routes>
     </BrowserRouter>
   );
