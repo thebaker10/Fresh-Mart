@@ -42,7 +42,7 @@ class User implements JsonSerializable
     #[Column(type: 'decimal', unique: true, nullable: false)]
     private string $user_balance;
 
-    #[OneToOne(mappedBy: 'user', targetEntity: Cart::class)]
+    #[OneToOne(mappedBy: 'user', targetEntity: Cart::class,orphanRemoval: true)]
     private Cart $shopping_cart;
 
     public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance){
@@ -136,15 +136,16 @@ class User implements JsonSerializable
     }
 
     #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'username' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
-    public function jsonSerialize(): array
-    {
+    public function jsonSerialize(): array{
+
+        //The null coalesce operator below prevents accessing a shopping cart that does not exist
         return [
             'userId' => $this->getUserId(),
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
             'username' => $this->getUsername(),
             'balance' => $this->getUserBalance(),
-            'shoppingCart' => $this->shopping_cart
+            'shoppingCart' => $this->shopping_cart ?? []
         ];
     }
 }
