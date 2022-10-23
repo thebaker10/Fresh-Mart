@@ -135,7 +135,7 @@ class User implements JsonSerializable
         return $this->password_hash === password_hash($password, PASSWORD_BCRYPT);
     }
 
-    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'username' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
+    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
     public function jsonSerialize(): array{
 
         //The null coalesce operator below prevents accessing a shopping cart that does not exist
@@ -143,7 +143,7 @@ class User implements JsonSerializable
             'userId' => $this->getUserId(),
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
-            'username' => $this->getUsername(),
+            'email' => $this->getUsername(),
             'balance' => $this->getUserBalance(),
             'shoppingCart' => $this->shopping_cart ?? []
         ];

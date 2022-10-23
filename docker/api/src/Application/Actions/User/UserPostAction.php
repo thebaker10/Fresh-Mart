@@ -43,7 +43,7 @@ class UserPostAction extends Action
         $payload = $this->request->getParsedBody();
         $firstName = $payload['firstName'];
         $lastName = $payload['lastName'];
-        $username = $firstName.$lastName;
+        $username = $payload['email'];
         $password = $payload['password'];
         $balance = (float) 50;
         $user = new User($firstName, $lastName, $username, $password, $balance);
