@@ -1,6 +1,7 @@
 import { FavoriteItem } from "../Components/FavoritePage/FavoriteItems";
 import { Footer } from "../Components/Footer";
 import { Nav } from "../Components/Nav/Nav";
+import TawkTo from "../Components/TawkTo";
 
 export function FavoritePage() {
     
@@ -14,6 +15,7 @@ export function FavoritePage() {
                 </div>
                 
             <Footer/>
+            <TawkTo></TawkTo>
         </div>
 
     )
