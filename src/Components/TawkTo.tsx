@@ -2,18 +2,20 @@ import TawkMessengerReact from '@tawk.to/tawk-messenger-react';
 import { useRef } from 'react';
 
 export default function TawkTo() {
-    const tawkMessengerRef = useRef();
+    const tawkMessengerRef = useRef<typeof TawkMessengerReact>();
+
     
     // Sets attributes for the current user
     // TODO: Populate attributes with database user info on sign in
     const onLoad = () => {
-        console.log(tawkMessengerRef);
+        if(!tawkMessengerRef.current) return
+        
         tawkMessengerRef.current.setAttributes({
             id : 'A1234',
             name : 'Bob Smith',
             email: 'bsmith@mail.com'
-        }, function(error) {
-            // do something if error
+        }, function(error:string) {
+            console.error(error)
         });
        
     };
