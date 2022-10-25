@@ -1,18 +1,28 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 // src/Domain/User.php
 namespace App\Domain\User;
 
+use App\Domain\Cart\Cart;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
+use JsonSerializable;
+
+/**
+ *  2022-10-22 CF
+ * The comments starting with a "#" that appear above the lines of code are PHP 8 attributes
+ * These provide machine-readable markup for things like Doctrine to provide additional information
+ * The ORM uses this information to load the information from the database into the entity model
+ */
 
 #[Entity, Table(name: 'user')]
-class User implements \JsonSerializable
+class User implements JsonSerializable
 {
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $user_id;
@@ -26,14 +36,14 @@ class User implements \JsonSerializable
     #[Column(type: 'string', unique: true, nullable: false)]
     private string $last_name;
 
-    #[Column(type: 'string', unique: true, nullable: false)]
+    #[Column(name: 'username', type: 'string', unique: true, nullable: false)]
     private string $username;
 
     #[Column(type: 'decimal', unique: true, nullable: false)]
     private string $user_balance;
 
-    //TODO Add Shopping Cart Relationship
-    private array $shopping_cart = [];
+    #[OneToOne(mappedBy: 'user', targetEntity: Cart::class,orphanRemoval: true)]
+    private Cart $shopping_cart;
 
     public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance){
         $this->setFirstName($first_name);
@@ -125,18 +135,17 @@ class User implements \JsonSerializable
         return $this->password_hash === password_hash($password, PASSWORD_BCRYPT);
     }
 
-    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'username' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
-    public function jsonSerialize(): array
-    {
+    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
+    public function jsonSerialize(): array{
+
+        //The null coalesce operator below prevents accessing a shopping cart that does not exist
         return [
             'userId' => $this->getUserId(),
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(),
-            'username' => $this->getUserBalance(),
+            'email' => $this->getUsername(),
             'balance' => $this->getUserBalance(),
-            //@TODO Get shopping cart from relationship once cart entity has bee ncreated
-            //Update Annotation as well
-            'shoppingCart'=> []
+            'shoppingCart' => $this->shopping_cart ?? []
         ];
     }
 }
