@@ -24,16 +24,20 @@ class Review implements JsonSerializable{
 
     //@TODO replace this with a relationship
     #[Column(type: 'integer', unique: true, nullable: false)]
-    private int $category_id;
+    private int $product_id;
+
+    //@TODO replace this with a relationship
+    #[Column(type: 'integer', unique: true, nullable: false)]
+    private int $user_id;
+
+    #[Column(type: 'integer', unique: false, nullable: false)]
+    private string $rating;
 
     #[Column(type: 'string', unique: false, nullable: false)]
-    private string $product_name;
+    private float $review_title;
 
-    #[Column(type: 'float', unique: false, nullable: false)]
-    private float $product_msrp;
-
-    #[Column(type: 'float', unique: false, nullable: false)]
-    private float $product_price;
+    #[Column(type: 'string', unique: false, nullable: false)]
+    private float $review_content;
 
     #[OneToMany(mappedBy: 'product', targetEntity: CartItem::class)]
     #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
@@ -41,13 +45,14 @@ class Review implements JsonSerializable{
 
 
 
-    #[ArrayShape(['productId' => "int", 'categoryId' => "int", 'productName' => "string", 'product_msrp' => "float", 'product_price' => "float"])] public function jsonSerialize(): array{
+    #[ArrayShape(['reviewId' => "int", 'productId' => "int", 'userId' => "int", 'rating' => "int", 'reviewTitle' => "string", 'reviewContent' => "string" ])] public function jsonSerialize(): array{
         return [
+            'reviewId' => $this->review_id,
             'productId' => $this->product_id,
-            'categoryId' => $this->category_id,
-            'productName' => $this->product_name,
-            'product_msrp' => $this->product_msrp,
-            'product_price' => $this->product_price
+            'userId' => $this->user_id,
+            'rating' => $this->rating,
+            'reviewTitle' => $this->review_title,
+            'reviewContent' => $this->review_content
         ];
     }
 }
