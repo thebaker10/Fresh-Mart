@@ -46,6 +46,13 @@ class Review implements JsonSerializable{
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private User $user;
 
+    /**
+    * @return int
+    */
+    public function getReviewId(): int
+    {
+        return $this->review_id;
+    }
 
 
     #[ArrayShape(['reviewId' => "int", 'productId' => "int", 'userId' => "int", 'rating' => "int", 'reviewTitle' => "string", 'reviewContent' => "string" ])] public function jsonSerialize(): array{
