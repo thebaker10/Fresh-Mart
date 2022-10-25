@@ -10,9 +10,8 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\PersistentCollection;
 use JetBrains\PhpStorm\ArrayShape;
 use JsonSerializable;
 
@@ -39,9 +38,13 @@ class Review implements JsonSerializable{
     #[Column(type: 'string', unique: false, nullable: false)]
     private float $review_content;
 
-    #[OneToMany(mappedBy: 'product', targetEntity: CartItem::class)]
+    #[ManyToOne(targetEntity: Product::class)]
     #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
-    private PersistentCollection $cart_items;
+    private Product $product;
+
+    #[ManyToOne(targetEntity: User::class)]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    private User $user;
 
 
 
