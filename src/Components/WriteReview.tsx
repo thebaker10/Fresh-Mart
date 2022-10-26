@@ -3,7 +3,7 @@ export function WriteReview() {
         
         <div>
             <div className="mx-auto max-w-5xl">
-                <button className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded">Write product review</button>
+                <button onClick={toggleHiddenContainer} className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded">Write product review</button>
             </div>
             <div id="hiddenContainer">
                 <div className=" bg-black bg-opacity-25 backdrop-blur-sm fixed w-screen top-0 left-0 bottom-0"></div>
@@ -12,7 +12,7 @@ export function WriteReview() {
                     <div className="flex space-between w-full text-xl text-gray-300 font-bold">
                         <h1 className="flex-auto text-xl pl-6 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Write Review</h1>
                         <div className="flex-auto text-right">
-                            <button>X</button>
+                            <button onClick={toggleHiddenContainer}>X</button>
                         </div>
                         
                     </div>
@@ -42,3 +42,14 @@ export function WriteReview() {
     )
 }
 
+function toggleHiddenContainer(){
+    let el = document.getElementById("hiddenContainer");
+    if(el != null){
+        if(el.style.visibility == "hidden"){
+            el.style.visibility = "visible";
+        }
+        else{
+            el.style.visibility = "hidden";
+        } 
+    }
+}
