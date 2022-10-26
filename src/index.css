@@ -42,3 +42,17 @@
 #chatButton{
     z-index: 2000;
 }
+
+#writeReviewContainer{
+    position: fixed;
+    width: 50%;
+    top: 25%;
+    left: 50%;
+    padding: 20px;
+    transform: translate(-50%, 0);
+    backdrop-filter: blur(10px);
+}
+
+#hiddenContainer{
+    visibility: hidden;
+}
