@@ -11,14 +11,14 @@ export function WriteReview() {
                 <div id="writeReviewContainer" className="bg-white rounded-xl">
                     <div className="flex space-between w-full text-xl text-gray-300 font-bold">
                         <h1 className="flex-auto text-xl pl-6 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">Write Review</h1>
-                        <div className="flex-auto text-right">
+                        <div className="flex-auto text-right pr-2">
                             <button onClick={toggleHiddenContainer}>X</button>
                         </div>
                         
                     </div>
-                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <div className="p-6 pt-2 space-y-2">
                         
-                        <form className="space-y-4 md:space-y-6" action="#">
+                        <form className="space-y-2" action="#">
                             
                             <div id="starSelector">
                                 <p className="block mb-2 text-lg font-medium text-gray-900">Rating</p>
@@ -54,7 +54,7 @@ export function WriteReview() {
                             </div>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-lg font-medium text-gray-900">Review Content</label>
-                                <textarea name="lastName" id="lastName" rows={10} className="bg-gray-50 border border-gray-700 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Use this space to write the body of your review" />
+                                <textarea name="reviewContent" id="reviewContent" rows={2} className="bg-gray-50 border border-gray-700 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Use this space to write the body of your review" />
                             </div>
                             <div className="m-auto w-fit">
                                 <button type="submit" className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded">Submit Review</button>
