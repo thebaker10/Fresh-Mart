@@ -55,6 +55,7 @@
     transform: translate(-50%, 0);
     backdrop-filter: blur(10px);
     overflow-y: auto;
+    z-index: 20;
 }
 
 #reviewContent{

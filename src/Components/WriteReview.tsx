@@ -6,7 +6,7 @@ export function WriteReview() {
                 <button onClick={toggleHiddenContainer} className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded">Write product review</button>
             </div>
             <div id="hiddenContainer">
-                <div className=" bg-black bg-opacity-25 backdrop-blur-sm fixed w-screen top-0 left-0 bottom-0"></div>
+                <div className=" bg-black bg-opacity-25 backdrop-blur-sm fixed w-screen top-0 left-0 bottom-0 z-10"></div>
             
                 <div id="writeReviewContainer" className="bg-white rounded-xl">
                     <div className="flex space-between w-full text-xl text-gray-300 font-bold">
