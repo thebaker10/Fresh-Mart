@@ -1,48 +1,45 @@
-import { Card } from "../Components/Card/Card";
 import { Slider } from "../Components/Card/Slider";
 import { Footer } from "../Components/Footer";
 import { Nav } from "../Components/Nav/Nav";
 import { SpecialBanner } from "../Components/SpecialBanner";
 import TawkTo from "../Components/TawkTo";
 
+
 export function HomePage() {
     return (
         <div className="min-h-screen bg-lightGray">
-            <Nav></Nav>
+            <Nav />
+            <div className=" dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden m-5 min-h-full">
+                <div className="flex">
+                    <div className="flex-auto space-between w-1/2">
+                        <div className="font-bold mt-24 ml-24 flex gap-1 text-8xl">
+                            <span className="text-green">Fresh</span>
+                            <span className="text-white">Market</span>
+                        </div>
 
-            {/*<div className="flex flex-wrap justify-center gap-x-4 gap-y-2 mx-auto px-1 min-h-screen ">
-                <Card name={"Apple"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Orange"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Onion"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Green Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Yellow Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Watermelon"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Green Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Yellow Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Green Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Yellow Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Green Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Yellow Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Green Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Yellow Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Green Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-                <Card name={"Yellow Pepper"} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
+                        <div className="font-bold ml-24 mt-12 text-5xl">
 
-            </div>*/}
-            <div className="">
-                    <Slider title={"Popular"}></Slider>
-                    <Slider title={"Fruit"}></Slider>
-                    <Slider title={"Vegetables"}></Slider>
-                    <div className="px-10">
-                        <SpecialBanner text={"Special Deals"} subtext={"see our specials and save!"}></SpecialBanner>
+                            <p className="text-white absolute z-10 max-w-screen-xl leading-relaxed">We are devoted to offer our customers the</p>
+                        </div>
+                        <div className="font-bold ml-24 mt-32 mb-24 text-5xl ">
+
+                            <p className="text-white max-w-screen-xl leading-relaxed"><span className="text-green">freshest</span> groceries, <br></br><span className="text-green">fastest</span> delivery, and <br></br><span className="text-green">cheapest</span> prices.</p>
+                        </div>
+                    </div>
+                    <div id="about-image" className="flex-auto space-between bg-cover w-1/2 z-0">
+
+                        <img src={"https://source.unsplash.com/1000x700/?" + " grocery"} alt="" />
+
                     </div>
 
-                    <Slider title={"Dairy & Eggs"}></Slider>
-                    <Slider title={"Bread & Pantry"}></Slider>
-                    <Slider title={"Snacks"}></Slider>
                 </div>
-                <Footer></Footer>
-                <TawkTo></TawkTo>
+            </div>
+
+            <Slider title={"Deals"}></Slider>
+            <Slider title={"Popular"}></Slider>
+            
+            <Footer/>
+            <TawkTo/>
         </div>
     )
 }
