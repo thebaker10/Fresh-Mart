@@ -74,7 +74,7 @@ export function WriteReview() {
 function toggleHiddenContainer(){
     let el = document.getElementById("hiddenContainer");
     if(el != null){
-        if(el.style.visibility == "hidden"){
+        if(el.style.visibility != "visible"){
             el.style.visibility = "visible";
         }
         else{
