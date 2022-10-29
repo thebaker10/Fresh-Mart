@@ -3,6 +3,7 @@ import React from "react";
 export function RegistrationPage() {
 
     const [alertVisible, setAlertVisible] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState('Something went wrong while registering.');
 
     function submitForm(e:any){
 
@@ -39,7 +40,12 @@ export function RegistrationPage() {
             //response.json() also returns a promise
             response.json().then((body) => {
 
-                alert('User created Successfully!');
+                if(body.error === 'duplicate_email'){
+                    setAlertMessage('A user with that email address already exists. Try resetting your password.');
+                    setAlertVisible(true);
+                }
+
+                alert('User created Successfully! Should redirect to homepage');
                 console.log(body);
                 //@TODO Redirect the user to the homepage
             });
@@ -62,7 +68,7 @@ export function RegistrationPage() {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Create a account
                         </h1>
-                        { alertVisible && <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">Something went wrong while registering.</div> }
+                        { alertVisible && <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">{alertMessage}</div> }
                         <form className="space-y-4 md:space-y-6" action="#" onSubmit={submitForm}>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
