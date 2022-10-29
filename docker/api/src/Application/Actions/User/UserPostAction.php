@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Application\Actions\User;
 
 use App\Application\Actions\Action;
+use App\Domain\User\DuplicateEmailException;
 use App\Domain\User\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\TransactionRequiredException;
+use PharIo\Manifest\InvalidEmailException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Slim\Factory\AppFactory;
@@ -43,15 +45,32 @@ class UserPostAction extends Action
 
         try {
             $payload = $this->request->getParsedBody();
+            $email = $payload['email'] ?? null;
+            $userRepository = $this->em->getRepository(User::class);
+
+            //Make sure the email matches a valid email address
+            if(!preg_match('/(^\w.*?@\w.*?\.\w*$)/', $email)){
+                throw new InvalidEmailException();
+            }
+
+            if($userRepository->findOneBy(['username' => $email])){
+                throw new DuplicateEmailException();
+            }
+
             $firstName = $payload['firstName'] ?? null;
             $lastName = $payload['lastName'] ?? null;
-            $username = $payload['email'] ?? null;
             $password = $payload['password'] ?? null;
             $balance = (float) 50;
-            $user = new User($firstName, $lastName, $username, $password, $balance);
+            $user = new User($firstName, $lastName, $email, $password, $balance);
         }catch(TypeError $e){
             $this->logger->error($e->getMessage());
             return $this->respondWithData(['message' => 'The user could not be created because a value is missing.'], 500);
+        }catch(DuplicateEmailException $e){
+            $this->logger->error($e->getMessage());
+            return $this->respondWithData(['message' => 'There already exists a user with this email address.'], 500);
+        }catch(InvalidEmailException $e){
+            $this->logger->error($e->getMessage());
+            return $this->respondWithData(['message' => 'A valid email address was not provided.'], 500);
         }
 
         /*

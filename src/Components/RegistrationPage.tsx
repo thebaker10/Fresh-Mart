@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export function RegistrationPage() {
 
     const [alertVisible, setAlertVisible] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState('Something went wrong while registering.');
+    let navigate = useNavigate();
 
     function submitForm(e:any){
 
@@ -29,25 +31,18 @@ export function RegistrationPage() {
             },
             credentials: 'include'
         }).then((response) => {
-            //CF 2022-10-16
-            //Note that we don't need to catch an error here because we are catching it later.
-            //response.ok tells us whether the response contains a successful HTTP Status Code (like 200 rather than 500)
-            if(!response.ok){
-                setAlertVisible(true);
-                throw Error('An error occurred while submitting the registration data.');
-            }
-
-            //response.json() also returns a promise
+            //response.json() returns a promise
             response.json().then((body) => {
 
-                if(body.error === 'duplicate_email'){
-                    setAlertMessage('A user with that email address already exists. Try resetting your password.');
-                    setAlertVisible(true);
-                }
+            if(body.statusCode === 500) {
+                setAlertMessage(body.data.message);
+                setAlertVisible(true);
+                return;
+            }
 
-                alert('User created Successfully! Should redirect to homepage');
-                console.log(body);
-                //@TODO Redirect the user to the homepage
+
+            //@TODO Set Cookie
+            navigate(`/`);
             });
         }).catch((error) => {
             setAlertVisible(true);
