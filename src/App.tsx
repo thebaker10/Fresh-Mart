@@ -11,6 +11,7 @@ import {AboutPage} from "./Pages/AboutPage";
 import {ContactPage} from "./Pages/ContactPage";
 
 import { FavoritePage } from "./Pages/FavoritePage";
+import { Category } from "./Pages/Category";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="Contact" element={<ContactPage/>}></Route>
 
         <Route path="FavoritePage" element={<FavoritePage/>}></Route>
+        <Route path="Category" element={<Category/>}></Route>
         
       </Routes>
     </BrowserRouter>

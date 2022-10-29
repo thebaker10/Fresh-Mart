@@ -42,3 +42,27 @@
 #chatButton{
     z-index: 2000;
 }
+
+#writeReviewContainer{
+    position: fixed;
+    width: 50%;
+    top: 5vh;
+    height: fit-content;
+    max-height: 100vh;
+    left: 50%;
+    padding: 5px;
+    padding-top: 10px;
+    transform: translate(-50%, 0);
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+    z-index: 20;
+}
+
+#reviewContent{
+    height: 15vh;
+    max-height: 50vh;
+}
+
+#hiddenContainer{
+    visibility: hidden;
+}
