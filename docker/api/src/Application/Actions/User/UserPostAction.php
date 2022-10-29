@@ -15,6 +15,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Slim\Factory\AppFactory;
 use Slim\Logger;
 use Slim\Psr7\Response;
+use TypeError;
 
 class UserPostAction extends Action
 {
@@ -40,13 +41,18 @@ class UserPostAction extends Action
     protected function action(): Response
     {
 
-        $payload = $this->request->getParsedBody();
-        $firstName = $payload['firstName'];
-        $lastName = $payload['lastName'];
-        $username = $payload['email'];
-        $password = $payload['password'];
-        $balance = (float) 50;
-        $user = new User($firstName, $lastName, $username, $password, $balance);
+        try {
+            $payload = $this->request->getParsedBody();
+            $firstName = $payload['firstName'] ?? null;
+            $lastName = $payload['lastName'] ?? null;
+            $username = $payload['email'] ?? null;
+            $password = $payload['password'] ?? null;
+            $balance = (float) 50;
+            $user = new User($firstName, $lastName, $username, $password, $balance);
+        }catch(TypeError $e){
+            $this->logger->error($e->getMessage());
+            return $this->respondWithData(['message' => 'The user could not be created because a value is missing.'], 500);
+        }
 
         /*
          * CF 2022-10-13
