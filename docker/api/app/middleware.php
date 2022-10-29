@@ -3,8 +3,13 @@
 declare(strict_types=1);
 
 use App\Application\Middleware\SessionMiddleware;
+use Selective\SameSiteCookie\SameSiteCookieMiddleware;
+use Selective\SameSiteCookie\SameSiteSessionMiddleware;
 use Slim\App;
 
 return function (App $app) {
     $app->add(SessionMiddleware::class);
+    $app->add(new SameSiteCookieMiddleware());
+    $app->add(new SameSiteSessionMiddleware());
+
 };
