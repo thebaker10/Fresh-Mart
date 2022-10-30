@@ -30,12 +30,24 @@ class Category implements JsonSerializable{
     #[JoinColumn(name: 'category_id', referencedColumnName: 'category_id')]
     private PersistentCollection $products;
 
+    public function __construct(string $category_name){
+        $this->setCategoryName($category_name);
+    }
+
     /**
     * @return int
     */
     public function getCategoryId(): int
     {
         return $this->category_id;
+    }
+
+    /**
+     * @param string $category_name
+     */
+    public function setCategoryName(string $category_name): void
+    {
+        $this->category_name = $category_name;
     }
 
 

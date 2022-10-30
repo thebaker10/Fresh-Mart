@@ -35,6 +35,7 @@ return function (App $app) {
     $app->group('/categories', function(Group $group){
         $group->get('', CategoryListAction::class);
         $group->get('{category_id}', CategoryAction::class);
+        $group->post('/', CategoryPostAction::class);
     });
 
     $app->group('departments', function(Group $group){
