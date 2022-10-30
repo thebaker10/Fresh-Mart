@@ -41,10 +41,12 @@ class ReviewPostAction extends Action
     {
 
         $payload = $this->request->getParsedBody();
+        $productId = $payload['productId'];
+        $userId = $payload['userId'];
         $rating = $payload['rating'];
         $reviewTitle = $payload['reviewTitle'];
         $reviewContent = $payload['reviewContent'];
-        $review = new Review($rating, $reviewTitle, $reviewContent);
+        $review = new Review($productId, $userId, $rating, $reviewTitle, $reviewContent);
 
         /*
          * CF 2022-10-13

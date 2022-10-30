@@ -30,13 +30,13 @@ class Review implements JsonSerializable{
     private int $user_id;
 
     #[Column(type: 'integer', unique: false, nullable: false)]
-    private string $rating;
+    private int $rating;
 
     #[Column(type: 'string', unique: false, nullable: false)]
-    private float $review_title;
+    private string $review_title;
 
     #[Column(type: 'string', unique: false, nullable: false)]
-    private float $review_content;
+    private string $review_content;
 
     #[ManyToOne(targetEntity: Product::class)]
     #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
@@ -46,6 +46,14 @@ class Review implements JsonSerializable{
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private User $user;
 
+    public function __construct(int $product_id, int $user_id, int $rating, string $review_title, string $review_content){
+        $this->setProductId($product_id);
+        $this->setUserId($user_id);
+        $this->setRating($rating);
+        $this->setTitle($review_title);
+        $this->setContent($review_content);
+    }
+
     /**
     * @return int
     */
@@ -53,6 +61,47 @@ class Review implements JsonSerializable{
     {
         return $this->review_id;
     }
+
+    /**
+     * @param int $product_id
+     */
+    public function setProductId(int $product_id): void
+    {
+        $this->product_id = $product_id;
+    }
+
+    /**
+     * @param int $user_id
+     */
+    public function setuserId(int $user_id): void
+    {
+        $this->user_id = $user_id;
+    }
+
+    /**
+     * @param int $rating
+     */
+    public function setRating(int $rating): void
+    {
+        $this->rating = $rating;
+    }
+
+    /**
+     * @param string $review_title
+     */
+    public function setTitle(string $review_title): void
+    {
+        $this->review_title = $review_title;
+    }
+
+    /**
+     * @param string $review_title
+     */
+    public function setContent(string $review_content): void
+    {
+        $this->review_content = $review_content;
+    }
+
 
 
     #[ArrayShape(['reviewId' => "int", 'productId' => "int", 'userId' => "int", 'rating' => "int", 'reviewTitle' => "string", 'reviewContent' => "string" ])] public function jsonSerialize(): array{
