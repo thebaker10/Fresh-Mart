@@ -2,6 +2,7 @@ import { faCartShopping, faHeart, faUser } from "@fortawesome/free-solid-svg-ico
 import { IconItem } from "./IconItem";
 import { Logo } from "./Logo";
 import { NavItem } from "./NavItem";
+import { SearchBar } from "./SearchBar";
 import { UserIcon } from "./UserIcon";
 
 export function Nav() {
@@ -17,9 +18,11 @@ export function Nav() {
 
             <ul className="flex gap-8">
                 {/* <IconItem icon={faUser} /> */}
+                <SearchBar/>
                 <IconItem icon={faHeart} />
                 <IconItem icon={faCartShopping} />
                 <UserIcon/>
+                
             </ul>
         </nav>
     )
