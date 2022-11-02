@@ -40,7 +40,7 @@ class Product implements JsonSerializable{
     #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
     private PersistentCollection $cart_items;
 
-    #[ManyToOne(mappedBy: 'product', targetEntity: Category::class)]
+    #[ManyToOne(inversedBy: 'products', targetEntity: Category::class)]
     #[JoinColumn(name: 'category_id', referencedColumnName: 'category_id')]
     private Category $category;
 

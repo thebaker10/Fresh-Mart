@@ -23,10 +23,10 @@ class Category implements JsonSerializable{
 
 
     #[Column(type: 'string', unique: false, nullable: false)]
-    private float $category_name;
+    private string $category_name;
 
 
-    #[OneToMany(targetEntity: Product::class)]
+    #[OneToMany(mappedBy: 'category', targetEntity: Product::class)]
     #[JoinColumn(name: 'category_id', referencedColumnName: 'category_id')]
     private PersistentCollection $products;
 

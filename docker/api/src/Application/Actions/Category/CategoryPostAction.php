@@ -50,7 +50,7 @@ class CategoryPostAction extends Action
             $this->em->flush();
         } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
             $this->logger->error($e->getMessage());
-            return $this->respondWithData(['message' => 'Error while creating new category.'], 500);
+            return $this->respondWithData([$e->getMessage() => 'Error while creating new category.'], 500);
         }
 
         $this->response->withHeader('Access-Control-Allow-Origin', '*');

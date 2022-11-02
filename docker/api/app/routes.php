@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-use App\Application\Action\Category\CategoryAction;
-use App\Application\Action\Category\CategoryListAction;
-use App\Application\Action\Category\DepartmentAction;
-use App\Application\Action\Category\DepartmentListAction;
+use App\Application\Actions\Category\CategoryAction;
+use App\Application\Actions\Category\CategoryListAction;
+use App\Application\Actions\Category\CategoryPostAction;
+use App\Application\Actions\Category\DepartmentAction;
+use App\Application\Actions\Category\DepartmentListAction;
 use App\Application\Actions\HomePageAction;
 use App\Application\Actions\Product\ProductAction;
 use App\Application\Actions\Product\ProductReviewAction;
+use App\Application\Actions\Review\ReviewPostAction;
 use App\Application\Actions\User\UserListAction;
 use App\Application\Actions\User\UserOrderListAction;
 use App\Application\Actions\User\UserOrderViewAction;
@@ -30,6 +32,10 @@ return function (App $app) {
     $app->group('/products', function(Group $group){
         $group->get('/products/{productSlug}', ProductAction::class);
         $group->get('/products/{productSlug}/reviews', ProductReviewAction::class);
+    });
+
+    $app->group('/reviews', function(Group $group){
+        $group->post('/',ReviewPostAction::class);
     });
 
     $app->group('/categories', function(Group $group){
