@@ -47,6 +47,9 @@ class ReviewPostAction extends Action
         $reviewTitle = $payload['reviewTitle'];
         $reviewContent = $payload['reviewContent'];
         $review = new Review($productId, $userId, $rating, $reviewTitle, $reviewContent);
+
+        //TESTING product_id
+        //return $this->respondWithData(['product_id'  => $review->getProductId()], 500);
         
         try {
             $this->em->persist($review);
