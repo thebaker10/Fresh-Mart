@@ -4,6 +4,7 @@
 namespace App\Domain\Product;
 
 use App\Domain\Category\Category;
+use App\Domain\Review\Review;
 use App\Domain\Cart\CartItem;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -43,6 +44,10 @@ class Product implements JsonSerializable{
     #[ManyToOne(inversedBy: 'products', targetEntity: Category::class)]
     #[JoinColumn(name: 'category_id', referencedColumnName: 'category_id')]
     private Category $category;
+
+    #[OneToMany(mappedBy: 'product', targetEntity: Review::class)]
+    #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
+    private PersistentCollection $reviews;
 
 
     #[ArrayShape(['productId' => "int", 'categoryId' => "int", 'productName' => "string", 'product_msrp' => "float", 'product_price' => "float"])] public function jsonSerialize(): array{

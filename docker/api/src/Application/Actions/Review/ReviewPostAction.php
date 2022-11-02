@@ -47,25 +47,17 @@ class ReviewPostAction extends Action
         $reviewTitle = $payload['reviewTitle'];
         $reviewContent = $payload['reviewContent'];
         $review = new Review($productId, $userId, $rating, $reviewTitle, $reviewContent);
-
-        /*
-         * CF 2022-10-13
-         * Method for adding a new entity in the database:
-         * Create a new instance of the entity's class
-         * Call $this->>em->persist($instance) to tell Doctrine ORM that we will be saving this to the database
-         * Call $this->>em->flush() to perform the insert/update
-         */
-
+        
         try {
             $this->em->persist($review);
             $this->em->flush();
         } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
             $this->logger->error($e->getMessage());
-            return $this->respondWithData(['message' => 'Error while creating new user.'], 500);
+            return $this->respondWithData([$e->getMessage() => 'Error while creating new review.'], 500);
         }
 
         $this->response->withHeader('Access-Control-Allow-Origin', '*');
 
-        return $this->respondWithData(['message' => 'User successfully added', 'user_id' => $review->getReviewId()], 201);
+        return $this->respondWithData(['message' => 'Review successfully added', 'review_id' => $review->getReviewId()], 201);
     }
 }

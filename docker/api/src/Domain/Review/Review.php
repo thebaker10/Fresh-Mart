@@ -38,11 +38,11 @@ class Review implements JsonSerializable{
     #[Column(type: 'string', unique: false, nullable: false)]
     private string $review_content;
 
-    #[ManyToOne(targetEntity: Product::class)]
+    #[ManyToOne(inversedBy: 'reviews', targetEntity: Product::class)]
     #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
     private Product $product;
 
-    #[ManyToOne(targetEntity: User::class)]
+    #[ManyToOne(inversedBy: 'reviews', targetEntity: User::class)]
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private User $user;
 
@@ -54,12 +54,21 @@ class Review implements JsonSerializable{
         $this->setContent($review_content);
     }
 
+
     /**
     * @return int
     */
     public function getReviewId(): int
     {
         return $this->review_id;
+    }
+
+    /**
+    * @return int
+    */
+    public function getProductId(): int
+    {
+        return $this->product_id;
     }
 
     /**
