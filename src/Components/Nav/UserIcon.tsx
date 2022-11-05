@@ -12,6 +12,17 @@ export function UserIcon() {
         // }, 500);
     }
 
+    const logoutClickHandler = (e: MouseEvent) => {
+        fetch(process.env.REACT_APP_API_BASE + '/users/logout', {
+            credentials: 'include'
+        }).then((response) => {
+            //response.json() returns a promise
+                alert('Clear frontend user data');
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
 
 
 
@@ -47,7 +58,7 @@ export function UserIcon() {
                     </li>
                 </ul>
                 <div className="py-1">
-                    <a href="#" className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                    <a href="#" className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" onClick={(e) => logoutClickHandler(e)}>Sign out</a>
                 </div>
             </div>
            
