@@ -1,4 +1,52 @@
+import React from "react";
+import {useNavigate} from "react-router-dom";
+
 export function LoginPage() {
+    const [alertVisible, setAlertVisible] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState('Something went wrong while registering.');
+    let navigate = useNavigate();
+
+    const loginFormSubmitHandler = (e: any) => {
+        e.preventDefault();
+        let formData = new FormData(e.target as HTMLFormElement);
+
+        //@TODO Add Loading Indicator
+
+        let data:any = {};
+
+        formData.forEach((value:any,key:any) => {
+            data[key] = value;
+        });
+
+        //CF 2022-10-16
+        //Fetch is asynchronous, so it returns a Promise.  When it is resolved (the request is completed),
+        // it moves onto the then block. If an error is thrown, it is caught in the catch block.
+        fetch(process.env.REACT_APP_API_BASE + '/users/login', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        }).then((response) => {
+            //response.json() returns a promise
+            response.json().then((body) => {
+
+                if(body.statusCode === 500) {
+                    setAlertMessage(body.data.message);
+                    setAlertVisible(true);
+                    return;
+                }
+
+                navigate(`/`);
+            });
+        }).catch((error) => {
+            setAlertVisible(true);
+            console.log(error);
+        });
+    };
+
+
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -11,7 +59,8 @@ export function LoginPage() {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Sign in to your account
                         </h1>
-                        <form className="space-y-4 md:space-y-6" action="#">
+                        { alertVisible && <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">{alertMessage}</div> }
+                        <form className="space-y-4 md:space-y-6" action="#" onSubmit={loginFormSubmitHandler}>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                                 <input type="email" name="email" id="email"

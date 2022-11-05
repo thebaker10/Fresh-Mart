@@ -45,7 +45,7 @@ export function RegistrationPage() {
         }).catch((error) => {
             setAlertVisible(true);
             console.log(error);
-        })
+        });
     }
 
     return (
