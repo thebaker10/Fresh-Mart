@@ -54,6 +54,9 @@ class Review implements JsonSerializable{
         $this->setContent($review_content);
     }
 
+    public function setProduct(Product $product): void{
+        $this->product = $product;
+    }
 
     /**
     * @return int

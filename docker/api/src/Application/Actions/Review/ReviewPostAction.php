@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Actions\Review;
 
 use App\Application\Actions\Action;
+use App\Domain\Product\Product;
 use App\Domain\Review\Review;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
@@ -47,6 +48,9 @@ class ReviewPostAction extends Action
         $reviewTitle = $payload['reviewTitle'];
         $reviewContent = $payload['reviewContent'];
         $review = new Review($productId, $userId, $rating, $reviewTitle, $reviewContent);
+
+        $product = $this->em->getRepository(Product::class)->find($productId);
+        $review->setProduct($product);
 
         //TESTING product_id
         //return $this->respondWithData(['product_id'  => $review->getProductId()], 500);
