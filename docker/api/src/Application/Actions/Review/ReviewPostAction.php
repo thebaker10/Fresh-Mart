@@ -6,6 +6,7 @@ namespace App\Application\Actions\Review;
 
 use App\Application\Actions\Action;
 use App\Domain\Product\Product;
+use App\Domain\User\User;
 use App\Domain\Review\Review;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
@@ -51,6 +52,9 @@ class ReviewPostAction extends Action
 
         $product = $this->em->getRepository(Product::class)->find($productId);
         $review->setProduct($product);
+
+        $user = $this->em->getRepository(User::class)->find($userId);
+        $review->setUser($user);
 
         //TESTING product_id
         //return $this->respondWithData(['product_id'  => $review->getProductId()], 500);
