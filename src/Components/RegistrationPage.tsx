@@ -40,8 +40,6 @@ export function RegistrationPage() {
                 return;
             }
 
-
-            //@TODO Set Cookie
             navigate(`/`);
             });
         }).catch((error) => {

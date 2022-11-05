@@ -8,7 +8,7 @@ use Selective\SameSiteCookie\SameSiteSessionMiddleware;
 use Slim\App;
 
 return function (App $app) {
-    $app->add(SessionMiddleware::class);
+    $app->add(new SessionMiddleware());
     $app->add(new SameSiteCookieMiddleware());
     $app->add(new SameSiteSessionMiddleware());
 
