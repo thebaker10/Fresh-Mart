@@ -148,4 +148,10 @@ class User implements JsonSerializable
             'shoppingCart' => $this->shopping_cart ?? []
         ];
     }
+
+    public function isAdmin(): bool{
+
+        //@TODO check the user's role
+        return false;
+    }
 }

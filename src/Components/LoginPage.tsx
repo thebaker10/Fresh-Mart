@@ -32,7 +32,7 @@ export function LoginPage() {
             //response.json() returns a promise
             response.json().then((body) => {
 
-                if(body.statusCode === 500) {
+                if(!response.ok) {
                     setAlertMessage(body.data.message);
                     setAlertVisible(true);
                     return;

@@ -6,10 +6,13 @@ namespace App\Application\Actions\User;
 
 use App\Application\Actions\Action;
 use App\Domain\User\User;
+use App\Domain\User\UserAccessDeniedException;
+use App\Domain\User\UserNotFoundException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\TransactionRequiredException;
+use JetBrains\PhpStorm\Pure;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Slim\Factory\AppFactory;
@@ -42,19 +45,33 @@ class UserViewAction extends Action
         $user_id = (int) $this->resolveArg('user_id');
 
         try {
-            /*
-             * CF 2022-10-13
-             * To retrieve an entity:
-             *  Call $this->em->getRepository(Entity::class) to tell Doctrine ORM the type of entity we are searching fo
-             *  Call $repository->find($primaryKey) to get the database record
-             */
 
             $userRepository = $this->em->getRepository(User::class);
+            /** @var User $user */
             $user = $userRepository->find($user_id);
-        } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
-            $this->logger->alert($e->getMessage());
-            return $this->respondWithData(null, 500);
+
+            if($user === null){
+                throw new UserNotFoundException();
+            }elseif(!$this->canAccessUser($user)){
+               throw new UserAccessDeniedException();
+            }
+        } catch (UserAccessDeniedException $e){
+            return $this->respondWithData($e->getMessage(), 401);
+        } catch (UserNotFoundException $e){
+            return $this->respondWithData($e->getMessage(), 404);
         }
+
         return $this->respondWithData($user);
+    }
+
+    #[Pure]
+    private function canAccessUser(User $user): bool{
+        $sessionUserId = null;
+        if(!isset($_SESSION['user'])) {
+            return false;
+        }
+
+        $sessionUserId = $_SESSION['user']['user_id'] ?? null;
+        return $sessionUserId == $user->getUserId();
     }
 }

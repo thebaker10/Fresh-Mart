@@ -77,7 +77,7 @@ class UserLoginAction extends Action
                 'username' => $user->getUsername()
             ];
 
-            return $this->respondWithData(['message' => 'User successfully added', 'user_id' => $user->getUserId()], 201);
+            return $this->respondWithData(['message' => 'User successfully logged in', 'user_id' => $user->getUserId()], 201);
 
         }catch(EmailNotFoundException $e){
             $this->logger->error($e->getMessage());
