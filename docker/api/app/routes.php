@@ -10,6 +10,7 @@ use App\Application\Actions\HomePageAction;
 use App\Application\Actions\Product\ProductAction;
 use App\Application\Actions\Product\ProductReviewAction;
 use App\Application\Actions\User\UserListAction;
+use App\Application\Actions\User\UserLoginAction;
 use App\Application\Actions\User\UserLogoutAction;
 use App\Application\Actions\User\UserOrderListAction;
 use App\Application\Actions\User\UserOrderViewAction;
@@ -54,6 +55,8 @@ return function (App $app) {
          * https://www.postman.com/downloads/
          */
         $group->post('/', UserPostAction::class);
+        $group->post('/login', UserLoginAction::class);
+
 
         $group->get('/{user_id}', UserViewAction::class);
 
