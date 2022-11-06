@@ -40,14 +40,12 @@ export function RegistrationPage() {
                 return;
             }
 
-
-            //@TODO Set Cookie
             navigate(`/`);
             });
         }).catch((error) => {
             setAlertVisible(true);
             console.log(error);
-        })
+        });
     }
 
     return (

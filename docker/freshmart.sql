@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 15, 2022 at 04:04 AM
+-- Generation Time: Nov 02, 2022 at 07:06 PM
 -- Server version: 10.9.2-MariaDB-1:10.9.2+maria~ubu2204
 -- PHP Version: 8.0.23
 
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `cart` (
-                        `cart_id` int(11) NOT NULL,
-                        `user_id` int(11) NOT NULL
+  `cart_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -39,9 +39,9 @@ CREATE TABLE `cart` (
 --
 
 CREATE TABLE `cart_item` (
-                             `cart_item_id` int(11) NOT NULL,
-                             `cart_id` int(11) NOT NULL,
-                             `product_id` int(11) NOT NULL
+  `cart_item_id` int(11) NOT NULL,
+  `cart_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -51,20 +51,8 @@ CREATE TABLE `cart_item` (
 --
 
 CREATE TABLE `category` (
-                            `category_id` int(11) NOT NULL,
-                            `department_id` int(11) NOT NULL,
-                            `category_name` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `department`
---
-
-CREATE TABLE `department` (
-                              `department_id` int(11) NOT NULL,
-                              `deparment_name` varchar(256) NOT NULL
+  `category_id` int(11) NOT NULL,
+  `category_name` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -74,11 +62,11 @@ CREATE TABLE `department` (
 --
 
 CREATE TABLE `line_item` (
-                             `liid` int(11) NOT NULL,
-                             `order_id` int(11) NOT NULL,
-                             `product_id` int(11) NOT NULL,
-                             `line_item_price` float NOT NULL,
-                             `quantity` int(11) NOT NULL
+  `liid` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `line_item_price` float NOT NULL,
+  `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -88,11 +76,11 @@ CREATE TABLE `line_item` (
 --
 
 CREATE TABLE `product` (
-                           `product_id` int(11) NOT NULL,
-                           `category_id` int(11) NOT NULL,
-                           `product_name` varchar(256) NOT NULL,
-                           `product_msrp` float NOT NULL,
-                           `product_price` float NOT NULL
+  `product_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `product_name` varchar(256) NOT NULL,
+  `product_msrp` float NOT NULL,
+  `product_price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -102,11 +90,12 @@ CREATE TABLE `product` (
 --
 
 CREATE TABLE `review` (
-                          `review_id` int(11) NOT NULL,
-                          `product_id` int(11) NOT NULL,
-                          `user_id` int(11) NOT NULL,
-                          `rating` int(11) NOT NULL,
-                          `reviewContent` text NOT NULL
+  `review_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL,
+  `review_title` text NOT NULL,
+  `review_content` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -116,12 +105,12 @@ CREATE TABLE `review` (
 --
 
 CREATE TABLE `user` (
-                        `user_id` int(11) NOT NULL,
-                        `first_name` varchar(128) NOT NULL,
-                        `last_name` varchar(128) NOT NULL,
-                        `username` varchar(128) NOT NULL,
-                        `password_hash` varchar(256) NOT NULL,
-                        `user_balance` float NOT NULL
+  `user_id` int(11) NOT NULL,
+  `first_name` varchar(128) NOT NULL,
+  `last_name` varchar(128) NOT NULL,
+  `username` varchar(128) NOT NULL,
+  `password_hash` varchar(256) NOT NULL,
+  `user_balance` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -131,10 +120,10 @@ CREATE TABLE `user` (
 --
 
 CREATE TABLE `user_order` (
-                              `order_id` int(11) NOT NULL,
-                              `user_id` int(11) NOT NULL,
-                              `order_date` datetime NOT NULL,
-                              `order_price` float NOT NULL
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `order_date` datetime NOT NULL,
+  `order_price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -145,14 +134,14 @@ CREATE TABLE `user_order` (
 -- Indexes for table `cart`
 --
 ALTER TABLE `cart`
-    ADD PRIMARY KEY (`cart_id`),
+  ADD PRIMARY KEY (`cart_id`),
   ADD KEY `cart_user` (`user_id`);
 
 --
 -- Indexes for table `cart_item`
 --
 ALTER TABLE `cart_item`
-    ADD PRIMARY KEY (`cart_item_id`),
+  ADD PRIMARY KEY (`cart_item_id`),
   ADD KEY `cart_item_cart` (`cart_id`),
   ADD KEY `cart_item_product` (`product_id`);
 
@@ -160,20 +149,13 @@ ALTER TABLE `cart_item`
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
-    ADD PRIMARY KEY (`category_id`),
-  ADD KEY `department_id` (`department_id`);
-
---
--- Indexes for table `department`
---
-ALTER TABLE `department`
-    ADD PRIMARY KEY (`department_id`);
+  ADD PRIMARY KEY (`category_id`);
 
 --
 -- Indexes for table `line_item`
 --
 ALTER TABLE `line_item`
-    ADD PRIMARY KEY (`liid`),
+  ADD PRIMARY KEY (`liid`),
   ADD KEY `order_id` (`order_id`),
   ADD KEY `product_id` (`product_id`);
 
@@ -181,14 +163,14 @@ ALTER TABLE `line_item`
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
-    ADD PRIMARY KEY (`product_id`),
+  ADD PRIMARY KEY (`product_id`),
   ADD KEY `category_id` (`category_id`);
 
 --
 -- Indexes for table `review`
 --
 ALTER TABLE `review`
-    ADD PRIMARY KEY (`review_id`),
+  ADD PRIMARY KEY (`review_id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `user_id` (`user_id`);
 
@@ -196,14 +178,14 @@ ALTER TABLE `review`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-    ADD PRIMARY KEY (`user_id`),
+  ADD PRIMARY KEY (`user_id`),
   ADD UNIQUE KEY `unique_username` (`username`);
 
 --
 -- Indexes for table `user_order`
 --
 ALTER TABLE `user_order`
-    ADD PRIMARY KEY (`order_id`),
+  ADD PRIMARY KEY (`order_id`),
   ADD KEY `user_id` (`user_id`);
 
 --
@@ -214,55 +196,49 @@ ALTER TABLE `user_order`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-    MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cart_item`
 --
 ALTER TABLE `cart_item`
-    MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-    MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `department`
---
-ALTER TABLE `department`
-    MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `line_item`
 --
 ALTER TABLE `line_item`
-    MODIFY `liid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `liid` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-    MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `review`
 --
 ALTER TABLE `review`
-    MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-    MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_order`
 --
 ALTER TABLE `user_order`
-    MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -272,46 +248,40 @@ ALTER TABLE `user_order`
 -- Constraints for table `cart`
 --
 ALTER TABLE `cart`
-    ADD CONSTRAINT `cart_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `cart_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `cart_item`
 --
 ALTER TABLE `cart_item`
-    ADD CONSTRAINT `cart_item_cart` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `cart_item_cart` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `cart_item_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `category`
---
-ALTER TABLE `category`
-    ADD CONSTRAINT `category_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `department` (`department_id`);
 
 --
 -- Constraints for table `line_item`
 --
 ALTER TABLE `line_item`
-    ADD CONSTRAINT `line_item_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `user_order` (`order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `line_item_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `user_order` (`order_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `line_item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
 --
 -- Constraints for table `product`
 --
 ALTER TABLE `product`
-    ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `review`
 --
 ALTER TABLE `review`
-    ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user_order`
 --
 ALTER TABLE `user_order`
-    ADD CONSTRAINT `user_order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `user_order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

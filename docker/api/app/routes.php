@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 
-use App\Application\Action\Category\CategoryAction;
-use App\Application\Action\Category\CategoryListAction;
-use App\Application\Action\Category\DepartmentAction;
-use App\Application\Action\Category\DepartmentListAction;
+use App\Application\Actions\Category\CategoryAction;
+use App\Application\Actions\Category\CategoryListAction;
+use App\Application\Actions\Category\CategoryPostAction;
+use App\Application\Actions\Category\DepartmentAction;
+use App\Application\Actions\Category\DepartmentListAction;
 use App\Application\Actions\HomePageAction;
 use App\Application\Actions\Product\ProductAction;
 use App\Application\Actions\Product\ProductReviewAction;
+use App\Application\Actions\Review\ReviewPostAction;
 use App\Application\Actions\User\UserListAction;
+use App\Application\Actions\User\UserLoginAction;
+use App\Application\Actions\User\UserLogoutAction;
 use App\Application\Actions\User\UserOrderListAction;
 use App\Application\Actions\User\UserOrderViewAction;
 use App\Application\Actions\User\UserPostAction;
@@ -32,9 +36,14 @@ return function (App $app) {
         $group->get('/products/{productSlug}/reviews', ProductReviewAction::class);
     });
 
+    $app->group('/reviews', function(Group $group){
+        $group->post('/',ReviewPostAction::class);
+    });
+
     $app->group('/categories', function(Group $group){
         $group->get('', CategoryListAction::class);
         $group->get('{category_id}', CategoryAction::class);
+        $group->post('/', CategoryPostAction::class);
     });
 
     $app->group('departments', function(Group $group){
@@ -44,6 +53,7 @@ return function (App $app) {
 
     $app->group('/users', function (Group $group) {
         $group->get('/', UserListAction::class);
+        $group->get('/logout', UserLogoutAction::class);
 
         /*
          * CF 2022-10-13
@@ -52,6 +62,8 @@ return function (App $app) {
          * https://www.postman.com/downloads/
          */
         $group->post('/', UserPostAction::class);
+        $group->post('/login', UserLoginAction::class);
+
 
         $group->get('/{user_id}', UserViewAction::class);
 

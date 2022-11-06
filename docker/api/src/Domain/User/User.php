@@ -4,13 +4,17 @@
 namespace App\Domain\User;
 
 use App\Domain\Cart\Cart;
+use App\Domain\Review\Review;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\Table;
 use JetBrains\PhpStorm\ArrayShape;
+use Doctrine\ORM\PersistentCollection;
 use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 
@@ -44,6 +48,10 @@ class User implements JsonSerializable
 
     #[OneToOne(mappedBy: 'user', targetEntity: Cart::class,orphanRemoval: true)]
     private Cart $shopping_cart;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: Review::class)]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    private PersistentCollection $reviews;
 
     public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance){
         $this->setFirstName($first_name);
@@ -147,5 +155,11 @@ class User implements JsonSerializable
             'balance' => $this->getUserBalance(),
             'shoppingCart' => $this->shopping_cart ?? []
         ];
+    }
+
+    public function isAdmin(): bool{
+
+        //@TODO check the user's role
+        return false;
     }
 }
