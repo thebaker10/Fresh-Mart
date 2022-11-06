@@ -33,7 +33,7 @@ class OrderPostAction extends Action
         $logger = $c->get(Logger::class);
         parent::__construct($logger);
     }
-
+    
     /**
      * {@inheritdoc}
      */
@@ -45,6 +45,9 @@ class OrderPostAction extends Action
         $orderDate = $payload['orderDate'];
         $orderPrice = $payload['orderPrice'];
         $order = new User_order($userId, $orderDate, $orderPrice);
+
+        $user = $this->em->getRepository(User::class)->find($userId);
+        $order->setProduct($user);
 
         /*
          * CF 2022-10-13
