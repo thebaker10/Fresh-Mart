@@ -47,6 +47,8 @@ class LineItemPostAction extends Action
         $lineItemPrice = $payload['lineItemPrice'];
         $quantity = $payload['quantity'];
         $lineItem = new Line_Item($orderId, $productId, $lineItemPrice, $quantity);
+        $product = $this->em->getRepository(Product::class)->find($productId);
+        $lineItem->setProduct($product);
 
         /*
          * CF 2022-10-13

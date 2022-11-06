@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\Table;
 use JetBrains\PhpStorm\ArrayShape;
 use JsonSerializable;
 
-#[Entity, Table(name: 'lineItem')]
+#[Entity, Table(name: 'line_item')]
 class Line_Item implements JsonSerializable{
 
     #[Id, Column(type: 'integer', unique: false, nullable: false) ]
