@@ -15,22 +15,23 @@ export function AboutPage() {
                             <span className="text-green">Fresh</span>
                             <span className="text-white">Market</span>
                         </div>
-                        
+
                         <div className="font-bold ml-24 mt-12 text-5xl">
-                            
-                            <p className="text-white absolute z-10 max-w-screen-xl leading-relaxed">We are devoted to offer our customers the</p>
+                            <p className="text-white absolute z-[1] max-w-screen-xl leading-relaxed">We are devoted to offer our customers the</p>
                         </div>
+
                         <div className="font-bold ml-24 mt-32 mb-24 text-5xl ">
-                            
-                            <p className="text-white max-w-screen-xl leading-relaxed"><span className="text-green">freshest</span> groceries, <br></br><span className="text-green">fastest</span> delivery, and <br></br><span className="text-green">cheapest</span> prices.</p>
+                            <p className="text-white max-w-screen-xl leading-relaxed"><span className="text-green">freshest</span> groceries, <br></br>
+                                <span className="text-green">fastest</span> delivery, and <br></br><span className="text-green">cheapest</span> prices.</p>
                         </div>
+                        
                     </div>
                     <div id="about-image" className="flex-auto space-between bg-cover w-1/2 z-0">
-                        
-                            <img src={"https://source.unsplash.com/1000x700/?" + " grocery"} alt="" />
-                        
+
+                        <img src={"https://source.unsplash.com/1000x700/?" + " grocery"} alt="" />
+
                     </div>
-                    
+
                 </div>
             </div>
             <div className="mb-5">
@@ -56,25 +57,25 @@ export function AboutPage() {
                             <span className="text-green">Fresh</span>
                             <span className="text-white">Market</span>
                         </div>
-                        
+
                         <div className="font-bold ml-24  text-5xl">
-                            
-                            <p className="text-white absolute z-10 max-w-screen-xl leading-relaxed">Leave the shopping to us</p>
+
+                            <p className="text-white absolute z-[1] max-w-screen-xl leading-relaxed">Leave the shopping to us</p>
                         </div>
                         <div className="font-bold ml-24 mt-20 mb-10 text-2xl ">
-                            
+
                             <p className="text-white max-w-screen-xl leading-relaxed">Skip the annoyances of traditional grocery stores. Order online and get your groceries delivered fast!</p>
                         </div>
                     </div>
                     <div id="about-image" className="flex-auto space-between bg-cover w-1/2 z-0">
-                        
-                            <img src={"https://source.unsplash.com/1000x300/?" + " grocery"} alt="" />
-                        
+
+                        <img src={"https://source.unsplash.com/1000x300/?" + " grocery"} alt="" />
+
                     </div>
-                    
+
                 </div>
             </div>
-            
+
             <Footer></Footer>
             <TawkTo></TawkTo>
         </div>
