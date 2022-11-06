@@ -89,6 +89,14 @@ class UserPostAction extends Action
             return $this->respondWithData(['message' => 'Error while creating new user.'], 500);
         }
 
+        /*
+         * CF 2022-11-04 Guided by https://www.youtube.com/watch?v=l662In2_J1w&list=PLNuh5_K9dfQ2-8nxh-kBYL0_wDqhsN5tB&index=58
+         */
+        $_SESSION['user'] = [
+            'id' => $user->getUserId(),
+            'username' => $user->getUsername()
+        ];
+
         $this->response->withHeader('Access-Control-Allow-Origin', '*');
 
         return $this->respondWithData(['message' => 'User successfully added', 'user_id' => $user->getUserId()], 201);

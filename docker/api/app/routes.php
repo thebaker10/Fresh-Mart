@@ -12,6 +12,8 @@ use App\Application\Actions\Product\ProductAction;
 use App\Application\Actions\Product\ProductReviewAction;
 use App\Application\Actions\Review\ReviewPostAction;
 use App\Application\Actions\User\UserListAction;
+use App\Application\Actions\User\UserLoginAction;
+use App\Application\Actions\User\UserLogoutAction;
 use App\Application\Actions\User\UserOrderListAction;
 use App\Application\Actions\User\UserOrderViewAction;
 use App\Application\Actions\User\UserPostAction;
@@ -51,6 +53,7 @@ return function (App $app) {
 
     $app->group('/users', function (Group $group) {
         $group->get('/', UserListAction::class);
+        $group->get('/logout', UserLogoutAction::class);
 
         /*
          * CF 2022-10-13
@@ -59,6 +62,8 @@ return function (App $app) {
          * https://www.postman.com/downloads/
          */
         $group->post('/', UserPostAction::class);
+        $group->post('/login', UserLoginAction::class);
+
 
         $group->get('/{user_id}', UserViewAction::class);
 
