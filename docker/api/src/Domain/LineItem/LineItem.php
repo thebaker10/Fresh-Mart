@@ -35,7 +35,9 @@ class Line_Item implements JsonSerializable{
     private Product $product;
 
     // #[ManyToOne(targetEntity: Order::class)]
-    
+    public function setProduct(Product $product): void{
+        $this->product = $product;
+    }
     /**
     * @return int
     */
