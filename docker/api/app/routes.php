@@ -34,8 +34,8 @@ return function (App $app) {
     $app->get('/', HomePageAction::class);
 
     $app->group('/products', function(Group $group){
-        $group->get('/products/{productSlug}', ProductAction::class);
-        $group->get('/products/{productSlug}/reviews', ProductReviewAction::class);
+        $group->get('/{productSlug}', ProductAction::class);
+        $group->get('/{productSlug}/reviews', ProductReviewAction::class);
     });
 
     $app->group('/reviews', function(Group $group){

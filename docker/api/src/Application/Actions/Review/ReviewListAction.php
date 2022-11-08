@@ -5,38 +5,37 @@ declare(strict_types=1);
 namespace App\Application\Actions\Review;
 
 use App\Application\Actions\Action;
+use App\Domain\Review\Review;
 use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Factory\AppFactory;
+use Slim\Logger;
+use Doctrine\ORM\EntityManager;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class ReviewListAction extends Action
-{
+{   
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+        $app = AppFactory::create();
+        $c = $app->getContainer();
+        $logger = $c->get(Logger::class);
+        parent::__construct($logger);
+    }
+
+
     /**
      * {@inheritdoc}
      */
     protected function action(): Response
     {
-        // $users = $this->userRepository->findAll();
-
-        // $this->logger->info("Users list was viewed.");
-
-        $fakeReviewResponse = [
-            [
-                'reviewId' => 1,
-                'productId' => 1,
-                'userId ' => 1,
-                'rating' => 5,
-                'reviewTitle' => "Test",
-                'reviewContent' => "Test"
-            ],
-            [
-                'reviewId' => 2,
-                'productId' => 2,
-                'userId ' => 1,
-                'rating' => 3,
-                'reviewTitle' => "Test2",
-                'reviewContent' => "Test2"
-            ]
-        ];
-
-        return $this->respondWithData($fakeReviewResponse);
+        $reviews = $this->em->getRepository(Review::class)->findAll();
+        return $this->respondWithData($reviews);
     }
 }
