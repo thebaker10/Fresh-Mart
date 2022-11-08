@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+
 use App\Application\Actions\Category\CategoryAction;
 use App\Application\Actions\Category\CategoryListAction;
 use App\Application\Actions\Category\CategoryPostAction;
@@ -11,6 +12,7 @@ use App\Application\Actions\HomePageAction;
 use App\Application\Actions\Product\ProductAction;
 use App\Application\Actions\Product\ProductReviewAction;
 use App\Application\Actions\Review\ReviewPostAction;
+use App\Application\Actions\Review\ReviewListAction;
 use App\Application\Actions\User\UserListAction;
 use App\Application\Actions\User\UserLoginAction;
 use App\Application\Actions\User\UserLogoutAction;
@@ -38,6 +40,7 @@ return function (App $app) {
 
     $app->group('/reviews', function(Group $group){
         $group->post('/',ReviewPostAction::class);
+        $group->get('',ReviewListAction::class);
     });
 
     $app->group('/categories', function(Group $group){
