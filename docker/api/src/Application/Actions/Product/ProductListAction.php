@@ -13,10 +13,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Factory\AppFactory;
 use Slim\Logger;
 
-class ProductAction extends Action
+class ProductListAction extends Action
 {
-
-    private EntityManager $em;
 
     /**
      * @throws ContainerExceptionInterface
@@ -36,12 +34,8 @@ class ProductAction extends Action
      */
     protected function action(): Response
     {
-        // $users = $this->userRepository->findAll();
 
-        // $this->logger->info("Users list was viewed.");
-
-        $slug = $this->resolveArg('productSlug');
-        $product = $this->em->getRepository(Product::class)->find($slug);
-        return $this->respondWithData($product);
+        $products = $this->em->getRepository(Product::class)->findAll();
+        return $this->respondWithData($products);
     }
 }
