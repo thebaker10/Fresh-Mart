@@ -18,8 +18,8 @@ export function WriteReview(props:Props) {
         //@TODO Add Loading Indicator
 
         let data:any = {};
-        //@TODO Set user and product ID  with real data
-        data["userId"] = 3;
+        //@TODO Set user and product ID  with real data and add date
+        data["userId"] = 1;
         data["productId"] = Number(props.productID);
         data["rating"] = rating;
 

@@ -11,11 +11,10 @@ type Props={
 
 
 export function ReviewContainer(props:Props) {
-    let [average, setAverageData] = useState<any>(null);
+    let [average, setAverageData] = useState<any>();
     let [reviewData, setReviewData] = useState<any[]>([]);
     let [userData, setUserData] = useState<any[]>([]);
     
-
     //NH 2022-11-08
     //useEffect hook is the functional alternative for componentDidMount and componentDidUpdate functions
     //https://reactjs.org/docs/hooks-effect.html and https://dev.to/antdp425/react-fetch-data-from-api-with-useeffect-27le
@@ -32,9 +31,7 @@ export function ReviewContainer(props:Props) {
             .then((response) => response.json())
             .then((data) => {
                 setUserData(data.data)
-        })
-        
-        
+        })  
     },[]);
     
     return (
@@ -45,8 +42,8 @@ export function ReviewContainer(props:Props) {
             </div>
             
             <div className="flex item-center mt-2">
-                {average ? <Rating nStars={average}/> : <p>loading</p>}
-                <p className="ml-2">{reviewData ? reviewData.length : 0} reviews</p>
+                {average ? <Rating nStars={average}/> : <Rating nStars={0}/>}
+                <p className="ml-2">{reviewData ? reviewData.length : 0} {reviewData.length == 1 ? "review" : "reviews"}</p>
             </div>
             
             <hr id="start" className="mt-2"></hr>
