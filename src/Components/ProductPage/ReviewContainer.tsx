@@ -13,6 +13,7 @@ type Props={
 export function ReviewContainer(props:Props) {
 
     let [reviewData, setReviewData] = useState<any[]>([]);
+    let [userData, setUserData] = useState<any[]>([]);
 
     //NH 2022-11-08
     //useEffect hook is the functional alternative for componentDidMount and componentDidUpdate functions
@@ -23,13 +24,18 @@ export function ReviewContainer(props:Props) {
             .then((data) => {
                 setReviewData(data.data)
         })
+        fetch("http://localhost/products/"+props.productID+"/users" )
+            .then((response) => response.json())
+            .then((data) => {
+                setUserData(data.data)
+        })
     },[]);
     
     return (
         <div className="mx-auto max-w-5xl mt-10 divide-gray">
             <div className="flex">
                 <h1 className="flex-auto text-gray-900 font-bold text-2xl">Customer Reviews</h1>
-                <WriteReview></WriteReview>
+                <WriteReview productID={props.productID}></WriteReview>
             </div>
             
             <div className="flex item-center mt-2">
@@ -39,7 +45,7 @@ export function ReviewContainer(props:Props) {
             
             <hr id="start" className="mt-2"></hr>
             <>
-            {reviewData && reviewData.map((r) => <Review username={r.userId} stars={r.rating} date = {"Reviewed on: 9/14/22"} reviewTitle = {r.reviewTitle} review={r.reviewContent}></Review>)}
+            {reviewData && reviewData.map((r, i) => <Review username={userData[i]} stars={r.rating} date = {"Reviewed on: 9/14/22"} reviewTitle = {r.reviewTitle} review={r.reviewContent}></Review>)}
             </>
             
             <hr className="mt-2"></hr>

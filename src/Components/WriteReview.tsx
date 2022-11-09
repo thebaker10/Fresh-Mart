@@ -1,7 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export function WriteReview() {
+type Props={
+    productID: string
+}
+
+export function WriteReview(props:Props) {
     const [alertVisible, setAlertVisible] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState('Something went wrong while submitting review.');
     let rating = 5;
@@ -16,7 +20,7 @@ export function WriteReview() {
         let data:any = {};
         //@TODO Set user and product ID  with real data
         data["userId"] = 3;
-        data["productId"] = 1;
+        data["productId"] = Number(props.productID);
         data["rating"] = rating;
 
         formData.forEach((value:any,key:any) => {

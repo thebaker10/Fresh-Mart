@@ -11,6 +11,7 @@ use App\Application\Actions\Category\DepartmentListAction;
 use App\Application\Actions\HomePageAction;
 use App\Application\Actions\Product\ProductAction;
 use App\Application\Actions\Product\ProductReviewAction;
+use App\Application\Actions\Product\ProductReviewUSerAction;
 use App\Application\Actions\Review\ReviewPostAction;
 use App\Application\Actions\Review\ReviewListAction;
 use App\Application\Actions\User\UserListAction;
@@ -36,6 +37,7 @@ return function (App $app) {
     $app->group('/products', function(Group $group){
         $group->get('/{productSlug}', ProductAction::class);
         $group->get('/{productSlug}/reviews', ProductReviewAction::class);
+        $group->get('/{productSlug}/users', ProductReviewUserAction::class);
     });
 
     $app->group('/reviews', function(Group $group){
