@@ -11,9 +11,10 @@ type Props={
 
 
 export function ReviewContainer(props:Props) {
-
+    let [average, setAverageData] = useState<any>(null);
     let [reviewData, setReviewData] = useState<any[]>([]);
     let [userData, setUserData] = useState<any[]>([]);
+    
 
     //NH 2022-11-08
     //useEffect hook is the functional alternative for componentDidMount and componentDidUpdate functions
@@ -22,13 +23,18 @@ export function ReviewContainer(props:Props) {
         fetch("http://localhost/products/"+props.productID+"/reviews" )
             .then((response) => response.json())
             .then((data) => {
-                setReviewData(data.data)
+                setReviewData(data.data) 
+                let sum = 0;
+                data.data.forEach((review: any) => sum += Number(review.rating));
+                setAverageData(Math.round(sum/data.data.length)); 
         })
         fetch("http://localhost/products/"+props.productID+"/users" )
             .then((response) => response.json())
             .then((data) => {
                 setUserData(data.data)
         })
+        
+        
     },[]);
     
     return (
@@ -39,8 +45,8 @@ export function ReviewContainer(props:Props) {
             </div>
             
             <div className="flex item-center mt-2">
-                <Rating nStars={props.stars}/>
-                <p className="ml-2">{props.numOfReviews} reviews</p>
+                {average ? <Rating nStars={average}/> : <p>loading</p>}
+                <p className="ml-2">{reviewData ? reviewData.length : 0} reviews</p>
             </div>
             
             <hr id="start" className="mt-2"></hr>
