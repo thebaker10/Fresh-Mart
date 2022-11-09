@@ -14,6 +14,7 @@ export function WriteReview() {
         //@TODO Add Loading Indicator
 
         let data:any = {};
+        //@TODO Set user and product ID  with real data
         data["userId"] = 3;
         data["productId"] = 1;
         data["rating"] = rating;
