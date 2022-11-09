@@ -8,6 +8,7 @@ services:
       - 80:80
     volumes:
       - ./api:/var/www/html/api
+    command: sh -c "composer install && apache2-foreground"
   db:
     image: mariadb:10.9.2
     ports:
@@ -16,15 +17,8 @@ services:
       - ./mariadb:/var/lib/mysql
     environment:
       - MARIADB_ROOT_PASSWORD=notsafeforproduction
-  search:
-    image: opensearchproject/opensearch
-    ports:
-      - '127.0.0.1:9200:9200'
-      - '127.0.0.1:9300:9300' 
-    environment:
-      - discovery.type=single-node
-    volumes:
-      - ./search:/usr/share/opensearch/data
+    command:
+      --lower_case_table_names=1
   phpmyadmin:
     image: phpmyadmin
     ports:

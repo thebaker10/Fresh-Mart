@@ -24,10 +24,14 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
+        "doctrine/orm": "^2.13.3",
         "monolog/monolog": "^2.8",
         "php-di/php-di": "^6.4",
         "slim/psr7": "^1.5",
-        "slim/slim": "^4.10"
+        "slim/slim": "^4.10",
+        "symfony/cache": "^6.1",
+        "uma/dic": "*",
+        "selective/samesite-cookie": "0.3.0"
     },
     "require-dev": {
         "jangregor/phpstan-prophecy": "^1.0.0",

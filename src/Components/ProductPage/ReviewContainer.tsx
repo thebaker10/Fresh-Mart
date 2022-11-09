@@ -1,4 +1,5 @@
 import { Rating } from "../Card/Rating"
+import { WriteReview } from "../WriteReview";
 import { Review } from "./Review";
 
 type Props={
@@ -8,8 +9,12 @@ type Props={
 
 export function ReviewContainer(props:Props) {
     return (
-        <div className="mx-auto max-w-6xl mt-10 divide-darkGray mb-10">
-            <h1 className="text-gray-900 font-bold text-2xl">Customer Reviews</h1>
+        <div className="mx-auto max-w-5xl mt-10 divide-gray">
+            <div className="flex">
+                <h1 className="flex-auto text-gray-900 font-bold text-2xl">Customer Reviews</h1>
+                <WriteReview></WriteReview>
+            </div>
+            
             <div className="flex item-center mt-2">
                 <Rating nStars={props.stars}/>
                 <p className="ml-2">{props.numOfReviews} reviews</p>

@@ -3,6 +3,7 @@ import { Nav } from "../Components/Nav/Nav";
 import { useParams } from "react-router-dom";
 import {OrderSummary} from "../Components/OrderPage/OrderSummary"
 import {OrderItems} from "../Components/OrderPage/OrderItems"
+import TawkTo from "../Components/TawkTo";
 
 type Parameters = {
     
@@ -20,6 +21,7 @@ export function OrderDetails() {
                 </div>
                 
             <Footer></Footer>
+            <TawkTo></TawkTo>
         </div>
 
     )

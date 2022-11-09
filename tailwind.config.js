@@ -3,9 +3,10 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
     // 'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
+
   ],
   theme: {
-    
+
     extend: {
       colors: {
         yellow: "#DAAC27",
@@ -14,6 +15,7 @@ module.exports = {
         white: "#FFFFFF",
         blue: "#0D6EFD",
         green: "#32B25D",
+,
         darkGray: "#bababa",
       },
     },
