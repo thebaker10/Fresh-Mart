@@ -23,7 +23,7 @@ export function RegistrationPage() {
         //CF 2022-10-16
         //Fetch is asynchronous, so it returns a Promise.  When it is resolved (the request is completed),
         // it moves onto the then block. If an error is thrown, it is caught in the catch block.
-        fetch(process.env.REACT_APP_API_BASE + '/users/', {
+        fetch('http://localhost/users/', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
