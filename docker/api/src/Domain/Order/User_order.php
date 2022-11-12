@@ -34,6 +34,9 @@ class User_order implements JsonSerializable{
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private User $user;
 
+    public function setUser(User $user): void{
+        $this->user = $user;
+    }
     /**
     * @return int
     */
