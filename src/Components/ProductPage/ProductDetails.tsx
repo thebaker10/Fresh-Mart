@@ -13,18 +13,15 @@ type Props={
 }
 
 export function ProductDetails(props:Props) {
-    if(props.name != "placeholder"){
-      document.getElementById("placeholderImage")?.setAttribute("src", "https://source.unsplash.com/400x400/?" + props.name + " fruit");
-    }
     return (
         <div className="mx-auto max-w-6xl">
           <div className="flex item-center  mt-10">
             <div className="w-auto ">
-                <img id="placeholderImage" className="bg-white shadow-lg rounded-lg overflow-hidden"></img>
+                <img id="placeholderImage" src={"https://source.unsplash.com/400x400/?" + props.name + " fruit"} className="bg-darkGray shadow-lg rounded-lg overflow-hidden"></img>
             </div> 
             
             <div className="w-2/5 px-6 py-1 divide-darkGray">
-              {props.name == "placeholder" ? <h1 className="text-gray-900 font-bold text-2xl opacity-0">{props.name}</h1> : <h1 className="text-gray-900 font-bold text-2xl">{props.name}</h1>}
+              <h1 className="text-gray-900 font-bold text-2xl">{props.name}</h1>
               <div className="flex item-center mt-2">
                 <Rating nStars={props.stars}/>
                 <p className="ml-2">{props.numOfReviews} reviews</p>
@@ -40,8 +37,8 @@ export function ProductDetails(props:Props) {
               </div>
             </div>
             
-            <div className="w-1/5 p-4 flex flex-row  justify-center items-center">
-              <div className="bg-white shadow-lg rounded-lg overflow-hidden p-4">
+            <div className="w-1/5 flex flex-row  justify-center items-center">
+              <div className="bg-white h-full shadow-lg rounded-lg overflow-hidden p-4">
                 <p className="text-black font-bold text-xl mb-4">${props.price.toFixed(2)}</p>
                 <p className="mb-2 text-sm">FREE delivery on orders of $15 or more!</p>
                 <p className="text-green font-bold mb-5">IN STOCK</p>
