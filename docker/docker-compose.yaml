@@ -17,17 +17,18 @@ services:
       - ./mariadb:/var/lib/mysql
     environment:
       - MARIADB_ROOT_PASSWORD=notsafeforproduction
-    command:
-      --lower_case_table_names=1
+    command: --lower_case_table_names=1
+    hostname: db
+
   search:
-    image: opensearchproject/opensearch
+    build:
+      context: ./search/
+      # dockerfile: ./search/Dockerfile
     ports:
-      - '127.0.0.1:9200:9200'
-      - '127.0.0.1:9300:9300' 
-    environment:
-      - discovery.type=single-node
-    volumes:
-      - ./search:/usr/share/opensearch/data
+      - 5050:5050
+    depends_on:
+      - db
+
   phpmyadmin:
     image: phpmyadmin
     ports:
