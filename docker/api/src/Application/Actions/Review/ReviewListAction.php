@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Actions\Product;
+namespace App\Application\Actions\Review;
 
 use App\Application\Actions\Action;
 use App\Domain\Review\Review;
@@ -13,8 +13,9 @@ use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class ProductReviewAction extends Action
-{
+class ReviewListAction extends Action
+{   
+
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
@@ -33,10 +34,8 @@ class ProductReviewAction extends Action
      * {@inheritdoc}
      */
     protected function action(): Response
-    {   
-        $slug = $this->resolveArg('productSlug');
-        $reviews = $this->em->getRepository(Review::class)->findBy(array('product_id' => $slug));
+    {
+        $reviews = $this->em->getRepository(Review::class)->findAll();
         return $this->respondWithData($reviews);
     }
-    
 }

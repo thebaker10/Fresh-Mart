@@ -62,6 +62,10 @@ class Review implements JsonSerializable{
         $this->user = $user;
     }
 
+    public function getUser(){
+        return $this-> user;
+    }
+
     /**
     * @return int
     */

@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class ProductReviewAction extends Action
+class ProductReviewUserAction extends Action
 {
     /**
      * @throws ContainerExceptionInterface
@@ -36,7 +36,11 @@ class ProductReviewAction extends Action
     {   
         $slug = $this->resolveArg('productSlug');
         $reviews = $this->em->getRepository(Review::class)->findBy(array('product_id' => $slug));
-        return $this->respondWithData($reviews);
+        $usernames = [];
+        foreach($reviews as $review){
+            array_push($usernames, $review -> getUser() -> getFirstName() . ' ' . $review -> getUser() -> getLastName());
+        }
+        return $this->respondWithData($usernames);
     }
     
 }
