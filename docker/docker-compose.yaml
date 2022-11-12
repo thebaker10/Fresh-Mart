@@ -19,6 +19,7 @@ services:
       - MARIADB_ROOT_PASSWORD=notsafeforproduction
     command:
       --lower_case_table_names=1
+
     hostname: db
 
   search:
