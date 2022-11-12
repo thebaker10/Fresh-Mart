@@ -47,7 +47,7 @@ class OrderPostAction extends Action
         $order = new User_order($userId, $orderDate, $orderPrice);
 
         $user = $this->em->getRepository(User::class)->find($userId);
-        $order->setProduct($user);
+        $order->setUser($user);
 
         /*
          * CF 2022-10-13
