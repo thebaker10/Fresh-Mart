@@ -17,13 +17,13 @@ services:
       - ./mariadb:/var/lib/mysql
     environment:
       - MARIADB_ROOT_PASSWORD=notsafeforproduction
-    command: --lower_case_table_names=1
+    command:
+      --lower_case_table_names=1
     hostname: db
 
   search:
     build:
       context: ./search/
-      # dockerfile: ./search/Dockerfile
     ports:
       - 5050:5050
     depends_on:
