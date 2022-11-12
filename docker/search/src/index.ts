@@ -1,7 +1,9 @@
 import express from "express"
 import { search } from "./Database"
+import cors from "cors"
 
 const app = express()
+app.use(cors())
 
 
 app.get("/search/:productName", async (request, response) => {
