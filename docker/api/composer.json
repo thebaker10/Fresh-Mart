@@ -34,7 +34,8 @@
         "slim/slim": "^4.10",
         "symfony/cache": "^6.1",
         "symfony/http-client": "^6.1",
-        "uma/dic": "*"
+        "uma/dic": "*",
+        "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {
         "jangregor/phpstan-prophecy": "^1.0.0",
