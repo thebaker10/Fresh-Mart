@@ -31,7 +31,7 @@ export function ProductPage() {
         <div className="bg-lightGray">
             <Nav></Nav>
             {product ? <ProductDetails name={product.productName} stars={4} numOfReviews={100} price={product.product_price} msrp={product.product_msrp} description={"Test"} /> : <ProductDetailsPlaceholder></ProductDetailsPlaceholder>}
-            <ReviewContainer stars={Math.round(Math.random() * 5)} numOfReviews={Math.round(Math.random() * 500)}></ReviewContainer>
+            <ReviewContainer productID = {""+params.productID} stars={Math.round(Math.random() * 5)} numOfReviews={Math.round(Math.random() * 500)}></ReviewContainer>
             <Footer></Footer>
             <TawkTo></TawkTo>
         </div>
