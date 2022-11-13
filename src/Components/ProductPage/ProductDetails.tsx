@@ -14,7 +14,7 @@ type Props={
 
 export function ProductDetails(props:Props) {
     return (
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-5xl">
           <div className="flex item-center  mt-10">
             <div className="w-auto ">
                 <img id="placeholderImage" src={"https://source.unsplash.com/400x400/?" + props.name + " fruit"} className="bg-darkGray shadow-lg rounded-lg overflow-hidden"></img>

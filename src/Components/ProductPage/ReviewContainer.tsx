@@ -19,7 +19,7 @@ export function ReviewContainer(props:Props) {
     //useEffect hook is the functional alternative for componentDidMount and componentDidUpdate functions
     //https://reactjs.org/docs/hooks-effect.html and https://dev.to/antdp425/react-fetch-data-from-api-with-useeffect-27le
     useEffect(() => {
-        fetch("http://localhost/products/"+props.productID+"/reviews" )
+        fetch(process.env.REACT_APP_API_BASE+"/products/"+props.productID+"/reviews" )
             .then((response) => response.json())
             .then((data) => {
                 setReviewData(data.data) 
@@ -27,7 +27,7 @@ export function ReviewContainer(props:Props) {
                 data.data.forEach((review: any) => sum += Number(review.rating));
                 setAverageData(Math.round(sum/data.data.length)); 
         })
-        fetch("http://localhost/products/"+props.productID+"/users" )
+        fetch(process.env.REACT_APP_API_BASE+"/products/"+props.productID+"/users" )
             .then((response) => response.json())
             .then((data) => {
                 setUserData(data.data)
@@ -35,7 +35,7 @@ export function ReviewContainer(props:Props) {
     },[]);
     
     return (
-        <div className="mx-auto max-w-5xl mt-10 divide-gray">
+        <div className="mx-auto max-w-5xl mt-10 divide-gray mb-10">
             <div className="flex">
                 <h1 className="flex-auto text-gray-900 font-bold text-2xl">Customer Reviews</h1>
                 <WriteReview productID={props.productID}></WriteReview>

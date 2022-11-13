@@ -20,7 +20,7 @@ export function ProductPage() {
     //useEffect hook is the functional alternative for componentDidMount and componentDidUpdate functions
     //https://reactjs.org/docs/hooks-effect.html and https://dev.to/antdp425/react-fetch-data-from-api-with-useeffect-27le
     useEffect(() => {
-        fetch("http://localhost/products/"+params.productID)
+        fetch(process.env.REACT_APP_API_BASE+"/products/"+params.productID)
         .then((response) => response.json())
         .then((data) => {
             setProductData(data.data);
