@@ -5,11 +5,15 @@ declare(strict_types=1);
 use App\Application\Settings\Settings;
 use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
+use Dotenv\Dotenv;
 use Monolog\Logger;
 
 if(!defined('APP_ROOT')) {
     define('APP_ROOT', __DIR__);
 }
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 return function (ContainerBuilder $containerBuilder) {
 

@@ -14,6 +14,7 @@ use PharIo\Manifest\InvalidEmailException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Factory\AppFactory;
 use Slim\Logger;
 use Slim\Psr7\Response;
@@ -39,7 +40,7 @@ class UserForgotPasswordAction extends Action
     /**
      * {@inheritdoc}
      */
-    protected function action(): \Psr\Http\Message\ResponseInterface
+    protected function action(): ResponseInterface
     {
 
         $this->response->withHeader('Access-Control-Allow-Origin', '*');
@@ -59,7 +60,8 @@ class UserForgotPasswordAction extends Action
 
             if($user){
 
-                $mg = Mailgun::create('6e40ca996427e591dbfe5c17cdba8487-48c092ba-c1016360');
+                $apiKey = getenv('MAILGUN_API_KEY') ?? '';
+                $mg = Mailgun::create($apiKey);
                 //Send email
                 $firstName = $user->getFirstName();
                 $subject = 'Fresh Market Password Reset';
@@ -71,8 +73,8 @@ class UserForgotPasswordAction extends Action
                     
                     If this was not you, please let us know.
                     
-                    Click the password reset link below to reset your password.
-                    <a href="{$_SERVER['HTTP_HOST']}/users/reset-password?secretToken=AnInsecureResetToken!">{$_SERVER['HTTP_HOST']}/users/reset-password?secretToken=AnInsecureResetToken!</a>
+                    Use password reset link below to reset your password.
+                    {$_SERVER['HTTP_HOST']}/users/reset-password?secretToken=AnInsecureResetToken!">
                 EMAIL;
 
                 $mg->messages()->send('sandboxa638b0f6a35b458fad9c6f9efb569385.mailgun.org', [
