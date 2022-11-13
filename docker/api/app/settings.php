@@ -12,7 +12,7 @@ if(!defined('APP_ROOT')) {
     define('APP_ROOT', __DIR__);
 }
 
-$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv::createImmutable(__DIR__,'.env.local');
 $dotenv->load();
 
 return function (ContainerBuilder $containerBuilder) {
