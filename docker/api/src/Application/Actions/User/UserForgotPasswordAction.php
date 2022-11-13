@@ -60,7 +60,8 @@ class UserForgotPasswordAction extends Action
 
             if($user){
 
-                $apiKey = getenv('MAILGUN_API_KEY') ?? '';
+                $apiKey = $_ENV['MAILGUN_API_KEY'] ?? '';
+                $host = $_ENV['REACT_APP_FRONTEND_BASE'] ?? '';
                 $mg = Mailgun::create($apiKey);
                 //Send email
                 $firstName = $user->getFirstName();
@@ -74,7 +75,7 @@ class UserForgotPasswordAction extends Action
                     If this was not you, please let us know.
                     
                     Use password reset link below to reset your password.
-                    {$_SERVER['HTTP_HOST']}/users/reset-password?secretToken=AnInsecureResetToken!">
+                    $host/users/reset-password?secretToken=AnInsecureResetToken!">
                 EMAIL;
 
                 $mg->messages()->send('sandboxa638b0f6a35b458fad9c6f9efb569385.mailgun.org', [
