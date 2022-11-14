@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Application\Actions\User;
 
 use App\Application\Actions\Action;
-use App\Domain\User\EmailNotFoundException;
-use App\Domain\User\InvalidPasswordException;
 use App\Domain\User\User;
 use Doctrine\ORM\EntityManager;
+use Exception;
 use Mailgun\Mailgun;
 use PharIo\Manifest\InvalidEmailException;
 use Psr\Container\ContainerExceptionInterface;
@@ -17,7 +16,6 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Factory\AppFactory;
 use Slim\Logger;
-use Slim\Psr7\Response;
 
 class UserForgotPasswordAction extends Action
 {
@@ -66,7 +64,6 @@ class UserForgotPasswordAction extends Action
                 //Send email
                 $firstName = $user->getFirstName();
                 $subject = 'Fresh Market Password Reset';
-                //$headers = 'From: admin@fresh-market-store.com' . "\r\n";
                 $message = <<<EMAIL
                     Hello $firstName,
                     A request was made to reset the password to the account identified by this email address
@@ -92,6 +89,8 @@ class UserForgotPasswordAction extends Action
             return $this->respondWithData(['message' => $e->getMessage()], 500);
         } catch (ClientExceptionInterface $e) {
             $this->logger->error($e->getMessage());
+            return $this->respondWithData(['message' => $e->getMessage()], 500);
+        } catch (Exception $e) {
             return $this->respondWithData(['message' => $e->getMessage()], 500);
         }
     }
