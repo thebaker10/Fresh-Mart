@@ -8,6 +8,7 @@ import TawkTo from "../Components/TawkTo";
 import React, { useState, useEffect } from 'react';
 import { ReviewContainerPlaceholder } from "../Components/ProductPage/ReviewContainerPlaceholder";
 import { MiniSlider } from "../Components/Card/MiniSlider";
+import { MiniSliderPlaceholder } from "../Components/Card/MiniSliderPlaceholder";
 
 type Parameters = {
     productID: string
@@ -53,7 +54,7 @@ export function ProductPage() {
             <Nav></Nav>
             {product ? <ProductDetails name={product.productName} stars={average} numOfReviews={reviewData.length} price={product.product_price} msrp={product.product_msrp} description={"Test"} /> : <ProductDetailsPlaceholder></ProductDetailsPlaceholder>}
             <div className="mx-auto max-w-5xl mt-20">
-                <MiniSlider title="Similar Products"></MiniSlider>
+                {product ? <MiniSlider title="Similar Products"></MiniSlider> : <MiniSliderPlaceholder></MiniSliderPlaceholder>}
             </div>
             
             {product ? <ReviewContainer productID = {product.productId} reviews={reviewData} users={userData} stars={average} numOfReviews={reviewData.length}></ReviewContainer>:<ReviewContainerPlaceholder></ReviewContainerPlaceholder>}
