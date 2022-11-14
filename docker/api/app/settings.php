@@ -52,9 +52,9 @@ return function (ContainerBuilder $containerBuilder) {
                         'driver' => 'pdo_mysql',
                         'host' => 'db',
                         'port' => 3306,
-                        'dbname' => 'freshmart',
-                        'user' => 'root',
-                        'password' => 'notsafeforproduction',
+                        'dbname' => $_ENV['DB_NAME'],
+                        'user' => $_ENV['DB_USER'],
+                        'password' => $_ENV['DB_PASS'],
                         'charset' => 'utf8mb4'
                     ]
                 ]
