@@ -5,7 +5,7 @@ import { Rating } from "../Card/Rating"
 
 export function ProductDetailsPlaceholder() {
     return (
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-5xl">
           <div className="flex item-center  mt-10">
             <div className="w-auto ">
                 <img id="placeholderImage" className="bg-darkGray shadow-lg rounded-lg overflow-hidden"></img>
@@ -32,7 +32,7 @@ export function ProductDetailsPlaceholder() {
               </div>
             </div>
             
-            <div className="w-1/5 flex flex-row  justify-center items-center">
+            <div className="w-1/4 flex flex-row  justify-center items-center">
               <div  className="bg-darkGray h-full  shadow-lg rounded-lg overflow-hidden p-4">
                 <p className="mb-2 text-sm opacity-0">FREE delivery on orders of $15 or more!</p>
               </div>  

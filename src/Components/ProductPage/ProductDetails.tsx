@@ -37,7 +37,7 @@ export function ProductDetails(props:Props) {
               </div>
             </div>
             
-            <div className="w-1/5 flex flex-row  justify-center items-center">
+            <div className="w-1/4 flex flex-row  justify-center items-center">
               <div className="bg-white h-full shadow-lg rounded-lg overflow-hidden p-4">
                 <p className="text-black font-bold text-xl mb-4">${props.price.toFixed(2)}</p>
                 <p className="mb-2 text-sm">FREE delivery on orders of $15 or more!</p>

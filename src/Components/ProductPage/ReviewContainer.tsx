@@ -12,7 +12,7 @@ type Props={
 
 export function ReviewContainer(props:Props) {
     return (
-        <div className="mx-auto max-w-5xl mt-10 divide-gray mb-10">
+        <div className="mx-auto max-w-5xl mt-20 divide-gray mb-10">
             <div className="flex">
                 <h1 className="flex-auto text-gray-900 font-bold text-2xl">Customer Reviews</h1>
                 <WriteReview productID={props.productID}></WriteReview>
