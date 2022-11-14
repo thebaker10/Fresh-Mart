@@ -37,6 +37,9 @@ class Product implements JsonSerializable{
     #[Column(type: 'float', unique: false, nullable: false)]
     private float $product_price;
 
+    #[Column(type: 'string', unique: false, nullable: false)]
+    private string $product_description;
+
     #[OneToMany(mappedBy: 'product', targetEntity: CartItem::class)]
     #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
     private PersistentCollection $cart_items;
@@ -50,13 +53,14 @@ class Product implements JsonSerializable{
     private PersistentCollection $reviews;
 
 
-    #[ArrayShape(['productId' => "int", 'categoryId' => "int", 'productName' => "string", 'product_msrp' => "float", 'product_price' => "float"])] public function jsonSerialize(): array{
+    #[ArrayShape(['productId' => "int", 'categoryId' => "int", 'productName' => "string", 'product_msrp' => "float", 'product_price' => "float", 'product_description' => "string"])] public function jsonSerialize(): array{
         return [
             'productId' => $this->product_id,
             'categoryId' => $this->category_id,
             'productName' => $this->product_name,
             'product_msrp' => $this->product_msrp,
-            'product_price' => $this->product_price
+            'product_price' => $this->product_price,
+            'product_description' => $this->product_description
         ];
     }
 }
