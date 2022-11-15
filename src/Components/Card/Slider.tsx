@@ -39,8 +39,8 @@ export function Slider(props:Props) {
   },[]);
 
     return (
-      <div className="p-5">
-        <h1 className="text-gray-900 font-bold text-2xl ml-8">{props.title}</h1>
+      <div className="px-10">
+        <h1 className="text-gray-900 font-bold text-2xl">{props.title}</h1>
         <Carousel
           swipeable={false}
           draggable={false}
@@ -56,7 +56,7 @@ export function Slider(props:Props) {
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         > 
-          {products && products.map((r) => <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={"Test"}/>)}
+          {products && products.map((r) => <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={"dfahjdfjha dsjhdfa sjhadsfj dasjhfadjhf dasjhf dasjhdfsa fdsahjd fsajhdsjhdfsjdh fdsfajhadfsjhdasf dasjhfadjhf dasjhf dasjhdfsa fdsahjd fsajhdsjhdfsjdh fdsfajhadfsjhdasf"}/>)}
           
         </Carousel>
       </div>

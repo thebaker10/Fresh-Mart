@@ -66,3 +66,11 @@
 #hiddenContainer{
     visibility: hidden;
 }
+
+#truncatedText{
+    display: -webkit-box;
+    max-width: 230px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
