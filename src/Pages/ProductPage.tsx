@@ -16,7 +16,7 @@ export function ProductPage() {
         <div className="bg-lightGray">
             <Nav></Nav>
             <ProductDetails name={"Apple " + params.productID} stars={Math.round(Math.random() * 5)} price={Math.random() * 10} msrp={Math.random() * 10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket.Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."} />
-            <Slider title = {"Similar Products"}></Slider>
+            
             <ReviewContainer productID = {""+params.productID} stars={Math.round(Math.random() * 5)} numOfReviews={Math.round(Math.random() * 500)}></ReviewContainer>
             <Footer></Footer>
             <TawkTo></TawkTo>

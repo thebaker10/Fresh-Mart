@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Application\Actions\Category\CategoryAction;
 use App\Application\Actions\Category\CategoryListAction;
 use App\Application\Actions\Category\CategoryPostAction;
+use App\Application\Actions\Category\CategoryListProductsAction;
 use App\Application\Actions\HomePageAction;
 use App\Application\Actions\Product\ProductAction;
 use App\Application\Actions\Product\ProductListAction;
@@ -46,7 +47,8 @@ return function (App $app) {
 
     $app->group('/categories', function(Group $group){
         $group->get('', CategoryListAction::class);
-        $group->get('{category_id}', CategoryAction::class);
+        $group->get('/{categorySlug}', CategoryAction::class);
+        $group->get('/{categorySlug}/products', CategoryListProductsAction::class);
         $group->post('/', CategoryPostAction::class);
     });
 

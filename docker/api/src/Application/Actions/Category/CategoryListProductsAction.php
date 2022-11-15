@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Actions\Category;
 
 use App\Application\Actions\Action;
-use App\Domain\Category\Category;
+use App\Domain\Product\Product;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Factory\AppFactory;
 use Slim\Logger;
@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class CategoryListAction extends Action
+class CategoryListProductsAction extends Action
 {
     /**
      * @throws ContainerExceptionInterface
@@ -33,8 +33,10 @@ class CategoryListAction extends Action
      * {@inheritdoc}
      */
     protected function action(): Response
-    {
-        $categories = $this->em->getRepository(Category::class)->findAll();
-        return $this->respondWithData($categories);
+    {   
+        $slug = $this->resolveArg('categorySlug');
+        $products = $this->em->getRepository(Product::class)->findBy(array('category_id' => $slug));
+        return $this->respondWithData($products);
     }
+    
 }
