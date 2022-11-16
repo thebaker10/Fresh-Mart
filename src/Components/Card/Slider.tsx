@@ -44,7 +44,7 @@ export function Slider(props:Props) {
         <Carousel
           swipeable={false}
           draggable={false}
-          showDots={true}
+          showDots={false}
           responsive={responsive}
           ssr={true} // means to render carousel on server-side.
           infinite={false}
@@ -56,7 +56,7 @@ export function Slider(props:Props) {
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         > 
-          {products && products.map((r) => <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={"dfahjdfjha dsjhdfa sjhadsfj dasjhfadjhf dasjhf dasjhdfsa fdsahjd fsajhdsjhdfsjdh fdsfajhadfsjhdasf dasjhfadjhf dasjhf dasjhdfsa fdsahjd fsajhdsjhdfsjdh fdsfajhadfsjhdasf"}/>)}
+          {products && products.map((r) => <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={r.product_description}/>)}
           
         </Carousel>
       </div>
