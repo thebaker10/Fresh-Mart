@@ -38,25 +38,27 @@ export function Card(props:Props) {
     
         <div className="p-5">
           <div className="flex max-w-md m-auto bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer" onClick={goToProductPage}>
-            <div className="w-1/3 bg-cover">
-                <img src={"https://source.unsplash.com/400x600/?" + props.name + " food"} alt="" />
+            <div  className="w-1/3">
+                <img id="cardImage" src={"https://source.unsplash.com/400x600/?" + props.name + " food"} alt="" />
             </div> 
             <div className="flex flex-col w-2/3 p-4">
-              <div className="flex-auto">
+              <div className="flex-auto mb-4">
                 <h1 className="text-gray-900 font-bold text-xl">{props.name}</h1>
-                <div className="flex item-center mt-2">
-                  {average ? <Rating nStars={average}/> : <Rating nStars={0}/>}
-                </div>
+                
                 <div className="h-auto max-h-16 w-auto">
                   <p id="truncatedText" className="mt-2 text-black text-sm">{props.description}</p>
                 </div>
-                
-                
               </div>
-              <div className="flex flex-end item-center justify-between mt-3">
-                <h1 className="text-black font-bold text-xl">${props.price.toFixed(2)}</h1>
-                <button className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded" onClick={(event) => handleButtonClick(event)}>Add to Cart</button>
+              <div className="flex-end">
+                <div className="flex item-center mt-2">
+                  {average ? <Rating nStars={average}/> : <Rating nStars={0}/>}
+                </div>
+                <div className="flex  item-center justify-between mt-3">
+                  <h1 className="text-black font-bold text-xl">${props.price.toFixed(2)}</h1>
+                  <button className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded" onClick={(event) => handleButtonClick(event)}>Add to Cart</button>
+                </div>
               </div>
+              
             </div>
           </div>
         </div>
