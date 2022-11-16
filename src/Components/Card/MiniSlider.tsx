@@ -1,7 +1,6 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {Card} from "../Card/Card";
-import React, { useState, useEffect } from 'react';
 
 const responsive = {
   desktop: {
@@ -23,22 +22,12 @@ const responsive = {
 
 type Props={
   title: string,
-  categoryID: number,
-  productID: number
+  productID: number,
+  products: Array<any>
 }
 
 
 export function MiniSlider(props:Props) {
-  let [products, setProducts] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetch(process.env.REACT_APP_API_BASE+"/categories/"+props.categoryID+"/products")
-        .then((response) => response.json())
-        .then((data) => {
-            setProducts(data.data)
-    })  
-  },[]);
-
     return (
       <div className="">
         <h1 className="text-gray-900 font-bold text-2xl">{props.title}</h1>
@@ -57,7 +46,7 @@ export function MiniSlider(props:Props) {
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         >
-          {products && products.map((r) => r.productId != props.productID && <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={r.product_description}/>)}
+        {props.products.map((r) => r.productId != props.productID && <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={r.product_description}/>)}   
         </Carousel>
       </div>
       
