@@ -67,6 +67,15 @@
     visibility: hidden;
 }
 
+#placeholderImage{
+    width: 600px;
+    height: 600px;
+}
+
+#miniPlaceholderImage{
+    height: 225px;
+}
+
 #truncatedText{
     display: -webkit-box;
     max-width: 230px;
