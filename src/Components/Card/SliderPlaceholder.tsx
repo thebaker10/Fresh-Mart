@@ -1,7 +1,6 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {Card} from "../Card/Card";
-import React, { useState, useEffect } from 'react';
 import { CardPlaceholder } from "./CardPlaceholder";
 
 const responsive = {
@@ -22,27 +21,14 @@ const responsive = {
   }
 };
 
-type Props={
-  categoryID: number,
-  title: string
-}
 
-
-export function Slider(props:Props) {
+export function SliderPlaceholder() {
   let arr:number[] = [1,2,3,4];
-  let [products, setProducts] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetch(process.env.REACT_APP_API_BASE+"/categories/"+props.categoryID+"/products")
-        .then((response) => response.json())
-        .then((data) => {
-            setProducts(data.data)
-    })  
-  },[]);
-
     return (
       <div className="px-10">
-        <h1 className="text-gray-900 font-bold text-2xl">{props.title}</h1>
+        <div className="bg-darkGray shadow-lg rounded-lg overflow-hidden">
+          <h1 className="text-gray-900 font-bold text-2xl">‎</h1>
+        </div>
         <Carousel
           swipeable={false}
           draggable={false}
@@ -58,9 +44,9 @@ export function Slider(props:Props) {
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         > 
-        {products.length != 0 ? products.map((r) => <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={r.product_description}/>) : arr.map((a)=> <CardPlaceholder></CardPlaceholder>)}
+         {arr.map((a)=> <CardPlaceholder></CardPlaceholder>)}
           
-        </Carousel>
+        </Carousel> 
       </div>
       
     )
