@@ -26,9 +26,7 @@ export function SliderPlaceholder() {
   let arr:number[] = [1,2,3,4];
     return (
       <div className="px-10">
-        <div className="bg-darkGray shadow-lg rounded-lg overflow-hidden">
-          <h1 className="text-gray-900 font-bold text-2xl">‎</h1>
-        </div>
+        <h1 className="text-gray-900 font-bold text-2xl">‎</h1>
         <Carousel
           swipeable={false}
           draggable={false}

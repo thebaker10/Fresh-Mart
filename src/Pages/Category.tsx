@@ -20,12 +20,14 @@ export function Category() {
     return (
         <div className="min-h-screen bg-lightGray">
             <Nav></Nav>
-            <div className="">
-                <div className="px-10 py-5">
-                    <SpecialBanner text={"Special Deals"} subtext={"see our specials and save!"}></SpecialBanner>
-                </div>
-                {categories.length != 0 ? categories.map((r) => <Slider categoryID={r.categoryId} title={r.categoryName}></Slider>) : arr.map((a) => <SliderPlaceholder></SliderPlaceholder> )}
+            
+            <div className="px-10 py-5">
+                <SpecialBanner text={"Special Deals"} subtext={"see our specials and save!"}></SpecialBanner>
             </div>
+            {categories.length != 0 ? categories.map((r) => <Slider categoryID={r.categoryId} title={r.categoryName}></Slider>) : arr.map((a) => <SliderPlaceholder></SliderPlaceholder> )}
+            
+            
+            
             <Footer></Footer>
             <TawkTo />
         </div>
