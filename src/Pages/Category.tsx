@@ -6,7 +6,7 @@ import TawkTo from "../Components/TawkTo";
 
 export function Category() {
     return (
-        <div className="min-h-screen bg-lightGray">
+        <div className="min-h-screen bg-lightGray mt-16">
             <Nav></Nav>
 
             {/*<div className="flex flex-wrap justify-center gap-x-4 gap-y-2 mx-auto px-1 min-h-screen ">

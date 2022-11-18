@@ -3,6 +3,7 @@ import { Product } from "../../../types/Product"
 import { Card } from "../../Card/Card"
 import { Input } from "../../Form/Input"
 import { UserBanner } from "../../UserSetting/UserBanner"
+import { SearchBarCard } from "./SearchBarCard"
 
 
 type Props = {
@@ -30,10 +31,10 @@ export function SearchBarModal(props: Props) {
     if (!props.visible) return null
     return (
         <div className="fixed z-10 inset-0">
-            <div className=" bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center w-screen h-screen absolute z-20" onClick={props.onClose}></div>
+            <div className=" bg-black bg-opacity-25 backdrop-blur-md flex items-center justify-center w-screen h-screen absolute z-20" onClick={props.onClose}></div>
 
             <form className="rounded px-4 py-4 max-w-[80vw] absolute inset-0 m-auto max-h-fit z-20">
-                <div className="flex justify-end text-xl text-gray-300 font-bold">
+                <div className="flex justify-end text-3xl text-green font-bold">
                     <button onClick={props.onClose}>X</button>
                 </div>
 
@@ -43,7 +44,7 @@ export function SearchBarModal(props: Props) {
                 </div>
 
                 <div className="flex flex-wrap w-full justify-center">
-                    {products.map((p, i) => <Card name={p.product_name} description={p.product_name} stars={0} price={p.product_price} image={p.productImageLink}/>)}  
+                    {products.map((p, i) => <SearchBarCard name={p.product_name} description={p.product_name} stars={0} price={p.product_price} image={p.productImageLink}/>)}  
                 </div>
             </form>
         </div>

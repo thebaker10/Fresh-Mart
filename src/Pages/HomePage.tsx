@@ -6,7 +6,7 @@ import TawkTo from "../Components/TawkTo";
 
 export function HomePage() {
     return (
-        <div className="min-h-screen bg-lightGray">
+        <div className="min-h-screen bg-lightGray mt-20">
             <Nav />
             <div className=" dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden m-5 min-h-full">
                 <div className="flex">
