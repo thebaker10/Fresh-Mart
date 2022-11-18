@@ -7,43 +7,50 @@ type Props={
     name: string,
     description: string,
     stars: number,
-    price: number
-    msrp: number
+    price: number,
+    msrp: number,
+    numOfReviews: number,
 }
 
 export function ProductDetails(props:Props) {
     return (
-        <div className="mx-auto max-w-6xl">
-          <div className="flex item-center justify-between mt-10">
-            <div className="w-2/5 p-4">
-                <img src={"https://source.unsplash.com/400x400/?" + props.name + " fruit"} alt="" />
+        <div className="mx-auto max-w-5xl">
+          <div className="flex item-center  mt-10">
+            <div className="w-3/5">
+                <img id="placeholderImage" src={"https://source.unsplash.com/800x800/?" + props.name + " fruit"} className="bg-darkGray shadow-lg rounded-lg overflow-hidden"></img>
             </div> 
-            <div className="w-2/5 p-4">
-              <h1 className="text-gray-900 font-bold text-2xl">{props.name}</h1>
-              <div className="flex item-center mt-5">
-                <Rating nStars={props.stars}/>
+            
+            <div className="flex flex-col w-2/5  pt-1 pl-16 divide-darkGray">
+              
+              <div className="flex-auto">
+                <h1 className="text-gray-900 font-bold text-5xl">{props.name}</h1>            
+                <div className="flex item-center mt-2">
+                  <Rating nStars={props.stars}/>
+                  <p className="ml-2">{props.numOfReviews} reviews</p>
+                </div>
+                
+                <p className="flex-1 text-green font-bold my-5">IN STOCK</p>
+                <p className=" font-medium text-1xl ">MSRP: <span className="line-through">${props.msrp.toFixed(2)}</span></p>
+                <p className=" font-medium">Savings: ${(props.msrp-props.price).toFixed(2)} <span className="text-sm">{"("+(props.price/props.msrp*100).toFixed(0)}%{")"}</span></p>
+                <p className=" font-medium text-2xl">Our Price: <span className="font-bold text-2xl">${props.price.toFixed(2)}</span></p>
+                
+                <div>
+                  <h1 className="text-gray-900 font-bold mt-5 text-lg">Product Description</h1>
+                  <p className="text-lg">{props.description}</p>
+                </div>
               </div>
-              <h1 className="text-gray-900 font-bold text-2xl mt-5">${props.price.toFixed(2)}</h1>
-              <div>
-                <h1 className="text-gray-900 font-bold mt-5">Product Description</h1>
-                <p>{props.description}</p>
-              </div>
-            </div>
-            <div className="w-1/5 p-4 flex flex-row  justify-center items-center">
-              <div className="shadow-lg rounded-lg overflow-hidden p-2 text-center">
-                <p className="text-black font-bold text-xl">MSRP: ${props.msrp.toFixed(2)}</p>
-                <p className="text-black font-bold text-xl">Price: ${props.price.toFixed(2)}</p>
-
-                <QuantitySelector></QuantitySelector>
-
-                <div className="flex gap-1 flex-row  justify-center items-center">
-                  <button className="px-3 py-3 bg-green text-white text-xs font-bold uppercase rounded">Add to Cart</button>
+              
+              
+              <div className="flex-end ">
+              <QuantitySelector price={props.price}></QuantitySelector>
+                <div className="flex gap-1 flex-row justify-center items-center">
+                  <button className="px-3 py-3 bg-green w-full text-white text-xs font-bold uppercase rounded">Add to Cart</button>
                   <ul className="flex gap-8 justify-center items-center mt-2 mb-2">
                     <button className="px-2 pt-2 bg-green text-white text-xs font-bold uppercase rounded"><IconItem icon={faHeartCirclePlus} /></button>
                   </ul>
                 </div>
-
-              </div>  
+              </div>
+              
             </div>
           </div>
         </div>
