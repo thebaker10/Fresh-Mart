@@ -68,7 +68,7 @@ return function (App $app) {
         $group->post('/password-reset', UserPasswordResetAction::class);
 
 
-        $group->get('/{user_id}', UserViewAction::class);
+        $group->get('[/{user_id}]', UserViewAction::class);
 
         $group->get('/{user_id}/orders', UserOrderListAction::class);
         $group->get('/{user_id}/orders/{order_id}', UserOrderViewAction::class);
