@@ -20,6 +20,7 @@ export function ProductPage() {
     let [reviewData, setReviewData] = useState<any[]>([]);
     let [product, setProductData] = useState<any>();
     let [userData, setUserData] = useState<any[]>([]);
+    let [sliderProducts, setSliderProducts] = useState<any[]>([]);
 
     //NH 2022-11-09
     //useEffect hook is the functional alternative for componentDidMount and componentDidUpdate functions
@@ -40,6 +41,14 @@ export function ProductPage() {
         .then((response) => response.json())
         .then((data) => {
             setProductData(data.data);
+            // Gets products of the same category
+            // Might be able to increase performance by replacing w/ new API endpoint 
+            // rather than a nested fetch
+            fetch(process.env.REACT_APP_API_BASE+"/categories/"+data.data.categoryId+"/products")
+                .then((response) => response.json())
+                .then((data) => {
+                    setSliderProducts(data.data)
+            })
         })
         // Gets user data (Only First+Last name) and stores it in userData 
         fetch(process.env.REACT_APP_API_BASE+"/products/"+params.productID+"/users" )
@@ -54,7 +63,7 @@ export function ProductPage() {
             <Nav></Nav>
             {product ? <ProductDetails name={product.productName} stars={average} numOfReviews={reviewData.length} price={product.product_price} msrp={product.product_msrp} description={product.product_description} /> : <ProductDetailsPlaceholder></ProductDetailsPlaceholder>}
             <div className="mx-auto max-w-5xl mt-20">
-                {product ? <MiniSlider title="Similar Products"></MiniSlider> : <MiniSliderPlaceholder></MiniSliderPlaceholder>}
+                {sliderProducts.length != 0 ? <MiniSlider title="Similar Products"  products={sliderProducts} productID={product.productId}></MiniSlider> : <MiniSliderPlaceholder></MiniSliderPlaceholder>}
             </div>
             
             {product ? <ReviewContainer productID = {product.productId} reviews={reviewData} users={userData} stars={average} numOfReviews={reviewData.length}></ReviewContainer>:<ReviewContainerPlaceholder></ReviewContainerPlaceholder>}

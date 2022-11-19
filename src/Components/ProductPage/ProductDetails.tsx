@@ -17,7 +17,7 @@ export function ProductDetails(props:Props) {
         <div className="mx-auto max-w-5xl">
           <div className="flex item-center  mt-10">
             <div className="w-3/5">
-                <img id="placeholderImage" src={"https://source.unsplash.com/800x800/?" + props.name + " fruit"} className="bg-darkGray shadow-lg rounded-lg overflow-hidden"></img>
+                <img id="placeholderImage" src={"https://source.unsplash.com/800x800/?" + props.name + " food"} className="bg-darkGray shadow-lg rounded-lg overflow-hidden"></img>
             </div> 
             
             <div className="flex flex-col w-2/5  pt-1 pl-16 divide-darkGray">
