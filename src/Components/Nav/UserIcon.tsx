@@ -13,19 +13,14 @@ export function UserIcon() {
     }
 
     const logoutClickHandler = () => {
-        fetch(process.env.REACT_APP_API_BASE + '/users/logout', {
-            credentials: 'include'
-        }).then((response) => {
-            //response.json() returns a promise
-                alert('Clear frontend user data');
-        }).catch((error) => {
-            console.log(error);
-        });
+        // MDN https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+        if(document.cookie){
+            //Expire the cookie
+            document.cookie = 'FreshMartUserId=;Expires=Thu, 01 Jan 1970 00:00:00;';
+            //Reload and go to home page
+            document.location = '/';
+        }
     }
-
-
-
-
 
     return (
         <div className="relative">
