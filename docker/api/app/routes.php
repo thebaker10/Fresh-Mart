@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Application\Actions\Category\CategoryAction;
-use App\Application\Actions\Category\CategoryListAction;
+use App\Application\Action\Category\CategoryAction;
+use App\Application\Action\Category\CategoryListAction;
 use App\Application\Actions\Category\CategoryPostAction;
 use App\Application\Actions\Category\CategoryListProductsAction;
 use App\Application\Actions\HomePageAction;
@@ -13,11 +13,13 @@ use App\Application\Actions\Product\ProductReviewAction;
 use App\Application\Actions\Product\ProductReviewUserAction;
 use App\Application\Actions\Review\ReviewPostAction;
 use App\Application\Actions\Review\ReviewListAction;
+use App\Application\Actions\User\UserForgotPasswordAction;
 use App\Application\Actions\User\UserListAction;
 use App\Application\Actions\User\UserLoginAction;
 use App\Application\Actions\User\UserLogoutAction;
 use App\Application\Actions\User\UserOrderListAction;
 use App\Application\Actions\User\UserOrderViewAction;
+use App\Application\Actions\User\UserPasswordResetAction;
 use App\Application\Actions\User\UserPostAction;
 use App\Application\Actions\User\UserViewAction;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -64,9 +66,11 @@ return function (App $app) {
          */
         $group->post('/', UserPostAction::class);
         $group->post('/login', UserLoginAction::class);
+        $group->post('/forgot-password', UserForgotPasswordAction::class);
+        $group->post('/password-reset', UserPasswordResetAction::class);
 
 
-        $group->get('/{user_id}', UserViewAction::class);
+        $group->get('[/{user_id}]', UserViewAction::class);
 
         $group->get('/{user_id}/orders', UserOrderListAction::class);
         $group->get('/{user_id}/orders/{order_id}', UserOrderViewAction::class);

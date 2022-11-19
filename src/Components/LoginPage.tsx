@@ -1,9 +1,12 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
+import {faSpinner} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export function LoginPage() {
     const [alertVisible, setAlertVisible] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState('Something went wrong while registering.');
+    const [loading, setLoading] = React.useState(false);
     let navigate = useNavigate();
 
     const loginFormSubmitHandler = (e: any) => {
@@ -17,6 +20,8 @@ export function LoginPage() {
         formData.forEach((value:any,key:any) => {
             data[key] = value;
         });
+
+        setLoading(true);
 
         //CF 2022-10-16
         //Fetch is asynchronous, so it returns a Promise.  When it is resolved (the request is completed),
@@ -38,6 +43,7 @@ export function LoginPage() {
                     return;
                 }
 
+                setLoading(false);
                 navigate(`/`);
             });
         }).catch((error) => {
@@ -85,6 +91,9 @@ export function LoginPage() {
                                 </div>
                                 <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-blue">Forgot password?</a>
                             </div>
+                            <p className={(loading) ? 'visible text-center' : 'invisible text-center'}>
+                                <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"2x"} />
+                            </p>
                             <button type="submit" className="w-full text-white bg-blue hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
                                 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">

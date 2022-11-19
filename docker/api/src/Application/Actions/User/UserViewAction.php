@@ -40,9 +40,14 @@ class UserViewAction extends Action
     /**
      * {@inheritdoc}
      */
-    protected function action(): Response
+    protected function action(): \Psr\Http\Message\ResponseInterface
     {
-        $user_id = (int) $this->resolveArg('user_id');
+
+        if(isset($this->args['user_id'])) {
+            $user_id = (int)$this->resolveArg('user_id');
+        }else{
+            $user_id = (int) $_COOKIE['freshMartUserId'];
+        }
 
         try {
 
@@ -66,12 +71,11 @@ class UserViewAction extends Action
 
     #[Pure]
     private function canAccessUser(User $user): bool{
-        $sessionUserId = null;
-        if(!isset($_SESSION['user'])) {
-            return false;
-        }
 
-        $sessionUserId = $_SESSION['user']['user_id'] ?? null;
-        return $sessionUserId == $user->getUserId();
+        //@TODO Add Role check here
+        $isAdmin = false;
+        $user_id = $_COOKIE['freshMartUserId'] ?? null;
+
+        return $isAdmin || $user_id == $user->getUserId();
     }
 }

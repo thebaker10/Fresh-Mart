@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Application\Actions\User;
 
 use App\Application\Actions\Action;
-use App\Domain\User\DuplicateEmailException;
 use App\Domain\User\EmailNotFoundException;
 use App\Domain\User\InvalidPasswordException;
 use App\Domain\User\User;
+use App\Domain\User\UserNotFoundException;
+use App\Domain\User\UserResetTokenException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\TransactionRequiredException;
 use PharIo\Manifest\InvalidEmailException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -22,7 +21,7 @@ use Slim\Logger;
 use Slim\Psr7\Response;
 use TypeError;
 
-class UserLoginAction extends Action
+class UserPasswordResetAction extends Action
 {
 
     private EntityManager $em;
@@ -48,36 +47,32 @@ class UserLoginAction extends Action
 
         $this->response->withHeader('Access-Control-Allow-Origin', '*');
 
-        try {
-            $payload = $this->request->getParsedBody();
-            $email = $payload['email'] ?? null;
-            $password = $payload['password'] ?? null;
-            $userRepository = $this->em->getRepository(User::class);
 
-            //Make sure the email matches a valid email address
-            if(!preg_match('/(^\w.*?@\w.*?\.\w*$)/', $email)){
-                throw new InvalidEmailException();
-            }
+        try {
 
             /** @var User $user */
-            $user = $userRepository->findOneBy(['username' => $email]);
+            $payload = $this->request->getParsedBody();
+            $password = $payload['password'] ?? null;
+            $resetToken = $payload['reset_token'] ?? null;
+            $userRepository = $this->em->getRepository(User::class);
+            $user = $userRepository->findOneBy(['password_reset_token' => $resetToken]);
 
             if(!$user){
-                throw new EmailNotFoundException();
+                throw new UserResetTokenException();
             }
 
-            if(!$user->verifyPassword($password)){
-                throw new InvalidPasswordException();
-            }
+            $user->setPasswordResetToken('');
+            $user->setPasswordHash($password);
+            $this->em->flush();
 
             $user->setSessionCookie();
+
             return $this->respondWithData(['message' => 'User successfully logged in', 'user_id' => $user->getUserId()], 201);
 
-        }catch(EmailNotFoundException $e){
+        } catch(InvalidEmailException $e){
             $this->logger->error($e->getMessage());
-            return $this->respondWithData(['message' => $e->getMessage()], 404);
-        }catch(InvalidEmailException | InvalidPasswordException $e){
-            $this->logger->error($e->getMessage());
+            return $this->respondWithData(['message' => $e->getMessage()], 500);
+        } catch (ORMException $e) {
             return $this->respondWithData(['message' => $e->getMessage()], 500);
         }
     }
