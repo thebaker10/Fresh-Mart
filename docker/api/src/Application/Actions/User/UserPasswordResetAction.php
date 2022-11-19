@@ -8,9 +8,14 @@ use App\Application\Actions\Action;
 use App\Domain\User\EmailNotFoundException;
 use App\Domain\User\InvalidPasswordException;
 use App\Domain\User\User;
+use App\Domain\User\UserNotFoundException;
+use App\Domain\User\UserResetTokenException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\ORMException;
+use PharIo\Manifest\InvalidEmailException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Factory\AppFactory;
 use Slim\Logger;
 use Slim\Psr7\Response;
@@ -37,48 +42,37 @@ class UserPasswordResetAction extends Action
     /**
      * {@inheritdoc}
      */
-    protected function action(): Response
+    protected function action(): ResponseInterface
     {
 
         $this->response->withHeader('Access-Control-Allow-Origin', '*');
 
-        try {
-            $payload = $this->request->getParsedBody();
-            $email = $payload['email'] ?? null;
-            $password = $payload['password'] ?? null;
-            $userRepository = $this->em->getRepository(User::class);
 
-            //Make sure the email matches a valid email address
-            if(!preg_match('/(^\w.*?@\w.*?\.\w*$)/', $email)){
-                throw new InvalidEmailException();
-            }
+        try {
 
             /** @var User $user */
-            $user = $userRepository->findOneBy(['username' => $email]);
+            $payload = $this->request->getParsedBody();
+            $password = $payload['password'] ?? null;
+            $resetToken = $payload['reset_token'] ?? null;
+            $userRepository = $this->em->getRepository(User::class);
+            $user = $userRepository->findOneBy(['password_reset_token' => $resetToken]);
 
             if(!$user){
-                throw new EmailNotFoundException();
+                throw new UserResetTokenException();
             }
 
-            if(!$user->verifyPassword($password)){
-                throw new InvalidPasswordException();
-            }
+            $user->setPasswordResetToken('');
+            $user->setPasswordHash($password);
+            $this->em->flush();
 
-            /*
-             * CF 2022-11-04 Guided by https://www.youtube.com/watch?v=l662In2_J1w&list=PLNuh5_K9dfQ2-8nxh-kBYL0_wDqhsN5tB&index=58
-             */
-            $_SESSION['user'] = [
-                'id' => $user->getUserId(),
-                'username' => $user->getUsername()
-            ];
+            $user->setSessionCookie();
 
             return $this->respondWithData(['message' => 'User successfully logged in', 'user_id' => $user->getUserId()], 201);
 
-        }catch(EmailNotFoundException $e){
+        } catch(InvalidEmailException $e){
             $this->logger->error($e->getMessage());
-            return $this->respondWithData(['message' => $e->getMessage()], 404);
-        }catch(InvalidEmailException | InvalidPasswordException $e){
-            $this->logger->error($e->getMessage());
+            return $this->respondWithData(['message' => $e->getMessage()], 500);
+        } catch (ORMException $e) {
             return $this->respondWithData(['message' => $e->getMessage()], 500);
         }
     }

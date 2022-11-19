@@ -8,14 +8,15 @@ use App\Application\Actions\Action;
 use App\Domain\User\User;
 use Doctrine\ORM\EntityManager;
 use Exception;
-use Mailgun\Mailgun;
 use PharIo\Manifest\InvalidEmailException;
+use PHPMailer\PHPMailer\Exception as MailException;
+use PHPMailer\PHPMailer\PHPMailer;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Factory\AppFactory;
 use Slim\Logger;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 
 class UserForgotPasswordAction extends Action
 {
@@ -58,12 +59,24 @@ class UserForgotPasswordAction extends Action
 
             if($user){
 
-                $apiKey = $_ENV['MAILGUN_API_KEY'] ?? '';
                 $host = $_ENV['REACT_APP_FRONTEND_BASE'] ?? '';
-                $mg = Mailgun::create($apiKey);
+                $mail = new PHPMailer();
+                $mail->isSMTP();
+                $mail->Host = $_ENV['SMTP_HOST'];
+                $mail->Username = $_ENV['SMTP_USERNAME'];
+                $mail->Password = $_ENV['SMTP_PASSWORD'];
+                $mail->SMTPAuth   = TRUE;
+                $mail->SMTPSecure = "tls";
+                $mail->Port       = 587;
+
                 //Send email
                 $firstName = $user->getFirstName();
                 $subject = 'Fresh Market Password Reset';
+                $reset_token = md5(date('Y-m-d H:i:s').$firstName);
+                $user->setPasswordResetToken($reset_token);
+                $this->em->persist($user);
+                $this->em->flush();
+
                 $message = <<<EMAIL
                     Hello $firstName,
                     A request was made to reset the password to the account identified by this email address
@@ -72,15 +85,16 @@ class UserForgotPasswordAction extends Action
                     If this was not you, please let us know.
                     
                     Use password reset link below to reset your password.
-                    $host/users/reset-password?secretToken=AnInsecureResetToken!">
+                    <a href="$host/users/reset-password/$reset_token">Reset Password</a>
                 EMAIL;
 
-                $mg->messages()->send('sandboxa638b0f6a35b458fad9c6f9efb569385.mailgun.org', [
-                    'from' => 'test@sandboxa638b0f6a35b458fad9c6f9efb569385.mailgun.org',
-                    'to' => $email,
-                    'subject' => $subject,
-                    'text' => $message
-                ]);
+                $mail->addAddress($email, $firstName);
+                $mail->Subject = $subject;
+                $mail->msgHTML($message);
+
+                if(!$mail->send()){
+                    throw new MailException('Error sending message');
+                }
             }
 
             return $this->respondWithData(['message' => 'If that account exists, and email has been sent to it.'], 200);

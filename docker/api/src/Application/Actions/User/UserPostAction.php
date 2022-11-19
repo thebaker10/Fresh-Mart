@@ -40,7 +40,7 @@ class UserPostAction extends Action
     /**
      * {@inheritdoc}
      */
-    protected function action(): Response
+    protected function action(): \Psr\Http\Message\ResponseInterface
     {
 
         try {

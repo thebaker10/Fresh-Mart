@@ -46,6 +46,9 @@ class User implements JsonSerializable
     #[Column(type: 'decimal', unique: true, nullable: false)]
     private string $user_balance;
 
+    #[Column(type: 'string', unique: true, nullable: false)]
+    private string $password_reset_token;
+
     #[OneToOne(mappedBy: 'user', targetEntity: Cart::class,orphanRemoval: true)]
     private Cart $shopping_cart;
 
@@ -140,7 +143,7 @@ class User implements JsonSerializable
     }
 
     public function verifyPassword(string $password): bool{
-        return $this->password_hash === password_hash($password, PASSWORD_BCRYPT);
+        return password_verify($password, $this->password_hash);
     }
 
     #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
@@ -161,5 +164,28 @@ class User implements JsonSerializable
 
         //@TODO check the user's role
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordResetToken(): string
+    {
+        return $this->password_reset_token;
+    }
+
+    /**
+     * @param string $password_reset_token
+     */
+    public function setPasswordResetToken(string $password_reset_token): void
+    {
+        $this->password_reset_token = $password_reset_token;
+    }
+
+    public function setSessionCookie(){
+        $id = $this->getUserId();
+        $username =  $this->getUsername();
+        $expiry =  time()+60*60*24*30;
+        setcookie('freshMartSession', "userId=$id", $expiry, "", "", true);
     }
 }

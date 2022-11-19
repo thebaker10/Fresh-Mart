@@ -16,6 +16,7 @@ use Doctrine\ORM\TransactionRequiredException;
 use PharIo\Manifest\InvalidEmailException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Http\Message\ResponseInterface;
 use Slim\Factory\AppFactory;
 use Slim\Logger;
 use Slim\Psr7\Response;
@@ -42,7 +43,7 @@ class UserLoginAction extends Action
     /**
      * {@inheritdoc}
      */
-    protected function action(): Response
+    protected function action(): ResponseInterface
     {
 
         $this->response->withHeader('Access-Control-Allow-Origin', '*');
@@ -69,14 +70,7 @@ class UserLoginAction extends Action
                 throw new InvalidPasswordException();
             }
 
-            /*
-             * CF 2022-11-04 Guided by https://www.youtube.com/watch?v=l662In2_J1w&list=PLNuh5_K9dfQ2-8nxh-kBYL0_wDqhsN5tB&index=58
-             */
-            $_SESSION['user'] = [
-                'id' => $user->getUserId(),
-                'username' => $user->getUsername()
-            ];
-
+            $user->setSessionCookie();
             return $this->respondWithData(['message' => 'User successfully logged in', 'user_id' => $user->getUserId()], 201);
 
         }catch(EmailNotFoundException $e){
