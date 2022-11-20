@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Application\Actions\Cart\CartListAction;
 use App\Application\Actions\Category\CategoryAction;
 use App\Application\Actions\Category\CategoryListAction;
 use App\Application\Actions\Category\CategoryPostAction;
@@ -52,6 +53,10 @@ return function (App $app) {
         $group->get('/{categorySlug}', CategoryAction::class);
         $group->get('/{categorySlug}/products', CategoryListProductsAction::class);
         $group->post('/', CategoryPostAction::class);
+    });
+
+    $app->group('/cart', function(Group $group){
+        $group->get('/{cartSlug}', CartListAction::class);
     });
 
     $app->group('/users', function (Group $group) {
