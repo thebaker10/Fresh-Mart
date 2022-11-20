@@ -1,5 +1,8 @@
+import { Product } from "../Components/Checkout/Product";
 import { Nav } from "../Components/Nav/Nav"
 import TawkTo from "../Components/TawkTo";
+
+
 export function CheckOut() {
 
 
@@ -105,36 +108,8 @@ export function CheckOut() {
                 <div className="col-span-1 bg-white lg:block hidden">
                     <h1 className="py-6 border-b-2 text-xl text-gray-600 px-8">Order Summary</h1>
                     <ul className="py-6 border-b space-y-6 px-8">
-                        <li className="grid grid-cols-6 gap-2 border-b-1">
-                            <div className="col-span-1 self-center">
-                                <img src="https://images.unsplash.com/photo-1606604830262-2e0732b12acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1063&q=80" alt="Product" className="rounded w-full" />
-                            </div>
-                            <div className="flex flex-col col-span-3 pt-2">
-                                <span className="text-gray-600 text-md font-semi-bold">Apple</span>
-                                <span className="text-gray-400 text-sm inline-block pt-2">Fruits</span>
-                            </div>
-                            <div className="col-span-2 pt-3">
-                                <div className="flex items-center space-x-2 text-sm justify-between">
-                                    <span className="text-gray-400">2 x $0.98</span>
-                                    <span className="text-green font-semibold inline-block">$1.96</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li className="grid grid-cols-6 gap-2 border-b-1">
-                            <div className="col-span-1 self-center">
-                                <img src="https://images.unsplash.com/photo-1587049633312-d628ae50a8ae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Product" className="rounded w-full" />
-                            </div>
-                            <div className="flex flex-col col-span-3 pt-2">
-                                <span className="text-gray-600 text-md font-semi-bold">Onion</span>
-                                <span className="text-gray-400 text-sm inline-block pt-2">Vegetables</span>
-                            </div>
-                            <div className="col-span-2 pt-3">
-                                <div className="flex items-center space-x-2 text-sm justify-between">
-                                    <span className="text-gray-400">1 x 2.21</span>
-                                    <span className="text-green font-semibold inline-block">$2.21</span>
-                                </div>
-                            </div>
-                        </li>
+                        <Product name={"Apple"} imageLink = {""} category={"Fruits"} quantity={2} price={3}></Product>
+                        <Product name={"Onion"} imageLink = {""} category={"Vegetables"} quantity={2} price={3}></Product>
                     </ul>
                     <div className="px-8 border-b">
                         <div className="flex justify-between py-4 text-gray-600">

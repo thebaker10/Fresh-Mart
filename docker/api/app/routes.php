@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Application\Action\Category\CategoryAction;
-use App\Application\Action\Category\CategoryListAction;
+use App\Application\Actions\Category\CategoryAction;
+use App\Application\Actions\Category\CategoryListAction;
 use App\Application\Actions\Category\CategoryPostAction;
 use App\Application\Actions\Category\CategoryListProductsAction;
 use App\Application\Actions\HomePageAction;
