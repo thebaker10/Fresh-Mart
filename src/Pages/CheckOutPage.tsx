@@ -1,11 +1,28 @@
 import { Product } from "../Components/Checkout/Product";
 import { Nav } from "../Components/Nav/Nav"
 import TawkTo from "../Components/TawkTo";
+import React, { useState, useEffect } from 'react';
 
 
 export function CheckOut() {
+    let [cartData, setCartData] = useState<any[]>([]);
+    let [cartTotal, setCartTotal] = useState<any>();
+    
 
+    useEffect(() => {
+        fetch(process.env.REACT_APP_API_BASE+"/cart/"+1)
+            .then((response) => response.json())
+            .then((data) => {
+                setCartData(data.data[0].cartItems);
+                let total = 0;
+                data.data[0].cartItems.forEach((e:any) => {
+                    total += (e.quantity * e.product.product_price);
+                });
+                setCartTotal(total);
+        })
+        
 
+    },[]);
     return (
         <div>
             <Nav></Nav>
@@ -101,20 +118,19 @@ export function CheckOut() {
                     </div>
                     <div className="grid justify-center">
                         <button className="submit-button px-4 py-3 rounded-full bg-green text-white focus:ring focus:outline-none w-96 text-xl font-semibold transition-colors">
-                            Pay $4.17
+                            Pay ${cartTotal && (cartTotal).toFixed(2)}
                         </button>
                     </div>
                 </div>
                 <div className="col-span-1 bg-white lg:block hidden">
                     <h1 className="py-6 border-b-2 text-xl text-gray-600 px-8">Order Summary</h1>
                     <ul className="py-6 border-b space-y-6 px-8">
-                        <Product name={"Apple"} imageLink = {""} category={"Fruits"} quantity={2} price={3}></Product>
-                        <Product name={"Onion"} imageLink = {""} category={"Vegetables"} quantity={2} price={3}></Product>
+                        {cartData ? cartData.map((c) => <Product productID={c.product.productId} name={c.product.productName} imageLink = {""} quantity={c.quantity} price={c.product.product_price}></Product>): <div></div>}
                     </ul>
                     <div className="px-8 border-b">
                         <div className="flex justify-between py-4 text-gray-600">
                             <span>Subtotal</span>
-                            <span className="font-semibold text-green">$4.17</span>
+                            <span className="font-semibold text-green">${cartTotal && (cartTotal).toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between py-4 text-gray-600">
                             <span>Shipping</span>
@@ -123,7 +139,7 @@ export function CheckOut() {
                     </div>
                     <div className="font-semibold text-xl px-8 flex justify-between py-8 text-gray-600">
                         <span>Total</span>
-                        <span>$4.17</span>
+                        <span>${cartTotal && (cartTotal).toFixed(2)}</span>
                     </div>
                 </div>
             </div>
