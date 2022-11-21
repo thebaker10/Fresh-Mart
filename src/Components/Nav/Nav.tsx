@@ -10,10 +10,10 @@ export function Nav() {
         <nav className="flex justify-evenly py-4 bg-white shadow-lg">
             <Logo></Logo>
             <ul className="flex gap-7">
-                <NavItem text="Home" link= "http://localhost:3000/" active/>
-                <NavItem text="Category" link= "http://localhost:3000/Category"/>
-                <NavItem text="About" link= "http://localhost:3000/About"/>
-                <NavItem text="Contact Us" link="http://localhost:3000/Contact"/>
+                <NavItem text="Home" link= "/" active/>
+                <NavItem text="Category" link= "/Category"/>
+                <NavItem text="About" link= "/About"/>
+                <NavItem text="Contact Us" link="/Contact"/>
             </ul>
 
             <ul className="flex gap-8">
