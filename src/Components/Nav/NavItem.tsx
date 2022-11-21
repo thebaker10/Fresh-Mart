@@ -1,3 +1,5 @@
+import {Link} from "react-router-dom";
+import React from "react";
 type Props = {
     text: string,
     link: string,
@@ -5,9 +7,10 @@ type Props = {
 }
 
 export function NavItem(props:Props) {
+
     return (
         <li className={`text-xl hover:cursor-pointer ${ props.active ? "text-green" : null}`}>
-            <a href={props.link}>{props.text}</a>
+            <Link to={props.link}>{props.text}</Link>
         </li>
     )
 }
