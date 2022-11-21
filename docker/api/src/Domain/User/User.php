@@ -185,6 +185,6 @@ class User implements JsonSerializable
     public function setSessionCookie(){
         $id = $this->getUserId();
         $expiry =  time()+60*60*24*30;
-        setcookie('freshMartUserId', $id, $expiry);
+        setcookie('freshMartUserId', $id, $expiry, '/');
     }
 }

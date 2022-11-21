@@ -7,10 +7,17 @@ import React, { useState, useEffect } from 'react';
 export function CheckOut() {
     let [cartData, setCartData] = useState<any[]>([]);
     let [cartTotal, setCartTotal] = useState<any>();
+
+    function getCookie() {
+        function escape(s:any) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
+        var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape('freshMartUserId') + '=([^;]*)'));
+        return match ? match[1] : null;
+    }
     
 
     useEffect(() => {
-        fetch(process.env.REACT_APP_API_BASE+"/cart/"+1)
+        let cookie = getCookie();
+        fetch(process.env.REACT_APP_API_BASE+"/cart/"+cookie)
             .then((response) => response.json())
             .then((data) => {
                 setCartData(data.data[0].cartItems);
