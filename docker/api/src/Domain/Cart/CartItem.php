@@ -3,6 +3,7 @@
 namespace App\Domain\Cart;
 
 use App\Domain\Product\Product;
+use App\Domain\Cart\Cart;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -26,6 +27,22 @@ class CartItem implements JsonSerializable{
    #[ManyToOne(targetEntity: Product::class,inversedBy: 'cart_items')]
    #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
    private Product $product;
+
+    public function setProduct(Product $product): void{
+        $this->product = $product;
+    }
+
+    public function setCart(Cart $cart): void{
+        $this->cart = $cart;
+    }
+
+    /**
+    * @return int
+    */
+    public function getCartItemId(): int
+    {
+        return $this->cart_item_id;
+    }
 
     #[ArrayShape(['cartItemId' => "int", 'product' => "\App\Domain\Product\Product"])]
     public function jsonSerialize(): array{

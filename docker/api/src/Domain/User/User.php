@@ -64,6 +64,10 @@ class User implements JsonSerializable
         $this->setPasswordHash($password);
     }
 
+    public function getCart(){
+        return $this-> shopping_cart;
+    }
+
     /**
      * @return int
      */
