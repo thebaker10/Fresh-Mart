@@ -31,6 +31,9 @@ class User implements JsonSerializable
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $user_id;
 
+    #[Column(type: 'integer', unique:false, nullable:false)]
+    private int $role_id;
+
     #[Column(type: 'string', unique: false, nullable: false)]
     private string $password_hash;
 
@@ -71,12 +74,13 @@ class User implements JsonSerializable
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private PersistentCollection $reviews;
 
-    public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance){
+    public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance, int $role_id){
         $this->setFirstName($first_name);
         $this->setLastName($last_name);
         $this->setUserBalance($user_balance);
         $this->setUsername($username);
         $this->setPasswordHash($password);
+        $this->setRoleId($role_id);
     }
 
     /**
@@ -149,6 +153,14 @@ class User implements JsonSerializable
     public function setUserBalance(string $user_balance): void
     {
         $this->user_balance = $user_balance;
+    }
+
+    /**
+     * @param int $role_id
+     */
+    public function setRoleId(int $role_id): void
+    {
+        $this->role_id = $role_id;
     }
 
     public function setPasswordHash(string $password): void{

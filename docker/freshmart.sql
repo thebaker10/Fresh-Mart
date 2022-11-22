@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Nov 22, 2022 at 02:11 AM
+-- Generation Time: Nov 22, 2022 at 02:48 AM
 -- Server version: 10.9.2-MariaDB-1:10.9.2+maria~ubu2204
 -- PHP Version: 8.0.23
 
@@ -163,7 +163,7 @@ CREATE TABLE `user` (
   `username` varchar(128) NOT NULL,
   `password_hash` varchar(256) NOT NULL,
   `user_balance` float NOT NULL,
-  `password_reset_token` varchar(256) NOT NULL,
+  `password_reset_token` varchar(256) DEFAULT NULL,
   `address` varchar(128) DEFAULT NULL,
   `city` varchar(128) DEFAULT NULL,
   `state` varchar(64) DEFAULT NULL,
@@ -253,7 +253,7 @@ ALTER TABLE `role`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
   ADD UNIQUE KEY `unique_username` (`username`),
-  ADD UNIQUE KEY `FOREIGN` (`role_id`);
+  ADD KEY `role_id` (`role_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -275,7 +275,7 @@ ALTER TABLE `cart_item`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `favorite`
@@ -317,7 +317,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
