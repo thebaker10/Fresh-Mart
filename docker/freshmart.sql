@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Nov 22, 2022 at 02:48 AM
+-- Generation Time: Nov 22, 2022 at 09:30 PM
 -- Server version: 10.9.2-MariaDB-1:10.9.2+maria~ubu2204
 -- PHP Version: 8.0.23
 
@@ -209,7 +209,7 @@ ALTER TABLE `favorite`
 ALTER TABLE `favorite_item`
   ADD PRIMARY KEY (`favorite_item_id`),
   ADD UNIQUE KEY `product_id` (`product_id`),
-  ADD UNIQUE KEY `favorite_id` (`favorite_id`);
+  ADD KEY `favorite_id` (`favorite_id`) USING BTREE;
 
 --
 -- Indexes for table `line_item`
@@ -282,6 +282,12 @@ ALTER TABLE `category`
 --
 ALTER TABLE `favorite`
   MODIFY `favorite_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `favorite_item`
+--
+ALTER TABLE `favorite_item`
+  MODIFY `favorite_item_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `line_item`
