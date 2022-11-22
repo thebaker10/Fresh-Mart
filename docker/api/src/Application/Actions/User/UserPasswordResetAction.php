@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Application\Actions\User;
 
 use App\Application\Actions\Action;
-use App\Domain\User\EmailNotFoundException;
-use App\Domain\User\InvalidPasswordException;
+use App\Domain\User\PasswordMismatchException;
 use App\Domain\User\User;
-use App\Domain\User\UserNotFoundException;
 use App\Domain\User\UserResetTokenException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
@@ -18,8 +16,6 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Factory\AppFactory;
 use Slim\Logger;
-use Slim\Psr7\Response;
-use TypeError;
 
 class UserPasswordResetAction extends Action
 {
@@ -53,6 +49,13 @@ class UserPasswordResetAction extends Action
             /** @var User $user */
             $payload = $this->request->getParsedBody();
             $password = $payload['password'] ?? null;
+            $confirmPassword = $payload['confirm_password'] ?? null;
+
+            if($password !== $confirmPassword){
+                throw new PasswordMismatchException();
+            }
+
+
             $resetToken = $payload['reset_token'] ?? null;
             $userRepository = $this->em->getRepository(User::class);
             $user = $userRepository->findOneBy(['password_reset_token' => $resetToken]);
@@ -69,10 +72,8 @@ class UserPasswordResetAction extends Action
 
             return $this->respondWithData(['message' => 'User successfully logged in', 'user_id' => $user->getUserId()], 201);
 
-        } catch(InvalidEmailException $e){
+        } catch(InvalidEmailException | ORMException | PasswordMismatchException | UserResetTokenException $e){
             $this->logger->error($e->getMessage());
-            return $this->respondWithData(['message' => $e->getMessage()], 500);
-        } catch (ORMException $e) {
             return $this->respondWithData(['message' => $e->getMessage()], 500);
         }
     }
