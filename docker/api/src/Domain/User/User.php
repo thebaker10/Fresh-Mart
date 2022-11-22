@@ -46,8 +46,23 @@ class User implements JsonSerializable
     #[Column(type: 'decimal', unique: true, nullable: false)]
     private string $user_balance;
 
-    #[Column(type: 'string', unique: true, nullable: false)]
+    #[Column(type: 'string', unique: true, nullable: true)]
     private string $password_reset_token;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $address;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $city;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $state;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $zip;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $country;
 
     #[OneToOne(mappedBy: 'user', targetEntity: Cart::class,orphanRemoval: true)]
     private Cart $shopping_cart;
@@ -136,7 +151,6 @@ class User implements JsonSerializable
         $this->user_balance = $user_balance;
     }
 
-
     public function setPasswordHash(string $password): void{
         $hash = password_hash($password, PASSWORD_BCRYPT );
         $this->password_hash = $hash;
@@ -146,7 +160,7 @@ class User implements JsonSerializable
         return password_verify($password, $this->password_hash);
     }
 
-    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
+    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array', 'address' => "string",'city' => "string",'state' => "string",'zip' => "string",'country' => "string"])]
     public function jsonSerialize(): array{
 
         //The null coalesce operator below prevents accessing a shopping cart that does not exist
@@ -156,7 +170,12 @@ class User implements JsonSerializable
             'lastName' => $this->getLastName(),
             'email' => $this->getUsername(),
             'balance' => $this->getUserBalance(),
-            'shoppingCart' => $this->shopping_cart ?? []
+            'shoppingCart' => $this->shopping_cart ?? [],
+            'address' => $this->address ?? null,
+            'city' => $this->city ?? null,
+            'state' => $this->state ?? null,
+            'zip' => $this-> zip ?? null,
+            'country' => $this-> country ?? null
         ];
     }
 

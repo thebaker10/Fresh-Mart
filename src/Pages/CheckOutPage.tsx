@@ -4,30 +4,42 @@ import TawkTo from "../Components/TawkTo";
 import React, { useState, useEffect } from 'react';
 
 
+
+
 export function CheckOut() {
     let [cartData, setCartData] = useState<any[]>([]);
     let [cartTotal, setCartTotal] = useState<any>();
+    let [userData, setUserData] = useState<any[]>([]);
 
     function getCookie() {
         function escape(s:any) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
         var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape('freshMartUserId') + '=([^;]*)'));
         return match ? match[1] : null;
     }
-    
+
+    function countrySelect(country:string) {    
+        let element = document.getElementById('countrySelect') as HTMLInputElement;
+        if(element != null){
+            element.value = country;
+        }  
+    }
 
     useEffect(() => {
         let cookie = getCookie();
-        fetch(process.env.REACT_APP_API_BASE+"/cart/"+cookie)
+        fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
             .then((response) => response.json())
             .then((data) => {
-                setCartData(data.data[0].cartItems);
+                setUserData(data.data);
+                if(data.data[0].country != null){
+                    countrySelect(data.data[0].country);
+                }
+                setCartData(data.data[0].shoppingCart.cartItems ?? []) ;
                 let total = 0;
-                data.data[0].cartItems.forEach((e:any) => {
+                data.data[0].shoppingCart.cartItems.forEach((e:any) => {
                     total += (e.quantity * e.product.product_price);
                 });
                 setCartTotal(total);
         })
-        
 
     },[]);
     return (
@@ -56,32 +68,32 @@ export function CheckOut() {
                                 <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
                                     <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                         <span className="text-right px-2">Name</span>
-                                        <input name="name" className="focus:outline-none px-3" placeholder="First & Last Name" />
+                                        <input name="name" className="focus:outline-none px-3" placeholder="First & Last Name" value={userData[0] ? userData[0].firstName + " " + userData[0].lastName : ""}/>
                                     </label>
                                     <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                         <span className="text-right px-2">Email</span>
-                                        <input name="email" type="email" className="focus:outline-none px-3" placeholder="try@example.com" />
+                                        <input name="email" type="email" className="focus:outline-none px-3" placeholder="try@example.com" value={userData[0] ? userData[0].email : ""}/>
                                     </label>
                                     <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                         <span className="text-right px-2">Address</span>
-                                        <input name="address" className="focus:outline-none px-3" placeholder="10 Street XYZ 654" />
+                                        <input name="address" className="focus:outline-none px-3" placeholder="10 Street XYZ 654" value={userData[0] ? userData[0].address : ""}/>
                                     </label>
                                     <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                         <span className="text-right px-2">City</span>
-                                        <input name="city" className="focus:outline-none px-3" placeholder="Minneapolis" />
+                                        <input name="city" className="focus:outline-none px-3" placeholder="Minneapolis" value={userData[0] ? userData[0].city : ""}/>
                                     </label>
                                     <label className="inline-flex w-2/4 border-gray-200 py-3">
                                         <span className="text-right px-2">State</span>
-                                        <input name="state" className="focus:outline-none px-3" placeholder="MN" />
+                                        <input name="state" className="focus:outline-none px-3" placeholder="MN" value={userData[0] ? userData[0].state : ""}/>
                                     </label>
                                     <label className="xl:w-1/4 xl:inline-flex py-3 items-center flex xl:border-none border-t border-gray-200">
                                         <span className="text-right px-2 xl:px-0 xl:text-none">ZIP</span>
-                                        <input name="postal_code" className="focus:outline-none px-3" placeholder="55555" />
+                                        <input name="postal_code" className="focus:outline-none px-3" placeholder="55555" value={userData[0] ? userData[0].zip : ""}/>
                                     </label>
                                     <label className="flex border-t border-gray-200 h-12 py-3 items-center select relative">
                                         <span className="text-right px-2">Country</span>
                                         <div id="country" className="focus:outline-none px-3 w-full flex items-center">
-                                            <select name="country" className="border-none bg-transparent flex-1 cursor-pointer appearance-none focus:outline-none">
+                                            <select id="countrySelect" name="country" className="border-none bg-transparent flex-1 cursor-pointer appearance-none focus:outline-none">
                                                 <option value="AU">Australia</option>
                                                 <option value="BE">Belgium</option>
                                                 <option value="BR">Brazil</option>
