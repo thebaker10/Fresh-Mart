@@ -20,6 +20,9 @@ class CartItem implements JsonSerializable{
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $cart_item_id;
 
+    #[Column(type: 'integer', unique: false, nullable: false)]
+    private int $quantity;
+
     #[ManyToOne(targetEntity: Cart::class, inversedBy: 'cart_items')]
     #[JoinColumn(name: 'cart_id', referencedColumnName: 'cart_id')]
     private Cart $cart;
@@ -44,11 +47,12 @@ class CartItem implements JsonSerializable{
         return $this->cart_item_id;
     }
 
-    #[ArrayShape(['cartItemId' => "int", 'product' => "\App\Domain\Product\Product"])]
+    #[ArrayShape(['cartItemId' => "int", 'product' => "\App\Domain\Product\Product",'quantity' => "int"])]
     public function jsonSerialize(): array{
         return [
             'cartItemId' => $this->cart_item_id,
-            'product' => $this->product
+            'product' => $this->product,
+            'quantity' => $this->quantity
         ];
     }
 }
