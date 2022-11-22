@@ -6,6 +6,7 @@ use App\Application\Action\Category\CategoryAction;
 use App\Application\Action\Category\CategoryListAction;
 use App\Application\Actions\Category\CategoryPostAction;
 use App\Application\Actions\Category\CategoryListProductsAction;
+use App\Application\Actions\Favorite\FavoriteListAction;
 use App\Application\Actions\HomePageAction;
 use App\Application\Actions\Product\ProductAction;
 use App\Application\Actions\Product\ProductListAction;
@@ -52,6 +53,10 @@ return function (App $app) {
         $group->get('/{categorySlug}', CategoryAction::class);
         $group->get('/{categorySlug}/products', CategoryListProductsAction::class);
         $group->post('/', CategoryPostAction::class);
+    });
+
+    $app->group('/favorite', function(Group $group){
+        $group->get('/{favoriteSlug}', FavoriteListAction::class);
     });
 
     $app->group('/users', function (Group $group) {

@@ -4,6 +4,7 @@
 namespace App\Domain\User;
 
 use App\Domain\Cart\Cart;
+use App\Domain\Favorite\Favorite;
 use App\Domain\Review\Review;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -51,6 +52,9 @@ class User implements JsonSerializable
 
     #[OneToOne(mappedBy: 'user', targetEntity: Cart::class,orphanRemoval: true)]
     private Cart $shopping_cart;
+
+    #[OneToOne(mappedBy: 'user', targetEntity: Favorite::class,orphanRemoval: true)]
+    private Favorite $favorites;
 
     #[OneToMany(mappedBy: 'user', targetEntity: Review::class)]
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
