@@ -67,8 +67,9 @@ class User implements JsonSerializable
     #[Column(type: 'string', unique: true, nullable: true)]
     private string $country;
 
-    #[OneToOne(mappedBy: 'user', targetEntity: Cart::class,orphanRemoval: true)]
-    private Cart $shopping_cart;
+    #[OneToOne(mappedBy: 'user', targetEntity: Cart::class)]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    private Cart $cart;
 
     #[OneToMany(mappedBy: 'user', targetEntity: Review::class)]
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
@@ -84,7 +85,11 @@ class User implements JsonSerializable
     }
 
     public function getCart(){
-        return $this-> shopping_cart;
+        return $this->cart;
+    }
+
+    public function setCart(Cart $cart){
+        $this->cart = $cart;
     }
 
     /**
@@ -186,7 +191,7 @@ class User implements JsonSerializable
             'lastName' => $this->getLastName(),
             'email' => $this->getUsername(),
             'balance' => $this->getUserBalance(),
-            'shoppingCart' => $this->shopping_cart ?? [],
+            'shoppingCart' => $this->cart ?? [],
             'address' => $this->address ?? null,
             'city' => $this->city ?? null,
             'state' => $this->state ?? null,

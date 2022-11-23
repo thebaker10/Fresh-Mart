@@ -25,7 +25,7 @@ class Cart implements \JsonSerializable{
     #[Column(type: 'integer', unique: true, nullable: false)]
     private int $user_id;
 
-    #[OneToOne(inversedBy: 'shopping_cart', targetEntity: User::class)]
+    #[OneToOne(inversedBy: 'cart', targetEntity: User::class)]
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private User $user;
 
@@ -33,9 +33,12 @@ class Cart implements \JsonSerializable{
     #[JoinColumn(name: 'cart_id', referencedColumnName: 'cart_id')]
     private PersistentCollection $cart_items;
 
-    public function __construct(int $cart_id, int $user_id){
-        $this->setCartId($cart_id);
+    public function __construct(int $user_id){
         $this->setUserId($user_id);
+    }
+
+    public function setUser(User $user){
+        $this->user = $user;
     }
 
     /**
@@ -47,6 +50,14 @@ class Cart implements \JsonSerializable{
     }
 
     /**
+    * @return int
+    */
+    public function getUserId(): int
+    {
+        return $this->user_id;
+    }
+
+    /**
      * @param int $user_id
      */
     public function setUserId(int $user_id): void
@@ -54,13 +65,7 @@ class Cart implements \JsonSerializable{
         $this->user_id = $user_id;
     }
 
-    /**
-     * @param int $cart_id
-     */
-    public function setCartId(int $cart_id): void
-    {
-        $this->cart_id = $cart_id;
-    }
+
 
     #[ArrayShape(['cartId' => "int", 'userId' => "int", 'cartItems' => "\Doctrine\Common\Collections\ArrayCollection"])]
     public function jsonSerialize(): array{

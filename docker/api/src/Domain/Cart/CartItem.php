@@ -31,6 +31,10 @@ class CartItem implements JsonSerializable{
    #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
    private Product $product;
 
+    public function __construct(int $quantity){
+        $this->setQuantity($quantity);
+    }
+
     public function setProduct(Product $product): void{
         $this->product = $product;
     }
@@ -45,6 +49,14 @@ class CartItem implements JsonSerializable{
     public function getCartItemId(): int
     {
         return $this->cart_item_id;
+    }
+
+    /**
+     * @param int $quantity
+     */
+    public function setQuantity(int $quantity): void
+    {
+        $this->quantity = $quantity;
     }
 
     #[ArrayShape(['cartItemId' => "int", 'product' => "\App\Domain\Product\Product",'quantity' => "int"])]

@@ -8,7 +8,6 @@ use App\Application\Actions\Action;
 use App\Domain\Cart\CartItem;
 use App\Domain\Product\Product;
 use App\Domain\User\User;
-use App\Domain\Review\Review;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -44,8 +43,8 @@ class CartPostAction extends Action
     {
 
         $payload = $this->request->getParsedBody();
-        $productId = $payload['productId'];
         $userId = $payload['userId'];
+        $productId = $payload['productId'];
         $quantity = $payload['quantity'];
         $cartItem = new CartItem($quantity);
 
@@ -55,20 +54,17 @@ class CartPostAction extends Action
         $user = $this->em->getRepository(User::class)->find($userId);
         $cart = $user -> getCart();
         $cartItem -> setCart($cart);
-
-        //TESTING product_id
-        //return $this->respondWithData(['product_id'  => $review->getProductId()], 500);
         
         try {
             $this->em->persist($cartItem);
             $this->em->flush();
         } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
             $this->logger->error($e->getMessage());
-            return $this->respondWithData([$e->getMessage() => 'Error while creating new review.'], 500);
+            return $this->respondWithData([$e->getMessage() => 'Error while adding to cart.'], 500);
         }
 
         $this->response->withHeader('Access-Control-Allow-Origin', '*');
 
-        return $this->respondWithData(['message' => 'Review successfully added', 'review_id' => $cartItem->getCartItemId()], 201);
+        return $this->respondWithData(['message' => 'Item successfully added to cart', 'cart_item_id' => $cartItem->getCartItemId()], 201);
     }
 }
