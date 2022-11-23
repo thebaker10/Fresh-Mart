@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Application\Action\Category\CategoryAction;
-use App\Application\Action\Category\CategoryListAction;
+use App\Application\Actions\Cart\CartListAction;
+use App\Application\Actions\Category\CategoryAction;
+use App\Application\Actions\Category\CategoryListAction;
 use App\Application\Actions\Category\CategoryPostAction;
 use App\Application\Actions\Category\CategoryListProductsAction;
 use App\Application\Actions\HomePageAction;
@@ -22,6 +23,7 @@ use App\Application\Actions\User\UserOrderViewAction;
 use App\Application\Actions\User\UserPasswordResetAction;
 use App\Application\Actions\User\UserPostAction;
 use App\Application\Actions\User\UserViewAction;
+use App\Application\Actions\User\UserDetailsAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -54,6 +56,10 @@ return function (App $app) {
         $group->post('/', CategoryPostAction::class);
     });
 
+    $app->group('/cart', function(Group $group){
+        $group->get('/{cartSlug}', CartListAction::class);
+    });
+
     $app->group('/users', function (Group $group) {
         $group->get('/', UserListAction::class);
         $group->get('/logout', UserLogoutAction::class);
@@ -71,7 +77,7 @@ return function (App $app) {
 
 
         $group->get('[/{user_id}]', UserViewAction::class);
-
+        $group->get('/details/{user_id}', UserDetailsAction::class);
         $group->get('/{user_id}/orders', UserOrderListAction::class);
         $group->get('/{user_id}/orders/{order_id}', UserOrderViewAction::class);
     });

@@ -25,8 +25,7 @@ export function Card(props:Props) {
   },[]);
 
   function goToProductPage(){
-    window.location.href = '/product/'+props.productID
-    //navigate('/product/'+props.productID);
+    navigate('/product/'+props.productID);
   }
   // NH 2022-11-14
   // Need to stopProagation so that the div onClick is canceled

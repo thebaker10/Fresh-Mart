@@ -31,6 +31,9 @@ class User implements JsonSerializable
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $user_id;
 
+    #[Column(type: 'integer', unique:false, nullable:false)]
+    private int $role_id;
+
     #[Column(type: 'string', unique: false, nullable: false)]
     private string $password_hash;
 
@@ -46,8 +49,23 @@ class User implements JsonSerializable
     #[Column(type: 'decimal', unique: true, nullable: false)]
     private string $user_balance;
 
-    #[Column(type: 'string', unique: true, nullable: false)]
+    #[Column(type: 'string', unique: true, nullable: true)]
     private string $password_reset_token;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $address;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $city;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $state;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $zip;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $country;
 
     #[OneToOne(mappedBy: 'user', targetEntity: Cart::class,orphanRemoval: true)]
     private Cart $shopping_cart;
@@ -56,12 +74,13 @@ class User implements JsonSerializable
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private PersistentCollection $reviews;
 
-    public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance){
+    public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance, int $role_id){
         $this->setFirstName($first_name);
         $this->setLastName($last_name);
         $this->setUserBalance($user_balance);
         $this->setUsername($username);
         $this->setPasswordHash($password);
+        $this->setRoleId($role_id);
     }
 
     /**
@@ -136,6 +155,13 @@ class User implements JsonSerializable
         $this->user_balance = $user_balance;
     }
 
+    /**
+     * @param int $role_id
+     */
+    public function setRoleId(int $role_id): void
+    {
+        $this->role_id = $role_id;
+    }
 
     public function setPasswordHash(string $password): void{
         $hash = password_hash($password, PASSWORD_BCRYPT );
@@ -146,7 +172,7 @@ class User implements JsonSerializable
         return password_verify($password, $this->password_hash);
     }
 
-    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
+    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array', 'address' => "string",'city' => "string",'state' => "string",'zip' => "string",'country' => "string"])]
     public function jsonSerialize(): array{
 
         //The null coalesce operator below prevents accessing a shopping cart that does not exist
@@ -156,7 +182,12 @@ class User implements JsonSerializable
             'lastName' => $this->getLastName(),
             'email' => $this->getUsername(),
             'balance' => $this->getUserBalance(),
-            'shoppingCart' => $this->shopping_cart ?? []
+            'shoppingCart' => $this->shopping_cart ?? [],
+            'address' => $this->address ?? null,
+            'city' => $this->city ?? null,
+            'state' => $this->state ?? null,
+            'zip' => $this-> zip ?? null,
+            'country' => $this-> country ?? null
         ];
     }
 
@@ -185,6 +216,6 @@ class User implements JsonSerializable
     public function setSessionCookie(){
         $id = $this->getUserId();
         $expiry =  time()+60*60*24*30;
-        setcookie('freshMartUserId', $id, $expiry);
+        setcookie('freshMartUserId', $id, $expiry, '/');
     }
 }
