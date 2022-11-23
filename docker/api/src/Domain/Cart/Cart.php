@@ -50,6 +50,14 @@ class Cart implements \JsonSerializable{
     }
 
     /**
+     * @param int $user_id
+     */
+    public function setCartId(int $cart_id): void
+    {
+        $this->cart_id = $cart_id;
+    }
+
+    /**
     * @return int
     */
     public function getUserId(): int

@@ -68,7 +68,6 @@ class User implements JsonSerializable
     private string $country;
 
     #[OneToOne(mappedBy: 'user', targetEntity: Cart::class)]
-    #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private Cart $cart;
 
     #[OneToMany(mappedBy: 'user', targetEntity: Review::class)]

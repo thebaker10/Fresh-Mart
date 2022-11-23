@@ -6,6 +6,7 @@ namespace App\Application\Actions\Cart;
 
 use App\Application\Actions\Action;
 use App\Domain\Cart\CartItem;
+use App\Domain\Cart\Cart;
 use App\Domain\Product\Product;
 use App\Domain\User\User;
 use Doctrine\ORM\EntityManager;
@@ -46,13 +47,15 @@ class CartPostAction extends Action
         $userId = $payload['userId'];
         $productId = $payload['productId'];
         $quantity = $payload['quantity'];
-        $cartItem = new CartItem($quantity);
+        $cart = $this->em->getRepository(Cart::class)->findBy(array('user_id' => $userId))[0];
+        
+        $cartItem = new CartItem($quantity, $productId, $cart->getCartId());
 
         $product = $this->em->getRepository(Product::class)->find($productId);
         $cartItem->setProduct($product);
 
-        $user = $this->em->getRepository(User::class)->find($userId);
-        $cart = $user -> getCart();
+        
+        
         $cartItem -> setCart($cart);
         
         try {
