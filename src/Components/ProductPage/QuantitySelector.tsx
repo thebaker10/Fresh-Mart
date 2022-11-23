@@ -28,17 +28,21 @@ export function QuantitySelector(props:Props) {
     useEffect(() => {
       let cookie = getCookie();
       setUserId(cookie);
-      fetch(process.env.REACT_APP_API_BASE+"/users/details/"+userId)
+
+      fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
             .then((response) => response.json())
             .then((data) => {
               console.log(data.data[0].shoppingCart.cartItems);
-                data.data[0].shoppingCart.cartItems.array.forEach((e:any) => {
-                  
-                });
+              data.data[0].shoppingCart.cartItems.forEach((e:any) => {
+                if(props.productID == e.product.productId){
+                  setIsInCart(true);
+                }
+              });
         })
     },[]);
 
     function addToCart(){
+      if(!isInCart){
         setLoading(true);
         let data:any = {};
         data["userId"] = userId;
@@ -66,6 +70,7 @@ export function QuantitySelector(props:Props) {
         }).catch((error) => {
             setAlertVisible(true);
         });
+      }   
     }
 
     function incNumber(){
@@ -90,7 +95,7 @@ export function QuantitySelector(props:Props) {
         </div>
       <p className="text-center text-2xl">${(props.price * count).toFixed(2)}</p>
       <div className="flex gap-1 flex-row justify-center items-center">
-        <button onClick={addToCart} className="px-3 py-3 bg-green w-full text-white text-xs font-bold uppercase rounded">{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : added ? "In Cart" : "Add To Cart"}</button>
+        <button onClick={addToCart} className="px-3 py-3 bg-green w-full text-white text-xs font-bold uppercase rounded">{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : added || isInCart ? "In Cart" : "Add To Cart"}</button>
         <ul className="flex gap-8 justify-center items-center mt-2 mb-2">
           <button className="px-2 pt-2 bg-green text-white text-xs font-bold uppercase rounded"><IconItem icon={faHeartCirclePlus} /></button>
         </ul>
