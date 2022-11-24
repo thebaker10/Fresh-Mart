@@ -61,7 +61,7 @@ class UserPostAction extends Action
             $lastName = $payload['lastName'] ?? null;
             $password = $payload['password'] ?? null;
             $balance = (float) 50;
-            $user = new User($firstName, $lastName, $email, $password, $balance);
+            $user = new User($firstName, $lastName, $email, $password, $balance, 1);
         }catch(TypeError $e){
             $this->logger->error($e->getMessage());
             return $this->respondWithData(['message' => 'The user could not be created because a value is missing.'], 500);

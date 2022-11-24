@@ -4,6 +4,7 @@ import { Logo } from "./Logo";
 import { NavItem } from "./NavItem";
 import { SearchBar } from "./SearchBar";
 import { UserIcon } from "./UserIcon";
+import {Link} from "react-router-dom";
 
 export function Nav() {
     return (
@@ -20,7 +21,8 @@ export function Nav() {
                 <IconItem icon={faSearchDollar} />
                 {/* <SearchBar/> */}
                 <IconItem icon={faHeart} />
-                <IconItem icon={faCartShopping} />
+                <Link to={"/Checkout"}><IconItem icon={faCartShopping} /></Link>
+                
                 <UserIcon/>
                 
             </ul>
