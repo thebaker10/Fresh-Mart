@@ -1,6 +1,7 @@
 import { useNavigate} from "react-router-dom"
 import { Rating } from "./Rating"
 import React, { useState, useEffect } from 'react';
+import env from "./../../env.json"
 
 type Props={
     productID: number,
@@ -15,7 +16,7 @@ export function Card(props:Props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_API_BASE+"/products/"+props.productID+"/reviews" )
+    fetch(env.REACT_APP_API_BASE+"/products/"+props.productID+"/reviews" )
         .then((response) => response.json())
         .then((data) => {
             let sum = 0;

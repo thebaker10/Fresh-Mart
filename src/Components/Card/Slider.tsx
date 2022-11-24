@@ -3,6 +3,7 @@ import "react-multi-carousel/lib/styles.css";
 import {Card} from "../Card/Card";
 import React, { useState, useEffect } from 'react';
 import { CardPlaceholder } from "./CardPlaceholder";
+import env from "./../../env.json"
 
 const responsive = {
   desktop: {
@@ -33,7 +34,7 @@ export function Slider(props:Props) {
   let [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_API_BASE+"/categories/"+props.categoryID+"/products")
+    fetch(env.REACT_APP_API_BASE+"/categories/"+props.categoryID+"/products")
         .then((response) => response.json())
         .then((data) => {
             setProducts(data.data)

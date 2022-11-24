@@ -2,6 +2,7 @@ import React from "react";
 import {useNavigate} from "react-router-dom";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import env from "./../env.json"
 
 export function LoginPage() {
     const [alertVisible, setAlertVisible] = React.useState(false);
@@ -26,7 +27,7 @@ export function LoginPage() {
         //CF 2022-10-16
         //Fetch is asynchronous, so it returns a Promise.  When it is resolved (the request is completed),
         // it moves onto the then block. If an error is thrown, it is caught in the catch block.
-        fetch(process.env.REACT_APP_API_BASE + '/users/login', {
+        fetch(env.REACT_APP_API_BASE + '/users/login', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

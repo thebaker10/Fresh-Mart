@@ -5,12 +5,13 @@ import { SpecialBanner } from "../Components/SpecialBanner";
 import TawkTo from "../Components/TawkTo";
 import React, { useState, useEffect } from 'react';
 import { SliderPlaceholder } from "../Components/Card/SliderPlaceholder";
+import env from "./../env.json"
 
 export function Category() {
     let [categories, setCategories] = useState<any[]>([]);
     let arr:number[] = [1,2,3,4];
     useEffect(() => {
-        fetch(process.env.REACT_APP_API_BASE+"/categories")
+        fetch(env.REACT_APP_API_BASE+"/categories")
             .then((response) => response.json())
             .then((data) => {
                 setCategories(data.data)

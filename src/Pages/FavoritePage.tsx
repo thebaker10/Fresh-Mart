@@ -3,6 +3,7 @@ import { Footer } from "../Components/Footer";
 import { Nav } from "../Components/Nav/Nav";
 import TawkTo from "../Components/TawkTo";
 import React, { useState, useEffect } from 'react';
+import env from "./../env.json"
 
 export function FavoritePage() {
     let [favoriteData, setFavoriteData] = useState<any[]>([]);
@@ -15,7 +16,7 @@ export function FavoritePage() {
 
     useEffect(() => {
         let cookie = getCookie();
-        fetch(process.env.REACT_APP_API_BASE+"/favorite/"+cookie)
+        fetch(env.REACT_APP_API_BASE+"/favorite/"+cookie)
             .then((response) => response.json())
             .then((data) => {
                 setFavoriteData(data.data[0].favoriteItems);
