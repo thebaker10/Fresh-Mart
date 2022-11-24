@@ -58,8 +58,9 @@ return function (App $app) {
     });
 
 
-    $app->group('/favorite', function(Group $group){
+    $app->group('/favorite', function(Group $group) {
         $group->get('/{favoriteSlug}', FavoriteListAction::class);
+    });
 
     $app->group('/cart', function(Group $group){
         $group->get('/{cartSlug}', CartListAction::class);
