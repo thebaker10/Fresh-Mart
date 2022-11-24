@@ -3,6 +3,9 @@ import {useNavigate} from "react-router-dom";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import env from "./../env.json"
+import { $User } from "../Services/State";
+import { User } from "../Types/User";
+import { Login } from "../Types/Login";
 
 export function LoginPage() {
     const [alertVisible, setAlertVisible] = React.useState(false);
@@ -10,15 +13,15 @@ export function LoginPage() {
     const [loading, setLoading] = React.useState(false);
     let navigate = useNavigate();
 
-    const loginFormSubmitHandler = (e: any) => {
+    const loginFormSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        let formData = new FormData(e.target as HTMLFormElement);
+        const formData = new FormData(e.target as HTMLFormElement);
 
         //@TODO Add Loading Indicator
 
-        let data:any = {};
+        const data:{[key:string]:FormDataEntryValue} = {};
 
-        formData.forEach((value:any,key:any) => {
+        formData.forEach((value:FormDataEntryValue,key:string) => {
             data[key] = value;
         });
 
@@ -34,22 +37,24 @@ export function LoginPage() {
                 'Content-Type': 'application/json'
             },
             credentials: 'include'
-        }).then((response) => {
+        }).then( async (response) => {
             //response.json() returns a promise
-            response.json().then((body) => {
+            const body:Login = await response.json()
 
-                if(!response.ok) {
-                    setAlertMessage(body.data.message);
-                    setAlertVisible(true);
-                    return;
-                }
-
-                setLoading(false);
-                navigate(`/`);
-            });
+            if(!response.ok) {
+                setAlertMessage(body.data.message);
+                setAlertVisible(true);
+                return;
+            }
+            const user:User = await fetch(env.REACT_APP_API_BASE + '/users/' + body.data.user_id, {credentials: 'include'}).then(b => b.json())
+            $User.next(user.data)
+            const expire = new Date(Date.now()+86400000).toUTCString()
+            document.cookie = `FreshMartUserId=${user.data.userId};Expires=${expire};`;
+            setLoading(false);
+            navigate(`/`);
         }).catch((error) => {
             setAlertVisible(true);
-            console.log(error);
+            console.error(error);
         });
     };
 
