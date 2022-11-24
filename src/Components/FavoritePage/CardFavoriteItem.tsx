@@ -1,8 +1,7 @@
 
 type Props={
     name: string,
-    price: number,
-    qty: number,
+    price: number
 }
 
 export function CardFavoriteItem(props:Props) {
