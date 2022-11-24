@@ -26,7 +26,7 @@ function App() {
         <Route path="RegistrationPage" element={<RegistrationPage/>}></Route>
         <Route path="LoginPage" element={<LoginPage/>}></Route>
         <Route path="ForgotPassword" element={<ForgotPasswordPage/>}></Route>
-        <Route path="ResetPassword/:resetToken" element={<ResetPasswordPage/>}></Route>
+        <Route path="ResetPassword/:resetToken/:email" element={<ResetPasswordPage/>}></Route>
         <Route path="OrderHistory" element={<OrderHistory/>}></Route>
         <Route path="OrderDetails/:orderID" element={<OrderDetails/>}></Route>
 

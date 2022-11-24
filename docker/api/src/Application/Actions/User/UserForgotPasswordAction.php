@@ -84,8 +84,8 @@ class UserForgotPasswordAction extends Action
                     
                     If this was not you, please let us know.
                     
-                    Use password reset link below to reset your password.
-                    <a href="$host/ResetPassword/$reset_token">Reset Password</a>
+                    Use password reset link below to reset your password.<br/>
+                    <a href="$host/ResetPassword/$reset_token/$email">Reset Password</a>
                 EMAIL;
 
                 $mail->addAddress($email, $firstName);
