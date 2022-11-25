@@ -12,6 +12,8 @@ import {ContactPage} from "./Pages/ContactPage";
 
 import { FavoritePage } from "./Pages/FavoritePage";
 import { Category } from "./Pages/Category";
+import {ForgotPasswordPage} from "./Components/ForgotPasswordPage";
+import {ResetPasswordPage} from "./Components/ResetPasswordPage";
 
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
         <Route path="CheckOut" element={<CheckOut/>}></Route>
         <Route path="RegistrationPage" element={<RegistrationPage/>}></Route>
         <Route path="LoginPage" element={<LoginPage/>}></Route>
+        <Route path="ForgotPassword" element={<ForgotPasswordPage/>}></Route>
+        <Route path="ResetPassword/:resetToken/:email" element={<ResetPasswordPage/>}></Route>
         <Route path="OrderHistory" element={<OrderHistory/>}></Route>
         <Route path="OrderDetails/:orderID" element={<OrderDetails/>}></Route>
 
