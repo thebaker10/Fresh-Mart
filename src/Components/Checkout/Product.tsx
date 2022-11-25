@@ -49,6 +49,7 @@ export function Product(props:Props) {
                   return;
               }else{
                   setLoading(false); 
+                  window.location.href = "/Checkout"
               }
               });
           })
