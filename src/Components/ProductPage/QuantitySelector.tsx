@@ -42,14 +42,14 @@ export function QuantitySelector(props:Props) {
     },[]);
 
     function addToCart(){
-      if(!isInCart){
+      if(!isInCart && !loading){
         setLoading(true);
         let data:any = {};
         data["userId"] = userId;
         data["productId"] = Number(props.productID);
         data["quantity"] = count;
 
-        fetch("http://localhost/cart/", {
+        fetch(process.env.REACT_APP_API_BASE+"/cart/", {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

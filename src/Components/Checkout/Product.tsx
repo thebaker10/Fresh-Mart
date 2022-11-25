@@ -36,7 +36,7 @@ export function Product(props:Props) {
           data["productId"] = Number(props.productID);
           
     
-          fetch("http://localhost/cart/remove", {
+          fetch(process.env.REACT_APP_API_BASE+"/cart/remove", {
               method: 'POST',
               body: JSON.stringify(data),
               headers: {

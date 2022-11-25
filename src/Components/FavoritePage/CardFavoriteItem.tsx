@@ -47,7 +47,7 @@ export function CardFavoriteItem(props:Props) {
           data["productId"] = Number(props.productID);
           data["quantity"] = 1;
     
-          fetch("http://localhost/cart/", {
+          fetch(process.env.REACT_APP_API_BASE+"/cart/", {
               method: 'POST',
               body: JSON.stringify(data),
               headers: {
