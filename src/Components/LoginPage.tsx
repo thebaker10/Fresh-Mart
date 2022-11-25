@@ -13,7 +13,6 @@ export function LoginPage() {
         e.preventDefault();
         let formData = new FormData(e.target as HTMLFormElement);
 
-        //@TODO Add Loading Indicator
 
         let data:any = {};
 
