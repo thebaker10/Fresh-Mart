@@ -60,6 +60,14 @@ class CartItem implements JsonSerializable{
     }
 
     /**
+    * @return int
+    */
+    public function getProductId(): int
+    {
+        return $this->product_id;
+    }
+
+    /**
      * @param int $quantity
      */
     public function setQuantity(int $quantity): void

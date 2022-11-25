@@ -41,6 +41,10 @@ class Cart implements \JsonSerializable{
         $this->user = $user;
     }
 
+    public function getCartItems(){
+        return $this->cart_items->getValues();
+    }
+
     /**
     * @return int
     */
