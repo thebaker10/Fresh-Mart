@@ -21,7 +21,7 @@ import { User } from "./Types/User";
 
 function App() {
   useEffect(() => {
-    const userId = getCookie("FreshMartUserId")
+    const userId = getCookie("freshMartUserId")
     if(userId){
       fetch(env.REACT_APP_API_BASE + '/users/' + userId, { credentials: 'include' }).then(b => b.json()).then(user => $User.next(user.data))
     }

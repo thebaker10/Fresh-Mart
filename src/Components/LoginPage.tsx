@@ -48,8 +48,6 @@ export function LoginPage() {
             }
             const user:User = await fetch(env.REACT_APP_API_BASE + '/users/' + body.data.user_id, {credentials: 'include'}).then(b => b.json())
             $User.next(user.data)
-            const expire = new Date(Date.now()+86400000).toUTCString()
-            document.cookie = `FreshMartUserId=${user.data.userId};Expires=${expire};`;
             setLoading(false);
             navigate(`/`);
         }).catch((error) => {
