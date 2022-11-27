@@ -4,6 +4,7 @@ import {Card} from "../Card/Card";
 import React, { useState, useEffect } from 'react';
 import { CardPlaceholder } from "./CardPlaceholder";
 import env from "./../../env.json"
+import { Product } from "../../Types/Category";
 
 const responsive = {
   desktop: {
@@ -30,16 +31,20 @@ type Props={
 
 
 export function Slider(props:Props) {
-  let arr:number[] = [1,2,3,4];
-  let [products, setProducts] = useState<any[]>([]);
+  const arr:number[] = [1,2,3,4];
+  const [products, setProducts] = useState<Product[]|undefined >([]);
 
   useEffect(() => {
-    fetch(env.REACT_APP_API_BASE+"/categories/"+props.categoryID+"/products")
+    fetch(process.env.REACT_APP_API_BASE+"/categories/"+props.categoryID+"/products")
         .then((response) => response.json())
         .then((data) => {
             setProducts(data.data)
     })  
   },[]);
+
+if(!products){
+  return null
+}
 
     return (
       <div className="px-10">
@@ -59,7 +64,7 @@ export function Slider(props:Props) {
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         > 
-        {products.length != 0 ? products.map((r) => <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={r.product_description}/>) : arr.map((a)=> <CardPlaceholder></CardPlaceholder>)}
+        {products.length !== 0 ? products.map((r) => <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={r.product_description}/>) : arr.map((a)=> <CardPlaceholder></CardPlaceholder>)}
           
         </Carousel>
       </div>
