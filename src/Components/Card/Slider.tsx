@@ -32,7 +32,7 @@ type Props={
 
 export function Slider(props:Props) {
   const arr:number[] = [1,2,3,4];
-  const [products, setProducts] = useState<Product[]|undefined >([]);
+  const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
     fetch(process.env.REACT_APP_API_BASE+"/categories/"+props.categoryID+"/products")
@@ -64,7 +64,7 @@ if(!products){
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         > 
-        {products.length !== 0 ? products.map((r) => <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={r.product_description}/>) : arr.map((a)=> <CardPlaceholder></CardPlaceholder>)}
+        {products.length != 0 ? products.map((r) => <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={r.product_description}/>) : arr.map((a)=> <CardPlaceholder></CardPlaceholder>)}
           
         </Carousel>
       </div>

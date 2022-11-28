@@ -6,6 +6,7 @@ namespace App\Domain\User;
 use App\Domain\Cart\Cart;
 use App\Domain\Favorite\Favorite;
 use App\Domain\Review\Review;
+use App\Domain\Order\Order;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -18,6 +19,7 @@ use JetBrains\PhpStorm\ArrayShape;
 use Doctrine\ORM\PersistentCollection;
 use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
+
 
 /**
  *  2022-10-22 CF
@@ -77,6 +79,10 @@ class User implements JsonSerializable
     #[OneToMany(mappedBy: 'user', targetEntity: Review::class)]
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private PersistentCollection $reviews;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: Order::class, orphanRemoval: true)]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    private PersistentCollection $orders;
 
     public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance, int $role_id){
         $this->setFirstName($first_name);
