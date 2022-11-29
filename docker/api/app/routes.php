@@ -10,6 +10,7 @@ use App\Application\Actions\Category\CategoryListAction;
 use App\Application\Actions\Category\CategoryPostAction;
 use App\Application\Actions\Category\CategoryListProductsAction;
 use App\Application\Actions\Favorite\FavoriteListAction;
+use App\Application\Actions\Favorite\FavoritePostAction;
 use App\Application\Actions\HomePageAction;
 use App\Application\Actions\Product\ProductAction;
 use App\Application\Actions\Product\ProductListAction;
@@ -62,6 +63,7 @@ return function (App $app) {
 
     $app->group('/favorite', function(Group $group) {
         $group->get('/{favoriteSlug}', FavoriteListAction::class);
+        $group->post('/', FavoritePostAction::class);
     });
 
     $app->group('/cart', function(Group $group){
