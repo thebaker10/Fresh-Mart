@@ -1,3 +1,4 @@
+import { get } from "https";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,51 +11,58 @@ export function WriteReview(props:Props) {
     const [alertMessage, setAlertMessage] = React.useState('Something went wrong while submitting review.');
     let rating = 5;
 
+    function getCookie() {
+        function escape(s:any) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
+        var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape('freshMartUserId') + '=([^;]*)'));
+        return match ? match[1] : null;
+    }
+
     function submitForm(e:any){
-
+        let userId = getCookie();
         e.preventDefault();
-        let formData = new FormData(e.target as HTMLFormElement);
 
-        //@TODO Add Loading Indicator
+        if(userId != null){
+            let formData = new FormData(e.target as HTMLFormElement);
+            let data:any = {};
 
-        let data:any = {};
-        //@TODO Set user and product ID  with real data and add date
-        data["userId"] = 1;
-        data["productId"] = Number(props.productID);
-        data["rating"] = rating;
+            data["userId"] = parseInt(userId);
+            data["productId"] = Number(props.productID);
+            data["rating"] = rating;
+            data["timezone"] = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-        formData.forEach((value:any,key:any) => {
-            data[key] = value;
-        });
-
-        //CF 2022-10-16
-        //Fetch is asynchronous, so it returns a Promise.  When it is resolved (the request is completed),
-        // it moves onto the then block. If an error is thrown, it is caught in the catch block.
-        fetch("http://localhost/reviews/", {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        }).then((response) => {
-            //response.json() returns a promise
-            response.json().then((body) => {
-
-            if(body.statusCode === 500) {
-                //setAlertMessage(body.data.message);
-                setAlertVisible(true);
-                
-                return;
-            }else{
-                setAlertVisible(false);
-                toggleHiddenContainer();
-            }
+            formData.forEach((value:any,key:any) => {
+                data[key] = value;
             });
-        }).catch((error) => {
+
+            fetch("http://localhost/reviews/", {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            }).then((response) => {
+                //response.json() returns a promise
+                response.json().then((body) => {
+
+                if(body.statusCode === 500) {
+                    //setAlertMessage(body.data.message);
+                    setAlertVisible(true);
+                    
+                    return;
+                }else{
+                    setAlertVisible(false);
+                    toggleHiddenContainer();
+                }
+                });
+            }).catch((error) => {
+                setAlertVisible(true);
+                console.log(error);
+            });
+        }else{
+            setAlertMessage("Must be logged in to write review.");
             setAlertVisible(true);
-            console.log(error);
-        });
+        }
     }
 
     function setRating(i: any){

@@ -49,6 +49,8 @@ class ReviewPostAction extends Action
         $rating = $payload['rating'];
         $reviewTitle = $payload['reviewTitle'];
         $reviewContent = $payload['reviewContent'];
+        $timezone = $payload['timezone'];
+        date_default_timezone_set($timezone);
         $review = new Review($productId, $userId, $rating, $reviewTitle, $reviewContent, new DateTime());
 
         $product = $this->em->getRepository(Product::class)->find($productId);
