@@ -1,15 +1,19 @@
-import { get } from "https";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 
 type Props={
     productID: string
 }
 
 export function WriteReview(props:Props) {
-    const [alertVisible, setAlertVisible] = React.useState(false);
-    const [alertMessage, setAlertMessage] = React.useState('Something went wrong while submitting review.');
-    let rating = 5;
+    const [alertVisible, setAlertVisible] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('Something went wrong while submitting review.');
+    const [loading, setLoading] = useState(false);
+    const [hasReview, setHasReview] = useState(false);
+    const [userId, setUserId] = useState<any>(null);
+    const [rating, setRatingScore] = useState<any>(5);
+
 
     function getCookie() {
         function escape(s:any) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
@@ -17,11 +21,27 @@ export function WriteReview(props:Props) {
         return match ? match[1] : null;
     }
 
+    useEffect(() => {
+        let cookie = getCookie();
+        setUserId(cookie);
+  
+        fetch(process.env.REACT_APP_API_BASE+"/products/"+props.productID+"/reviews" )
+            .then((response) => response.json())
+            .then((data) => {
+                data.data.forEach((review: any) => {
+                    if(review.userId == cookie){
+                        setHasReview(true);
+                    }
+                });
+                
+        })
+      },[]);
+
     function submitForm(e:any){
-        let userId = getCookie();
         e.preventDefault();
 
-        if(userId != null){
+        if(userId != null && !loading && !hasReview){
+            setLoading(true);
             let formData = new FormData(e.target as HTMLFormElement);
             let data:any = {};
 
@@ -51,8 +71,8 @@ export function WriteReview(props:Props) {
                     
                     return;
                 }else{
-                    setAlertVisible(false);
-                    toggleHiddenContainer();
+                    setLoading(false);
+                    window.location.reload();
                 }
                 });
             }).catch((error) => {
@@ -60,14 +80,15 @@ export function WriteReview(props:Props) {
                 console.log(error);
             });
         }else{
-            setAlertMessage("Must be logged in to write review.");
+            
+            setAlertMessage(hasReview ? "You have already reviewed this product." :"Must be logged in to write review.");    
             setAlertVisible(true);
         }
     }
 
     function setRating(i: any){
         let el = document.getElementById("starSelector");
-        rating = i;
+        setRatingScore(i);
         if(el != null){
             for(let x = 0; x<5; x++){
                 el.children[x+1].children[0].setAttribute("class","w-5 h-5 fill-black");
@@ -139,7 +160,7 @@ export function WriteReview(props:Props) {
                                 <textarea name="reviewContent" id="reviewContent" rows={2} className="bg-gray-50 border border-gray-700 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="Use this space to write the body of your review" required/>
                             </div>
                             <div className="m-auto w-fit">
-                                <button type="submit" className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded">Submit Review</button>
+                                <button type="submit" className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded">{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : hasReview ? "Review Submitted" : "Submit Review"}</button>
                             </div>
                             
                         </form>
