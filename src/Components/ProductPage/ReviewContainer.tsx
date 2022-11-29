@@ -25,7 +25,7 @@ export function ReviewContainer(props:Props) {
             
             <hr id="start" className="mt-2"></hr>
             <>
-            {props.reviews.map((r, i) => <Review username={props.users[i]} stars={r.rating} date = {"Reviewed on: 9/14/22"} reviewTitle = {r.reviewTitle} review={r.reviewContent}></Review>)}
+            {props.reviews.map((r, i) => <Review username={props.users[i]} stars={r.rating} date = {"Reviewed on: "+r.reviewDate} reviewTitle = {r.reviewTitle} review={r.reviewContent}></Review>)}
             </>
             
             <hr className="mt-2"></hr>
