@@ -54,7 +54,7 @@ export function WriteReview(props:Props) {
                 data[key] = value;
             });
 
-            fetch("http://localhost/reviews/", {
+            fetch(process.env.REACT_APP_API_BASE+"/reviews/", {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
