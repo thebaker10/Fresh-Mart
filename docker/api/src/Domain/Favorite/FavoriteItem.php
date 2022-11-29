@@ -20,14 +20,48 @@ class FavoriteItem implements JsonSerializable{
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $favorite_item_id;
 
+    #[Column(type: 'integer', unique: false, nullable: false)]
+    private int $product_id;
+
+    #[Column(type: 'integer', unique: false, nullable: false)]
+    private int $favorite_id;
+
 
     #[ManyToOne(targetEntity: Favorite::class, inversedBy: 'favorite_items')]
     #[JoinColumn(name: 'favorite_id', referencedColumnName: 'favorite_id')]
     private Favorite $favorite;
 
-   #[ManyToOne(targetEntity: Product::class,inversedBy: 'favorite_items')]
-   #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
-   private Product $product;
+    #[ManyToOne(targetEntity: Product::class,inversedBy: 'favorite_items')]
+    #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
+    private Product $product;
+
+    public function __construct(int $product_id, int $favorite_id){
+        $this->setProductId($product_id);
+        $this->setFavoriteId($favorite_id);
+    }
+
+    public function setProduct(Product $product){
+        $this->product = $product;
+    }
+
+    public function setFavorite(Favorite $favorite){
+        $this->favorite = $favorite;
+    }
+
+    public function setProductId(int $product_id): void
+    {
+        $this->product_id = $product_id;
+    }
+
+    public function setFavoriteId(int $favorite_id): void
+    {
+        $this->favorite_id = $favorite_id;
+    }
+
+    public function getFavoriteItemId(): int
+    {
+        return $this->favorite_item_id;
+    }
 
     #[ArrayShape(['favoriteItemId' => "int", 'product' => "\App\Domain\Product\Product"])]
     public function jsonSerialize(): array{

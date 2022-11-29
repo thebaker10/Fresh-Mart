@@ -47,6 +47,11 @@ class Favorite implements \JsonSerializable{
         $this->favorite_id = $favorite_id;
     }
 
+    public function getFavoriteId(): int
+    {
+        return $this->favorite_id;
+    }
+
     /**
      * @param int $user_id
      */
