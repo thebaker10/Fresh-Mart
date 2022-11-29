@@ -62,6 +62,31 @@ class UserPostAction extends Action
             $password = $payload['password'] ?? null;
             $balance = (float) 50;
             $user = new User($firstName, $lastName, $email, $password, $balance, 1);
+
+            //Address
+            if(!empty($payload['address'])){
+                $user->setAddress($payload['address']);
+            }
+
+            //City
+            if(!empty($payload['city'])){
+                $user->setCity($payload['city']);
+            }
+
+            //State
+            if(!empty($payload['state'])){
+                $user->setState($payload['state']);
+            }
+
+            //Zip
+            if(!empty($payload['zip'])){
+                $user->setZip($payload['zip']);
+            }
+
+            //Country
+            if(!empty($payload['country'])){
+                $user->setCountry($payload['country']);
+            }
         }catch(TypeError $e){
             $this->logger->error($e->getMessage());
             return $this->respondWithData(['message' => 'The user could not be created because a value is missing.'], 500);
