@@ -39,6 +39,10 @@ class Favorite implements \JsonSerializable{
         $this->setUserId($user_id);
     }
 
+    public function getFavoriteItems(){
+        return $this->favorite_items->getValues();
+    }
+
     /**
      * @param int $favorite_id
      */
