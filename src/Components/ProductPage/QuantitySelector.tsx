@@ -101,6 +101,7 @@ export function QuantitySelector(props:Props) {
                 return;
             }else{
                 setLoadingFav(false);
+                setIsInFavorite(true);
                 setAddedFav(true);
                 setAlertVisible(false);
             }
@@ -108,6 +109,30 @@ export function QuantitySelector(props:Props) {
         }).catch((error) => {
             setAlertVisible(true);
         });
+      }else if(isInFavorite || addedFav){
+        setLoadingFav(true);
+          let data:any = {};
+          data["userId"] = userId;
+          data["productId"] = Number(props.productID);
+    
+          fetch(process.env.REACT_APP_API_BASE+"/favorite/remove", {
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              credentials: 'include'
+          }).then((response) => {
+              response.json().then((body) => {
+              if(body.statusCode === 500) {
+                  return;
+              }else{
+                  setLoadingFav(false);
+                  setAddedFav(false);
+                  setIsInFavorite(false);
+              }
+              });
+          })
       }   
     }
 
@@ -134,9 +159,9 @@ export function QuantitySelector(props:Props) {
       <p className="text-center text-2xl">${(props.price * count).toFixed(2)}</p>
       <div className="flex gap-1 flex-row justify-center items-center">
         <button onClick={addToCart} className="px-3 py-3 bg-green w-full text-white text-xs font-bold uppercase rounded">{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : added || isInCart ? "In Cart" : "Add To Cart"}</button>
-        <ul className="flex gap-8 justify-center items-center mt-2 mb-2">
-          <button  onClick={addToFavorites} className={addedFav || isInFavorite ? "bg-[red] px-2 pt-2 text-white text-xs font-bold uppercase rounded":"bg-green px-2 pt-2 text-white text-xs font-bold uppercase rounded"}>
-            {loadingFav ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : addedFav || isInFavorite ?<IconItem color = {"black"} icon={faHeartCircleMinus}/> : <IconItem color = {"white"} icon={faHeartCirclePlus} />}
+        <ul>
+          <button  onClick={addToFavorites} className={addedFav || isInFavorite ? "bg-[red] px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]":"bg-green px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]"}>
+            {loadingFav ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"2x"} /> : addedFav || isInFavorite ?<IconItem color = {"black"} icon={faHeartCircleMinus}/> : <IconItem color = {"white"} icon={faHeartCirclePlus} />}
           </button>
         </ul>
       </div>

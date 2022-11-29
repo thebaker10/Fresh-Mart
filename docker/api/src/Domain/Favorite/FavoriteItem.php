@@ -63,6 +63,11 @@ class FavoriteItem implements JsonSerializable{
         return $this->favorite_item_id;
     }
 
+    public function getProductId(): int
+    {
+        return $this->product_id;
+    }
+
     #[ArrayShape(['favoriteItemId' => "int", 'product' => "\App\Domain\Product\Product"])]
     public function jsonSerialize(): array{
         return [
