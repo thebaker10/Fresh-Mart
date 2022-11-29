@@ -8,6 +8,7 @@ use App\Application\Actions\Action;
 use App\Domain\User\DuplicateEmailException;
 use App\Domain\User\User;
 use App\Domain\Cart\Cart;
+use App\Domain\Favorite\Favorite;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -97,6 +98,16 @@ class UserPostAction extends Action
         $cart -> setUser($user);
         try {
             $this->em->persist($cart);
+            $this->em->flush();
+        } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
+            $this->logger->error($e->getMessage());
+            return $this->respondWithData(['message' => 'Error while creating new cart.'], 500);
+        }
+
+        $favorite = new Favorite($userId);
+        $favorite -> setUser($user);
+        try {
+            $this->em->persist($favorite);
             $this->em->flush();
         } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
             $this->logger->error($e->getMessage());

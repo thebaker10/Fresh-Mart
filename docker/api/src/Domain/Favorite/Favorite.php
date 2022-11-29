@@ -34,13 +34,16 @@ class Favorite implements \JsonSerializable{
     #[JoinColumn(name: 'favorite_id', referencedColumnName: 'favorite_id')]
     private PersistentCollection $favorite_items;
 
-    public function __construct(int $favorite_id, int $user_id){
-        $this->setFavoriteId($favorite_id);
+    public function __construct(int $user_id){
         $this->setUserId($user_id);
     }
 
     public function getFavoriteItems(){
         return $this->favorite_items->getValues();
+    }
+
+    public function setUser(User $user){
+        $this->user =$user;
     }
 
     /**
