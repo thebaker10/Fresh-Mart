@@ -13,7 +13,7 @@ export function FavoriteItem(props:Props) {
                 
                 <p className="font-bold pl-5 mb-2">ITEMS</p> 
                 <hr className="my-2"></hr>
-                {props.items && props.items.map((i)=> <CardFavoriteItem name={i.product.productName} price={i.product.product_price}/>)}
+                {props.items && props.items.map((i)=> <CardFavoriteItem productID={i.product.productId} name={i.product.productName} price={i.product.product_price}/>)}
                 
                 
             </div>
