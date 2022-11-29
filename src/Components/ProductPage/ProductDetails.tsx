@@ -10,6 +10,7 @@ type Props={
     price: number,
     msrp: number,
     numOfReviews: number,
+    productID: number
 }
 
 export function ProductDetails(props:Props) {
@@ -42,13 +43,7 @@ export function ProductDetails(props:Props) {
               
               
               <div className="flex-end ">
-              <QuantitySelector price={props.price}></QuantitySelector>
-                <div className="flex gap-1 flex-row justify-center items-center">
-                  <button className="px-3 py-3 bg-green w-full text-white text-xs font-bold uppercase rounded">Add to Cart</button>
-                  <ul className="flex gap-8 justify-center items-center mt-2 mb-2">
-                    <button className="px-2 pt-2 bg-green text-white text-xs font-bold uppercase rounded"><IconItem icon={faHeartCirclePlus} /></button>
-                  </ul>
-                </div>
+              <QuantitySelector price={props.price} productID={props.productID}></QuantitySelector>
               </div>
               
             </div>
