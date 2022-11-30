@@ -7,6 +7,7 @@ namespace App\Application\Actions\User;
 use App\Application\Actions\Action;
 use App\Domain\User\DuplicateEmailException;
 use App\Domain\User\User;
+use App\Domain\Cart\Cart;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -114,13 +115,20 @@ class UserPostAction extends Action
             return $this->respondWithData(['message' => 'Error while creating new user.'], 500);
         }
 
-        /*
-         * CF 2022-11-04 Guided by https://www.youtube.com/watch?v=l662In2_J1w&list=PLNuh5_K9dfQ2-8nxh-kBYL0_wDqhsN5tB&index=58
-         */
-        $_SESSION['user'] = [
-            'id' => $user->getUserId(),
-            'username' => $user->getUsername()
-        ];
+        $user -> setSessionCookie();
+
+        $userId = $user-> getUserId();
+        $cart = new Cart($userId);
+        $cart -> setUser($user);
+        try {
+            $this->em->persist($cart);
+            $this->em->flush();
+        } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
+            $this->logger->error($e->getMessage());
+            return $this->respondWithData(['message' => 'Error while creating new cart.'], 500);
+        }
+
+        
 
         $this->response->withHeader('Access-Control-Allow-Origin', '*');
 
