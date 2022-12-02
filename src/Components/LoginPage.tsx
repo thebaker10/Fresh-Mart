@@ -2,7 +2,6 @@ import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import env from "./../env.json"
 import { $User } from "../Services/State";
 import { User } from "../Types/User";
 import { Login } from "../Types/Login";
@@ -30,7 +29,7 @@ export function LoginPage() {
         //CF 2022-10-16
         //Fetch is asynchronous, so it returns a Promise.  When it is resolved (the request is completed),
         // it moves onto the then block. If an error is thrown, it is caught in the catch block.
-        fetch(env.REACT_APP_API_BASE + '/users/login', {
+        fetch(process.env.REACT_APP_API_BASE + '/users/login', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -46,7 +45,7 @@ export function LoginPage() {
                 setAlertVisible(true);
                 return;
             }
-            const user:User = await fetch(env.REACT_APP_API_BASE + '/users/' + body.data.user_id, {credentials: 'include'}).then(b => b.json())
+            const user:User = await fetch(process.env.REACT_APP_API_BASE + '/users/' + body.data.user_id, {credentials: 'include'}).then(b => b.json())
             $User.next(user.data)
             setLoading(false);
             navigate(`/`);

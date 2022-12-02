@@ -2,7 +2,6 @@ import { Product } from "../Components/Checkout/Product";
 import { Nav } from "../Components/Nav/Nav"
 import TawkTo from "../Components/TawkTo";
 import React, { useState, useEffect } from 'react';
-import env from "./../env.json"
 
 
 
@@ -27,7 +26,7 @@ export function CheckOut() {
 
     useEffect(() => {
         let cookie = getCookie();
-        fetch(env.REACT_APP_API_BASE+"/users/details/"+cookie)
+        fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
             .then((response) => response.json())
             .then((data) => {
                 setUserData(data.data);

@@ -3,8 +3,6 @@ import "react-multi-carousel/lib/styles.css";
 import {Card} from "../Card/Card";
 import React, { useState, useEffect } from 'react';
 import { CardPlaceholder } from "./CardPlaceholder";
-import env from "./../../env.json"
-import { Product } from "../../Types/Category";
 
 const responsive = {
   desktop: {

@@ -9,7 +9,6 @@ import React, { useState, useEffect } from 'react';
 import { ReviewContainerPlaceholder } from "../Components/ProductPage/ReviewContainerPlaceholder";
 import { MiniSlider } from "../Components/Card/MiniSlider";
 import { MiniSliderPlaceholder } from "../Components/Card/MiniSliderPlaceholder";
-import env from "./../env.json"
 
 type Parameters = {
     productID: string
@@ -29,7 +28,7 @@ export function ProductPage() {
     useEffect(() => {
         // Gets reviews for given productID and stores it in reviewData
         // Calculates review score average and stores it in average
-        fetch(env.REACT_APP_API_BASE+"/products/"+params.productID+"/reviews" )
+        fetch(process.env.REACT_APP_API_BASE+"/products/"+params.productID+"/reviews" )
             .then((response) => response.json())
             .then((data) => {
                 setReviewData(data.data) 
@@ -38,21 +37,21 @@ export function ProductPage() {
                 setAverageData(Math.round(sum/data.data.length)); 
         })
         // Gets product data for given productID and stores it in product
-        fetch(env.REACT_APP_API_BASE+"/products/"+params.productID)
+        fetch(process.env.REACT_APP_API_BASE+"/products/"+params.productID)
         .then((response) => response.json())
         .then((data) => {
             setProductData(data.data);
             // Gets products of the same category
             // Might be able to increase performance by replacing w/ new API endpoint 
             // rather than a nested fetch
-            fetch(env.REACT_APP_API_BASE+"/categories/"+data.data.categoryId+"/products")
+            fetch(process.env.REACT_APP_API_BASE+"/categories/"+data.data.categoryId+"/products")
                 .then((response) => response.json())
                 .then((data) => {
                     setSliderProducts(data.data)
             })
         })
         // Gets user data (Only First+Last name) and stores it in userData 
-        fetch(env.REACT_APP_API_BASE+"/products/"+params.productID+"/users" )
+        fetch(process.env.REACT_APP_API_BASE+"/products/"+params.productID+"/users" )
             .then((response) => response.json())
             .then((data) => {
                 setUserData(data.data)

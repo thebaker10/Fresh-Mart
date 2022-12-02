@@ -13,7 +13,6 @@ import { ContactPage } from "./Pages/ContactPage";
 import { FavoritePage } from "./Pages/FavoritePage";
 import { Category } from "./Pages/Category";
 import { getCookie } from "./Services/Util";
-import env from "./env.json"
 import { $User } from "./Services/State";
 
 import {ForgotPasswordPage} from "./Components/ForgotPasswordPage";
@@ -24,7 +23,7 @@ function App() {
   useEffect(() => {
     const userId = getCookie("freshMartUserId")
     if(userId){
-      fetch(env.REACT_APP_API_BASE + '/users/' + userId, { credentials: 'include' }).then(b => b.json()).then(user => $User.next(user.data))
+      fetch(process.env.REACT_APP_API_BASE + '/users/' + userId, { credentials: 'include' }).then(b => b.json()).then(user => $User.next(user.data))
     }
     
   }, [])
