@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\Table;
 use JetBrains\PhpStorm\ArrayShape;
 use JsonSerializable;
 
-#[Entity, Table(name: 'order')]
+#[Entity, Table(name: 'user_order')]
 class Order implements JsonSerializable{
 
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]

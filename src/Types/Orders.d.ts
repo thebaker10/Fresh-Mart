@@ -4,24 +4,14 @@ export interface Orders {
 }
 
 export interface Order {
-    orderID:      number;
-    orderNum:     string;
-    userID:       number;
-    orderDate:    string;
-    orderPrice:   number;
-    itemQuantity: number;
-    lineItems:    LineItem[];
-    firstName:    string;
-    lastName:     string;
-    address:      string;
-    city:         string;
-    state:        string;
-    zip:          string;
+    orderId:    number;
+    userId:     number;
+    orderDate:  OrderDate;
+    orderPrice: number;
 }
 
-export interface LineItem {
-    orderID:       number;
-    productID:     number;
-    lineItemPrice: number;
-    quantity:      number;
+export interface OrderDate {
+    date:          string;
+    timezone_type: number;
+    timezone:      string;
 }

@@ -10,13 +10,11 @@ import { OrderDetails } from "./Pages/OrderDetails"
 
 import { AboutPage } from "./Pages/AboutPage";
 import { ContactPage } from "./Pages/ContactPage";
-
 import { FavoritePage } from "./Pages/FavoritePage";
 import { Category } from "./Pages/Category";
 import { getCookie } from "./Services/Util";
 import env from "./env.json"
 import { $User } from "./Services/State";
-import { User } from "./Types/User";
 
 
 function App() {

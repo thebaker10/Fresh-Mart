@@ -37,7 +37,7 @@ class UserOrderListAction extends Action
     protected function action(): \Psr\Http\Message\ResponseInterface 
     {   
         $slug = $this->resolveArg('user_id');
-        $order = $this->em->getRepository(Order::class)->find(1);
+        $order = $this->em->getRepository(Order::class)->findAll();
         return $this->respondWithData($order);
     }
 

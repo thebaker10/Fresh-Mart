@@ -7,7 +7,7 @@ export interface LineItemOrder {
     orderID:      string;
     orderNum:     string;
     userID:       number;
-    orderDate:    Date;
+    orderDate:    string;
     orderPrice:   number;
     itemQuantity: number;
     lineItems:    LineItem[];
