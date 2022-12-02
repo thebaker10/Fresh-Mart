@@ -62,7 +62,7 @@ export function ProductPage() {
     return (
         <div className="bg-lightGray">
             <Nav></Nav>
-            {product ? <ProductDetails name={product.productName} stars={average} numOfReviews={reviewData.length} price={product.product_price} msrp={product.product_msrp} description={product.product_description} /> : <ProductDetailsPlaceholder></ProductDetailsPlaceholder>}
+            {product ? <ProductDetails productID={product.productId} name={product.productName} stars={average} numOfReviews={reviewData.length} price={product.product_price} msrp={product.product_msrp} description={product.product_description} /> : <ProductDetailsPlaceholder></ProductDetailsPlaceholder>}
             <div className="mx-auto max-w-5xl mt-20">
                 {sliderProducts.length != 0 ? <MiniSlider title="Similar Products"  products={sliderProducts} productID={product.productId}></MiniSlider> : <MiniSliderPlaceholder></MiniSliderPlaceholder>}
             </div>

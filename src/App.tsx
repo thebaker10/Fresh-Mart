@@ -16,6 +16,9 @@ import { getCookie } from "./Services/Util";
 import env from "./env.json"
 import { $User } from "./Services/State";
 
+import {ForgotPasswordPage} from "./Components/ForgotPasswordPage";
+import {ResetPasswordPage} from "./Components/ResetPasswordPage";
+
 
 function App() {
   useEffect(() => {
@@ -28,20 +31,23 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />}></Route>
-        <Route path="/product/:productID" element={<ProductPage />}></Route>
-        <Route path="CheckOut" element={<CheckOut />}></Route>
-        <Route path="RegistrationPage" element={<RegistrationPage />}></Route>
-        <Route path="LoginPage" element={<LoginPage />}></Route>
-        <Route path="OrderHistory" element={<OrderHistory />}></Route>
-        <Route path="OrderDetails/:orderID" element={<OrderDetails />}></Route>
 
-        <Route path="About" element={<AboutPage />}></Route>
-        <Route path="Contact" element={<ContactPage />}></Route>
+        <Route path="/" element={<HomePage/>}></Route>
+        <Route path="/product/:productID" element={<ProductPage/>}></Route>
+        <Route path="CheckOut" element={<CheckOut/>}></Route>
+        <Route path="RegistrationPage" element={<RegistrationPage/>}></Route>
+        <Route path="LoginPage" element={<LoginPage/>}></Route>
+        <Route path="ForgotPassword" element={<ForgotPasswordPage/>}></Route>
+        <Route path="ResetPassword/:resetToken/:email" element={<ResetPasswordPage/>}></Route>
+        <Route path="OrderHistory" element={<OrderHistory/>}></Route>
+        <Route path="OrderDetails/:orderID" element={<OrderDetails/>}></Route>
 
-        <Route path="FavoritePage" element={<FavoritePage />}></Route>
-        <Route path="Category" element={<Category />}></Route>
+        <Route path="About" element={<AboutPage/>}></Route>
+        <Route path="Contact" element={<ContactPage/>}></Route>
 
+        <Route path="FavoritePage" element={<FavoritePage/>}></Route>
+        <Route path="Category" element={<Category/>}></Route>
+        
       </Routes>
     </BrowserRouter>
 

@@ -84,8 +84,8 @@ class UserForgotPasswordAction extends Action
                     
                     If this was not you, please let us know.
                     
-                    Use password reset link below to reset your password.
-                    <a href="$host/users/reset-password/$reset_token">Reset Password</a>
+                    Use password reset link below to reset your password.<br/>
+                    <a href="$host/ResetPassword/$reset_token/$email">Reset Password</a>
                 EMAIL;
 
                 $mail->addAddress($email, $firstName);
@@ -97,10 +97,10 @@ class UserForgotPasswordAction extends Action
                 }
             }
 
-            return $this->respondWithData(['message' => 'If that account exists, and email has been sent to it.'], 200);
+            return $this->respondWithData(['message' => 'If that account exists, an email has been sent to the registered email address.'], 200);
         }catch(InvalidEmailException $e){
             $this->logger->error($e->getMessage());
-            return $this->respondWithData(['message' => $e->getMessage()], 500);
+            return $this->respondWithData(['message' => 'The email entered is not valid.'], 500);
         } catch (ClientExceptionInterface $e) {
             $this->logger->error($e->getMessage());
             return $this->respondWithData(['message' => $e->getMessage()], 500);

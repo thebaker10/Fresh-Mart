@@ -70,8 +70,8 @@ class User implements JsonSerializable
     #[Column(type: 'string', unique: true, nullable: true)]
     private string $country;
 
-    #[OneToOne(mappedBy: 'user', targetEntity: Cart::class,orphanRemoval: true)]
-    private Cart $shopping_cart;
+    #[OneToOne(mappedBy: 'user', targetEntity: Cart::class)]
+    private Cart $cart;
 
     #[OneToOne(mappedBy: 'user', targetEntity: Favorite::class,orphanRemoval: true)]
     private Favorite $favorites;
@@ -91,6 +91,14 @@ class User implements JsonSerializable
         $this->setUsername($username);
         $this->setPasswordHash($password);
         $this->setRoleId($role_id);
+    }
+
+    public function getCart(){
+        return $this->cart;
+    }
+
+    public function setCart(Cart $cart){
+        $this->cart = $cart;
     }
 
     /**
@@ -192,7 +200,7 @@ class User implements JsonSerializable
             'lastName' => $this->getLastName(),
             'email' => $this->getUsername(),
             'balance' => $this->getUserBalance(),
-            'shoppingCart' => $this->shopping_cart ?? [],
+            'shoppingCart' => $this->cart ?? [],
             'address' => $this->address ?? null,
             'city' => $this->city ?? null,
             'state' => $this->state ?? null,

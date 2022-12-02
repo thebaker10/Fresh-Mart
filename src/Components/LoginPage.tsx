@@ -1,5 +1,5 @@
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import env from "./../env.json"
@@ -93,7 +93,7 @@ export function LoginPage() {
                                         <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
                                     </div>
                                 </div>
-                                <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-blue">Forgot password?</a>
+                                <Link to="/ForgotPassword" className="text-sm font-medium text-primary-600 hover:underline dark:text-blue">Forgot password?</Link>
                             </div>
                             <p className={(loading) ? 'visible text-center' : 'invisible text-center'}>
                                 <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"2x"} />

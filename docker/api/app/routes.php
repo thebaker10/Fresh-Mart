@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Application\Actions\Cart\CartListAction;
+use App\Application\Actions\Cart\CartPostAction;
+use App\Application\Actions\Cart\CartRemoveItemAction;
 use App\Application\Actions\Category\CategoryAction;
 use App\Application\Actions\Category\CategoryListAction;
 use App\Application\Actions\Category\CategoryPostAction;
@@ -58,12 +60,14 @@ return function (App $app) {
     });
 
 
-    $app->group('/favorite', function(Group $group){
+    $app->group('/favorite', function(Group $group) {
         $group->get('/{favoriteSlug}', FavoriteListAction::class);
     });
-    
+
     $app->group('/cart', function(Group $group){
         $group->get('/{cartSlug}', CartListAction::class);
+        $group->post('/', CartPostAction::class);
+        $group->post('/remove', CartRemoveItemAction::class);
 
     });
 
