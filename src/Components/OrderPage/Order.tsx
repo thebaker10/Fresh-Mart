@@ -1,9 +1,7 @@
 
 type Props={
     orderID: number,
-    orderNum: string,
     totalPrice: number,
-    itemQty: number,
     date: string,
 }
 
@@ -15,16 +13,12 @@ export function Order(props:Props) {
             <div className="flex space-between text-center ">
                 <div className="flex-auto">
                     <p className="font-bold text-sm">ORDER #</p>
-                    <p className="text-sm">{props.orderNum}</p>
+                    <p className="text-sm">{props.orderID}</p>
                     
                 </div>
                 <div className="flex-auto">
                     <p className="font-bold text-sm">ORDER PLACED</p>
                     <p>{props.date}</p>
-                </div>
-                <div className="flex-auto">
-                    <p className="font-bold text-sm">ITEMS</p>
-                    <p>{props.itemQty}</p>
                 </div>
                 <div className="flex-auto">
                     <p className="font-bold text-sm">TOTAL</p>

@@ -29,8 +29,8 @@ type Props={
 
 
 export function Slider(props:Props) {
-  let arr:number[] = [1,2,3,4];
-  let [products, setProducts] = useState<any[]>([]);
+  const arr:number[] = [1,2,3,4];
+  const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
     fetch(process.env.REACT_APP_API_BASE+"/categories/"+props.categoryID+"/products")
@@ -39,6 +39,10 @@ export function Slider(props:Props) {
             setProducts(data.data)
     })  
   },[]);
+
+if(!products){
+  return null
+}
 
     return (
       <div className="px-10">

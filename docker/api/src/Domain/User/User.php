@@ -6,6 +6,7 @@ namespace App\Domain\User;
 use App\Domain\Cart\Cart;
 use App\Domain\Favorite\Favorite;
 use App\Domain\Review\Review;
+use App\Domain\Order\Order;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -18,6 +19,7 @@ use JetBrains\PhpStorm\ArrayShape;
 use Doctrine\ORM\PersistentCollection;
 use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
+
 
 /**
  *  2022-10-22 CF
@@ -77,6 +79,10 @@ class User implements JsonSerializable
     #[OneToMany(mappedBy: 'user', targetEntity: Review::class)]
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private PersistentCollection $reviews;
+
+    #[OneToMany(mappedBy: 'user', targetEntity: Order::class, orphanRemoval: true)]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    private PersistentCollection $orders;
 
     /**
      * @throws InvalidEmailException
@@ -148,16 +154,9 @@ class User implements JsonSerializable
 
     /**
      * @param string $username
-     * @throws InvalidEmailException
      */
     public function setUsername(string $username): void
     {
-        //Usernames are now email addresses
-        //Make sure the email matches a valid email address
-        if(!preg_match('/(^\w.*?@\w.*?\.\w*$)/', $username)){
-            throw new InvalidEmailException();
-        }
-
         $this->username = $username;
     }
 
@@ -239,85 +238,5 @@ class User implements JsonSerializable
         $id = $this->getUserId();
         $expiry =  time()+60*60*24*30;
         setcookie('freshMartUserId', $id, $expiry, '/');
-    }
-
-    /**
-     * @return string
-     */
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
-
-    /**
-     * @param string $address
-     */
-    public function setAddress(string $address): void
-    {
-        $this->address = $address;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCity(): string
-    {
-        return $this->city;
-    }
-
-    /**
-     * @param string $city
-     */
-    public function setCity(string $city): void
-    {
-        $this->city = $city;
-    }
-
-    /**
-     * @return string
-     */
-    public function getState(): string
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param string $state
-     */
-    public function setState(string $state): void
-    {
-        $this->state = $state;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCountry(): string
-    {
-        return $this->country;
-    }
-
-    /**
-     * @param string $country
-     */
-    public function setCountry(string $country): void
-    {
-        $this->country = $country;
-    }
-
-    /**
-     * @return string
-     */
-    public function getZip(): string
-    {
-        return $this->zip;
-    }
-
-    /**
-     * @param string $zip
-     */
-    public function setZip(string $zip): void
-    {
-        $this->zip = $zip;
     }
 }
