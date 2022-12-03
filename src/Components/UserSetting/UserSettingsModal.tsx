@@ -1,8 +1,10 @@
 import { Input } from "../Form/Input"
 import { UserBanner } from "./UserBanner"
-import {useEffect, useState} from "react";
+import React, { useState } from "react";
 import { $User } from "../../Services/State";
 import {UserData} from "../../Types/User";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
     visible: boolean,
@@ -13,7 +15,10 @@ type Props = {
 export function UserSettingsModal(props: Props) {
 
     let initialValue = $User.value;
-    let [user, setUser] = useState<UserData|null>(initialValue)
+    let [user, setUser] = useState<UserData|null>(initialValue);
+    let [loading, setLoading] = useState(false);
+    let [alertVisible, setAlertVisible] = useState(false);
+    let [alertMessage, setAlertMessage] = useState('');
 
     if (!props.visible) return null
     return (
@@ -30,7 +35,7 @@ export function UserSettingsModal(props: Props) {
 
 
                 <div className="mt-4 grid grid-cols-2 gap-3">
-
+                    { alertVisible && <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">{alertMessage}</div> }
                     <Input label="First Name" autoComplete="given-name" placeHolder="Jack" value={user?.firstName} onChange={(value) => updateUser('firstName', value)} />
                     <Input label="Last Name" autoComplete="family-name" placeHolder="Green" value={user?.lastName}  onChange={(value) => updateUser('lastName', value)} />
 
@@ -46,6 +51,10 @@ export function UserSettingsModal(props: Props) {
                     <Input type="text" label="Country" placeHolder="USA" autoComplete="country" value={user?.country}  onChange={(value) => updateUser('country', value)} />
 
                 </div>
+
+                <p className={(loading) ? 'visible text-center' : 'invisible text-center'}>
+                    <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'green'} size={"2x"} />
+                </p>
 
                 <div className="text-center">
                     <button className="px-5 py-2 bg-green text-white rounded" onClick={(e) => saveUser(e)}>
@@ -76,6 +85,9 @@ export function UserSettingsModal(props: Props) {
             return;
         }
 
+        setLoading(true);
+        setAlertVisible(false);
+
         fetch(process.env.REACT_APP_API_BASE + '/users/' + user.userId, {
             method: "POST",
             credentials: 'include',
@@ -85,12 +97,16 @@ export function UserSettingsModal(props: Props) {
             body: JSON.stringify(user)
         }).then(async (response) => {
             $User.next(user);
-            console.log(user);
+            setLoading(false);
+            setAlertVisible(false);
+            props.onClose();
             if(!response.ok){
                 throw Error();
             }
         }).catch((error) => {
             console.error(error);
+            setAlertMessage(error.message);
+            setAlertVisible(true);
         });
     }
 }

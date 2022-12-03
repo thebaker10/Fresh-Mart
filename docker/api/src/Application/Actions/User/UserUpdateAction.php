@@ -7,6 +7,8 @@ namespace App\Application\Actions\User;
 use App\Application\Actions\Action;
 use App\Domain\User\DuplicateEmailException;
 use App\Domain\User\InvalidEmailException;
+use App\Domain\User\InvalidPasswordException;
+use App\Domain\User\PasswordMismatchException;
 use App\Domain\User\User;
 use App\Domain\User\UserNotFoundException;
 use Doctrine\ORM\EntityManager;
@@ -55,8 +57,9 @@ class UserUpdateAction extends Action
 
             $firstName = $payload['firstName'] ?? '';
             $lastName = $payload['lastName'] ?? '';
+            $password = $payload['currentPassword'] ?? '';
             $newPassword = $payload['newPassword'] ?? '';
-            $confirmNewPassword = $payload['confirmPassword'] ?? '';
+            $confirmNewPassword = $payload['confirmNewPassword'] ?? '';
             $address = $payload['address'] ?? '';
             $city = $payload['city'] ?? '';
             $state = $payload['state'] ?? '';
@@ -71,7 +74,17 @@ class UserUpdateAction extends Action
                 }
             }
 
-            if(!empty($newPassword) && !empty($confirmNewPassword))
+            if(!empty($newPassword) || !empty($confirmNewPassword)){
+                if(!$user->verifyPassword($password)){
+                    throw new InvalidPasswordException();
+                }
+
+                if($newPassword !== $confirmNewPassword){
+                    throw new PasswordMismatchException();
+                }
+
+                $user->setPasswordHash($newPassword);
+            }
 
             $user->setFirstName($firstName);
             $user->setLastName($lastName);
