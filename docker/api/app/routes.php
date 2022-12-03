@@ -25,6 +25,7 @@ use App\Application\Actions\User\UserOrderListAction;
 use App\Application\Actions\User\UserOrderViewAction;
 use App\Application\Actions\User\UserPasswordResetAction;
 use App\Application\Actions\User\UserPostAction;
+use App\Application\Actions\User\UserUpdateAction;
 use App\Application\Actions\User\UserViewAction;
 use App\Application\Actions\User\UserDetailsAction;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -88,7 +89,7 @@ return function (App $app) {
 
 
         $group->get('[/{user_id}]', UserViewAction::class);
-        $group->post('[/{user_id}]', UserPostAction::class);
+        $group->post('/{user_id}', UserUpdateAction::class);
         $group->get('/details/{user_id}', UserDetailsAction::class);
         $group->get('/{user_id}/orders', UserOrderListAction::class);
         $group->get('/{user_id}/orders/{order_id}', UserOrderViewAction::class);

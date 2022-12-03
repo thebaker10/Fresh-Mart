@@ -78,6 +78,9 @@ class User implements JsonSerializable
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private PersistentCollection $reviews;
 
+    /**
+     * @throws InvalidEmailException
+     */
     public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance, int $role_id){
         $this->setFirstName($first_name);
         $this->setLastName($last_name);
@@ -145,9 +148,16 @@ class User implements JsonSerializable
 
     /**
      * @param string $username
+     * @throws InvalidEmailException
      */
     public function setUsername(string $username): void
     {
+        //Usernames are now email addresses
+        //Make sure the email matches a valid email address
+        if(!preg_match('/(^\w.*?@\w.*?\.\w*$)/', $username)){
+            throw new InvalidEmailException();
+        }
+
         $this->username = $username;
     }
 

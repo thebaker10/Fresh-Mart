@@ -7,7 +7,6 @@ namespace App\Application\Actions\User;
 use App\Application\Actions\Action;
 use App\Domain\User\DuplicateEmailException;
 use App\Domain\User\User;
-use App\Domain\Cart\Cart;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -63,31 +62,6 @@ class UserPostAction extends Action
             $password = $payload['password'] ?? null;
             $balance = (float) 50;
             $user = new User($firstName, $lastName, $email, $password, $balance, 1);
-
-            //Address
-            if(!empty($payload['address'])){
-                $user->setAddress($payload['address']);
-            }
-
-            //City
-            if(!empty($payload['city'])){
-                $user->setCity($payload['city']);
-            }
-
-            //State
-            if(!empty($payload['state'])){
-                $user->setState($payload['state']);
-            }
-
-            //Zip
-            if(!empty($payload['zip'])){
-                $user->setZip($payload['zip']);
-            }
-
-            //Country
-            if(!empty($payload['country'])){
-                $user->setCountry($payload['country']);
-            }
         }catch(TypeError $e){
             $this->logger->error($e->getMessage());
             return $this->respondWithData(['message' => 'The user could not be created because a value is missing.'], 500);
@@ -115,20 +89,13 @@ class UserPostAction extends Action
             return $this->respondWithData(['message' => 'Error while creating new user.'], 500);
         }
 
-        $user -> setSessionCookie();
-
-        $userId = $user-> getUserId();
-        $cart = new Cart($userId);
-        $cart -> setUser($user);
-        try {
-            $this->em->persist($cart);
-            $this->em->flush();
-        } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
-            $this->logger->error($e->getMessage());
-            return $this->respondWithData(['message' => 'Error while creating new cart.'], 500);
-        }
-
-        
+        /*
+         * CF 2022-11-04 Guided by https://www.youtube.com/watch?v=l662In2_J1w&list=PLNuh5_K9dfQ2-8nxh-kBYL0_wDqhsN5tB&index=58
+         */
+        $_SESSION['user'] = [
+            'id' => $user->getUserId(),
+            'username' => $user->getUsername()
+        ];
 
         $this->response->withHeader('Access-Control-Allow-Origin', '*');
 

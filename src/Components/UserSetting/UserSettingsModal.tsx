@@ -49,8 +49,8 @@ export function UserSettingsModal(props: Props) {
 
                 <div className="mt-4 grid grid-cols-2 gap-3">
 
-                    <Input label="First Name" autoComplete="given-name" placeHolder="Jack" value={user?.firstName} onChange={(value) => updateUser('fName', value)} />
-                    <Input label="Last Name" autoComplete="family-name" placeHolder="Green" value={user?.lastName}  onChange={(value) => updateUser('lName', value)} />
+                    <Input label="First Name" autoComplete="given-name" placeHolder="Jack" value={user?.firstName} onChange={(value) => updateUser('firstName', value)} />
+                    <Input label="Last Name" autoComplete="family-name" placeHolder="Green" value={user?.lastName}  onChange={(value) => updateUser('lastName', value)} />
 
 
                     <Input className="col-span-2" type="email" label="Email" autoComplete="email" value={user?.email} placeHolder="email@example.com"  onChange={(value) => updateUser('email', value)} />
@@ -77,14 +77,35 @@ export function UserSettingsModal(props: Props) {
 
     function updateUser(prop:string, value:string): void{
 
-        if(prop === null) {
+        if(prop === null || user === null) {
             return;
         }
         // @ts-ignore
         switch(prop){
-            case 'fName':
+            case 'firstName':
+                user.firstName = value;
+                break;
+            case 'lastName':
+                user.lastName = value;
+                break;
+            case 'address':
+                user.address = value;
+                break;
+            case 'city':
+                user.city = value;
+                break;
+            case 'state':
+                user.state = value;
+                break;
+            case 'zip':
+                user.zip = value;
+                break;
+            case 'country':
+                user.country = value;
+                break;
+
         }
-        setUser(updatedUser);
+        setUser(user);
     }
 
     function saveUser(e:any): void{
