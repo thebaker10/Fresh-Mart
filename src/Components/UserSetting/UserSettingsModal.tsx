@@ -1,6 +1,8 @@
 import { Input } from "../Form/Input"
 import { UserBanner } from "./UserBanner"
 import {useEffect, useState} from "react";
+import { $User } from "../../Services/State";
+import {UserData} from "../../Types/User";
 
 type Props = {
     visible: boolean,
@@ -10,28 +12,8 @@ type Props = {
 
 export function UserSettingsModal(props: Props) {
 
-    let [user, setUser] = useState<UserData|null>(null)
-
-
-    //Replace with call to global user object
-    useEffect(() => {
-
-        //I dont think I'll need this once the other branch is merged
-        if(user !== null){
-            return;
-        }
-
-        let matches = /freshMartUserId=(\d+)/g.exec(document.cookie);
-        let user_id = (matches !== null) ? matches[1] : '';
-        fetch(process.env.REACT_APP_API_BASE + '/users/' + user_id, {
-            credentials: 'include'
-        }).then((response) => {
-
-            response.json().then((body) => {
-                setUser(body.data);
-            });
-        });
-    });
+    let initialValue = $User.value;
+    let [user, setUser] = useState<UserData|null>(initialValue)
 
     if (!props.visible) return null
     return (
@@ -56,7 +38,7 @@ export function UserSettingsModal(props: Props) {
                     <Input className="col-span-2" type="email" label="Email" autoComplete="email" value={user?.email} placeHolder="email@example.com"  onChange={(value) => updateUser('email', value)} />
                     <Input className="col-span-2" type="password" label="Current password" autoComplete="current-password"  onChange={(value) => updateUser('currentPassword', value)} />
                     <Input type="password" label="New Password" autoComplete="new-password"  onChange={(value) => updateUser('newPassword', value)} />
-                    <Input type="password" label="Confirm Password"  autoComplete="new-password"   onChange={(value) => updateUser('confirmPassword', value)} />
+                    <Input type="password" label="Confirm Password"  autoComplete="new-password"   onChange={(value) => updateUser('confirmNewPassword', value)} />
                     <Input className="col-span-2" type="text" label="Street Address" autoComplete="street-address" value={user?.address} placeHolder="10 Street XYZ 654"  onChange={(value) => updateUser('address', value)} />
                     <Input type="text" label="City" placeHolder="Minneapolis" autoComplete="address-level2" value={user?.city}  onChange={(value) => updateUser('city', value)} />
                     <Input type="text" label="State" placeHolder="MN" autoComplete="address-level1" value={user?.state}  onChange={(value) => updateUser('state', value)} />
@@ -80,32 +62,11 @@ export function UserSettingsModal(props: Props) {
         if(prop === null || user === null) {
             return;
         }
-        // @ts-ignore
-        switch(prop){
-            case 'firstName':
-                user.firstName = value;
-                break;
-            case 'lastName':
-                user.lastName = value;
-                break;
-            case 'address':
-                user.address = value;
-                break;
-            case 'city':
-                user.city = value;
-                break;
-            case 'state':
-                user.state = value;
-                break;
-            case 'zip':
-                user.zip = value;
-                break;
-            case 'country':
-                user.country = value;
-                break;
 
-        }
-        setUser(user);
+        setUser({
+            ...user,
+            [prop]: value
+        });
     }
 
     function saveUser(e:any): void{
@@ -118,8 +79,13 @@ export function UserSettingsModal(props: Props) {
         fetch(process.env.REACT_APP_API_BASE + '/users/' + user.userId, {
             method: "POST",
             credentials: 'include',
+            headers: {
+                "content-type": 'application/json'
+            },
             body: JSON.stringify(user)
         }).then(async (response) => {
+            $User.next(user);
+            console.log(user);
             if(!response.ok){
                 throw Error();
             }
@@ -127,19 +93,4 @@ export function UserSettingsModal(props: Props) {
             console.error(error);
         });
     }
-}
-
-//Replace when user information branch is merged
-interface UserData {
-    userId: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    balance: string;
-    shoppingCart: any[];
-    address: string;
-    city: string;
-    state: string;
-    zip: string;
-    country: string;
 }

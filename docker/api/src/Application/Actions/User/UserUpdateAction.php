@@ -44,7 +44,7 @@ class UserUpdateAction extends Action
 
         try {
             $userID = $this->resolveArg('user_id');
-            $payload = $this->request->getParsedBody();
+            $payload = json_decode($this->request->getBody()->getContents(), true);
             $userRepository = $this->em->getRepository(User::class);
             /** @var User $user */
             $user = $userRepository->findOneBy(['user_id' => $userID]);
@@ -53,10 +53,10 @@ class UserUpdateAction extends Action
                 throw new UserNotFoundException();
             }
 
-            print_r($user);
-
             $firstName = $payload['firstName'] ?? '';
             $lastName = $payload['lastName'] ?? '';
+            $newPassword = $payload['newPassword'] ?? '';
+            $confirmNewPassword = $payload['confirmPassword'] ?? '';
             $address = $payload['address'] ?? '';
             $city = $payload['city'] ?? '';
             $state = $payload['state'] ?? '';
@@ -64,8 +64,14 @@ class UserUpdateAction extends Action
             $country = $payload['country'] ?? '';
             $email = $payload['email'] ?? '';
 
-            //Todo do pasword
-           // $password = $payload['password'] ?? null;
+            if($user->getUsername() !== $email){
+                $userExists = $userRepository->count(['username' => $email]);
+                if($userExists){
+                    throw new DuplicateEmailException();
+                }
+            }
+
+            if(!empty($newPassword) && !empty($confirmNewPassword))
 
             $user->setFirstName($firstName);
             $user->setLastName($lastName);
@@ -76,8 +82,8 @@ class UserUpdateAction extends Action
             $user->setZip($zip);
             $user->setCountry($country);
 
+            $this->em->persist($user);
             $this->em->flush();
-
         }catch(Exception $e){
             $this->logger->error($e->getMessage());
             return $this->respondWithData(['message' => $e->getMessage()], 500);
