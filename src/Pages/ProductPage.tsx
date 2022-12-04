@@ -59,7 +59,7 @@ export function ProductPage() {
     },[params.productID]);
 
     return (
-        <div className="bg-lightGray">
+        <div className="bg-lightGray pt-16">
             <Nav></Nav>
             {product ? <ProductDetails productID={product.productId} name={product.productName} stars={average} numOfReviews={reviewData.length} price={product.product_price} msrp={product.product_msrp} description={product.product_description} /> : <ProductDetailsPlaceholder></ProductDetailsPlaceholder>}
             <div className="mx-auto max-w-5xl mt-20">
