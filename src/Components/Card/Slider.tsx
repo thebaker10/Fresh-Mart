@@ -1,6 +1,8 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import {Card} from "../Card/Card";
+import React, { useState, useEffect } from 'react';
+import { CardPlaceholder } from "./CardPlaceholder";
 
 const responsive = {
   desktop: {
@@ -21,18 +23,34 @@ const responsive = {
 };
 
 type Props={
+  categoryID: number,
   title: string
 }
 
 
 export function Slider(props:Props) {
+  const arr:number[] = [1,2,3,4];
+  const [products, setProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch(process.env.REACT_APP_API_BASE+"/categories/"+props.categoryID+"/products")
+        .then((response) => response.json())
+        .then((data) => {
+            setProducts(data.data)
+    })  
+  },[]);
+
+if(!products){
+  return null
+}
+
     return (
-      <div className="p-5">
-        <h1 className="text-gray-900 font-bold text-2xl ml-8">{props.title}</h1>
+      <div className="px-10">
+        <h1 className="text-gray-900 font-bold text-2xl">{props.title}</h1>
         <Carousel
           swipeable={false}
           draggable={false}
-          showDots={true}
+          showDots={false}
           responsive={responsive}
           ssr={true} // means to render carousel on server-side.
           infinite={false}
@@ -43,15 +61,9 @@ export function Slider(props:Props) {
           containerClass="carousel-container"
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
-        >
-          <div><Card name={"Apple"}  stars={Math.round(Math.random()*5)} price={Math.random()*10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}/></div>
-          <div><Card name={"Orange"}  stars={Math.round(Math.random()*5)} price={Math.random()*10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}/></div>
-          <div><Card name={"Pear"}  stars={Math.round(Math.random()*5)} price={Math.random()*10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}/></div>
-          <div><Card name={"Grapes"}  stars={Math.round(Math.random()*5)} price={Math.random()*10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}/></div>
-          <div><Card name={"Apple"}  stars={Math.round(Math.random()*5)} price={Math.random()*10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}/></div>
-          <div><Card name={"Orange"}  stars={Math.round(Math.random()*5)} price={Math.random()*10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}/></div>
-          <div><Card name={"Pear"}  stars={Math.round(Math.random()*5)} price={Math.random()*10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}/></div>
-          <div><Card name={"Grapes"}  stars={Math.round(Math.random()*5)} price={Math.random()*10} description={"Maids table how learn drift but purse stand yet set. Music me house could among oh as their. Piqued our sister shy nature almost his wicket."}/></div>
+        > 
+        {products.length != 0 ? products.map((r) => <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={r.product_description}/>) : arr.map((a)=> <CardPlaceholder></CardPlaceholder>)}
+          
         </Carousel>
       </div>
       

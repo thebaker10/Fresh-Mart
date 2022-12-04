@@ -66,3 +66,26 @@
 #hiddenContainer{
     visibility: hidden;
 }
+
+#placeholderImage{
+    width: 600px;
+    height: 600px;
+}
+
+#miniPlaceholderImage{
+    height: 225px;
+}
+
+#truncatedText{
+    display: -webkit-box;
+    max-width: 230px;
+    height: 80px;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#cardImage{
+    min-width: 100%;
+    min-height: 100%;
+}

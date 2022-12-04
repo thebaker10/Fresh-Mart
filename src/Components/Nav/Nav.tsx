@@ -8,19 +8,21 @@ import { NavItem } from "./NavItem";
 import { SearchBar } from "./SearchBar";
 import { SearchBarModal } from "./SearchBar/SearchBarModal";
 import { UserIcon } from "./UserIcon";
+import {Link} from "react-router-dom";
 
 export function Nav() {
     const [showSearch, setShowSearch] = useState(false)
 
     return (
+
         <>
             <nav className="flex justify-evenly py-4 bg-white shadow-lg fixed w-screen z-20 top-0">
                 <Logo></Logo>
                 <ul className="flex gap-7">
-                    <NavItem text="Home" link="http://localhost:3000/" active />
-                    <NavItem text="Category" link="http://localhost:3000/Category" />
-                    <NavItem text="About" link="http://localhost:3000/About" />
-                    <NavItem text="Contact Us" link="http://localhost:3000/Contact" />
+                  <NavItem text="Home" link= "/" active/>
+                  <NavItem text="Category" link= "/Category"/>
+                  <NavItem text="About" link= "/About"/>
+                  <NavItem text="Contact Us" link="/Contact"/>
                 </ul>
 
                 <ul className="flex gap-8">
@@ -37,6 +39,7 @@ export function Nav() {
             <SearchBarModal visible={showSearch} onClose={() => setShowSearch(false)} />
 
         </>
+
 
     )
 }

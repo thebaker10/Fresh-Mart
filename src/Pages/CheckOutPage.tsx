@@ -1,8 +1,47 @@
+import { Product } from "../Components/Checkout/Product";
 import { Nav } from "../Components/Nav/Nav"
 import TawkTo from "../Components/TawkTo";
+import React, { useState, useEffect } from 'react';
+
+
+
+
 export function CheckOut() {
+    let [cartData, setCartData] = useState<any[]>([]);
+    let [cartTotal, setCartTotal] = useState<any>();
+    let [userData, setUserData] = useState<any[]>([]);
 
+    function getCookie() {
+        function escape(s:any) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
+        var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape('freshMartUserId') + '=([^;]*)'));
+        return match ? match[1] : null;
+    }
 
+    function countrySelect(country:string) {    
+        let element = document.getElementById('countrySelect') as HTMLInputElement;
+        if(element != null){
+            element.value = country;
+        }  
+    }
+
+    useEffect(() => {
+        let cookie = getCookie();
+        fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
+            .then((response) => response.json())
+            .then((data) => {
+                setUserData(data.data);
+                if(data.data[0].country != null){
+                    countrySelect(data.data[0].country);
+                }
+                setCartData(data.data[0].shoppingCart.cartItems ?? []) ;
+                let total = 0;
+                data.data[0].shoppingCart.cartItems.forEach((e:any) => {
+                    total += (e.quantity * e.product.product_price);
+                });
+                setCartTotal(total);
+        })
+
+    },[]);
     return (
         <div>
             <Nav></Nav>
@@ -29,32 +68,32 @@ export function CheckOut() {
                                 <fieldset className="mb-3 bg-white shadow-lg rounded text-gray-600">
                                     <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                         <span className="text-right px-2">Name</span>
-                                        <input name="name" className="focus:outline-none px-3" placeholder="First & Last Name" />
+                                        <input name="name" className="focus:outline-none px-3" placeholder="First & Last Name" value={userData[0] ? userData[0].firstName + " " + userData[0].lastName : ""}/>
                                     </label>
                                     <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                         <span className="text-right px-2">Email</span>
-                                        <input name="email" type="email" className="focus:outline-none px-3" placeholder="try@example.com" />
+                                        <input name="email" type="email" className="focus:outline-none px-3" placeholder="try@example.com" value={userData[0] ? userData[0].email : ""}/>
                                     </label>
                                     <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                         <span className="text-right px-2">Address</span>
-                                        <input name="address" className="focus:outline-none px-3" placeholder="10 Street XYZ 654" />
+                                        <input name="address" className="focus:outline-none px-3" placeholder="10 Street XYZ 654" value={userData[0] ? userData[0].address : ""}/>
                                     </label>
                                     <label className="flex border-b border-gray-200 h-12 py-3 items-center">
                                         <span className="text-right px-2">City</span>
-                                        <input name="city" className="focus:outline-none px-3" placeholder="Minneapolis" />
+                                        <input name="city" className="focus:outline-none px-3" placeholder="Minneapolis" value={userData[0] ? userData[0].city : ""}/>
                                     </label>
                                     <label className="inline-flex w-2/4 border-gray-200 py-3">
                                         <span className="text-right px-2">State</span>
-                                        <input name="state" className="focus:outline-none px-3" placeholder="MN" />
+                                        <input name="state" className="focus:outline-none px-3" placeholder="MN" value={userData[0] ? userData[0].state : ""}/>
                                     </label>
                                     <label className="xl:w-1/4 xl:inline-flex py-3 items-center flex xl:border-none border-t border-gray-200">
                                         <span className="text-right px-2 xl:px-0 xl:text-none">ZIP</span>
-                                        <input name="postal_code" className="focus:outline-none px-3" placeholder="55555" />
+                                        <input name="postal_code" className="focus:outline-none px-3" placeholder="55555" value={userData[0] ? userData[0].zip : ""}/>
                                     </label>
                                     <label className="flex border-t border-gray-200 h-12 py-3 items-center select relative">
                                         <span className="text-right px-2">Country</span>
                                         <div id="country" className="focus:outline-none px-3 w-full flex items-center">
-                                            <select name="country" className="border-none bg-transparent flex-1 cursor-pointer appearance-none focus:outline-none">
+                                            <select id="countrySelect" name="country" className="border-none bg-transparent flex-1 cursor-pointer appearance-none focus:outline-none">
                                                 <option value="AU">Australia</option>
                                                 <option value="BE">Belgium</option>
                                                 <option value="BR">Brazil</option>
@@ -98,48 +137,19 @@ export function CheckOut() {
                     </div>
                     <div className="grid justify-center">
                         <button className="submit-button px-4 py-3 rounded-full bg-green text-white focus:ring focus:outline-none w-96 text-xl font-semibold transition-colors">
-                            Pay $4.17
+                            Pay ${cartTotal && (cartTotal).toFixed(2)}
                         </button>
                     </div>
                 </div>
                 <div className="col-span-1 bg-white lg:block hidden">
                     <h1 className="py-6 border-b-2 text-xl text-gray-600 px-8">Order Summary</h1>
                     <ul className="py-6 border-b space-y-6 px-8">
-                        <li className="grid grid-cols-6 gap-2 border-b-1">
-                            <div className="col-span-1 self-center">
-                                <img src="https://images.unsplash.com/photo-1606604830262-2e0732b12acc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1063&q=80" alt="Product" className="rounded w-full" />
-                            </div>
-                            <div className="flex flex-col col-span-3 pt-2">
-                                <span className="text-gray-600 text-md font-semi-bold">Apple</span>
-                                <span className="text-gray-400 text-sm inline-block pt-2">Fruits</span>
-                            </div>
-                            <div className="col-span-2 pt-3">
-                                <div className="flex items-center space-x-2 text-sm justify-between">
-                                    <span className="text-gray-400">2 x $0.98</span>
-                                    <span className="text-green font-semibold inline-block">$1.96</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li className="grid grid-cols-6 gap-2 border-b-1">
-                            <div className="col-span-1 self-center">
-                                <img src="https://images.unsplash.com/photo-1587049633312-d628ae50a8ae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Product" className="rounded w-full" />
-                            </div>
-                            <div className="flex flex-col col-span-3 pt-2">
-                                <span className="text-gray-600 text-md font-semi-bold">Onion</span>
-                                <span className="text-gray-400 text-sm inline-block pt-2">Vegetables</span>
-                            </div>
-                            <div className="col-span-2 pt-3">
-                                <div className="flex items-center space-x-2 text-sm justify-between">
-                                    <span className="text-gray-400">1 x 2.21</span>
-                                    <span className="text-green font-semibold inline-block">$2.21</span>
-                                </div>
-                            </div>
-                        </li>
+                        {cartData ? cartData.map((c) => <Product productID={c.product.productId} name={c.product.productName} imageLink = {""} quantity={c.quantity} price={c.product.product_price}></Product>): <div></div>}
                     </ul>
                     <div className="px-8 border-b">
                         <div className="flex justify-between py-4 text-gray-600">
                             <span>Subtotal</span>
-                            <span className="font-semibold text-green">$4.17</span>
+                            <span className="font-semibold text-green">${cartTotal && (cartTotal).toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between py-4 text-gray-600">
                             <span>Shipping</span>
@@ -148,7 +158,7 @@ export function CheckOut() {
                     </div>
                     <div className="font-semibold text-xl px-8 flex justify-between py-8 text-gray-600">
                         <span>Total</span>
-                        <span>$4.17</span>
+                        <span>${cartTotal && (cartTotal).toFixed(2)}</span>
                     </div>
                 </div>
             </div>

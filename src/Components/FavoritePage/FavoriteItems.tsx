@@ -1,8 +1,9 @@
+import { isTemplateSpan } from "typescript"
 import { CardFavoriteItem } from "./CardFavoriteItem"
 
 
 type Props={
-    
+    items: Array<any>
 }
 
 export function FavoriteItem(props:Props) {
@@ -12,10 +13,9 @@ export function FavoriteItem(props:Props) {
                 
                 <p className="font-bold pl-5 mb-2">ITEMS</p> 
                 <hr className="my-2"></hr>
-                <CardFavoriteItem name={"apple"} price={42} qty={0}/>
-                <CardFavoriteItem name={"orange"} price={1} qty={0}/>
-                <CardFavoriteItem name={"milk"} price={22} qty={1}/>
-                <CardFavoriteItem name={"milk"} price={22} qty={1}/>
+                {props.items && props.items.map((i)=> <CardFavoriteItem productID={i.product.productId} name={i.product.productName} price={i.product.product_price}/>)}
+                
+                
             </div>
         </div>
         

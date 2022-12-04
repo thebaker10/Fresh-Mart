@@ -4,7 +4,9 @@
 namespace App\Domain\User;
 
 use App\Domain\Cart\Cart;
+use App\Domain\Favorite\Favorite;
 use App\Domain\Review\Review;
+use App\Domain\Order\Order;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -18,6 +20,7 @@ use Doctrine\ORM\PersistentCollection;
 use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 
+
 /**
  *  2022-10-22 CF
  * The comments starting with a "#" that appear above the lines of code are PHP 8 attributes
@@ -30,6 +33,9 @@ class User implements JsonSerializable
 {
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
     private int $user_id;
+
+    #[Column(type: 'integer', unique:false, nullable:false)]
+    private int $role_id;
 
     #[Column(type: 'string', unique: false, nullable: false)]
     private string $password_hash;
@@ -46,19 +52,53 @@ class User implements JsonSerializable
     #[Column(type: 'decimal', unique: true, nullable: false)]
     private string $user_balance;
 
-    #[OneToOne(mappedBy: 'user', targetEntity: Cart::class,orphanRemoval: true)]
-    private Cart $shopping_cart;
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $password_reset_token;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $address;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $city;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $state;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $zip;
+
+    #[Column(type: 'string', unique: true, nullable: true)]
+    private string $country;
+
+    #[OneToOne(mappedBy: 'user', targetEntity: Cart::class)]
+    private Cart $cart;
+
+    #[OneToOne(mappedBy: 'user', targetEntity: Favorite::class,orphanRemoval: true)]
+    private Favorite $favorites;
 
     #[OneToMany(mappedBy: 'user', targetEntity: Review::class)]
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private PersistentCollection $reviews;
 
-    public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance){
+    #[OneToMany(mappedBy: 'user', targetEntity: Order::class, orphanRemoval: true)]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    private PersistentCollection $orders;
+
+    public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance, int $role_id){
         $this->setFirstName($first_name);
         $this->setLastName($last_name);
         $this->setUserBalance($user_balance);
         $this->setUsername($username);
         $this->setPasswordHash($password);
+        $this->setRoleId($role_id);
+    }
+
+    public function getCart(){
+        return $this->cart;
+    }
+
+    public function setCart(Cart $cart){
+        $this->cart = $cart;
     }
 
     /**
@@ -133,6 +173,13 @@ class User implements JsonSerializable
         $this->user_balance = $user_balance;
     }
 
+    /**
+     * @param int $role_id
+     */
+    public function setRoleId(int $role_id): void
+    {
+        $this->role_id = $role_id;
+    }
 
     public function setPasswordHash(string $password): void{
         $hash = password_hash($password, PASSWORD_BCRYPT );
@@ -140,10 +187,10 @@ class User implements JsonSerializable
     }
 
     public function verifyPassword(string $password): bool{
-        return $this->password_hash === password_hash($password, PASSWORD_BCRYPT);
+        return password_verify($password, $this->password_hash);
     }
 
-    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array'])]
+    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array', 'address' => "string",'city' => "string",'state' => "string",'zip' => "string",'country' => "string"])]
     public function jsonSerialize(): array{
 
         //The null coalesce operator below prevents accessing a shopping cart that does not exist
@@ -153,7 +200,12 @@ class User implements JsonSerializable
             'lastName' => $this->getLastName(),
             'email' => $this->getUsername(),
             'balance' => $this->getUserBalance(),
-            'shoppingCart' => $this->shopping_cart ?? []
+            'shoppingCart' => $this->cart ?? [],
+            'address' => $this->address ?? null,
+            'city' => $this->city ?? null,
+            'state' => $this->state ?? null,
+            'zip' => $this-> zip ?? null,
+            'country' => $this-> country ?? null
         ];
     }
 
@@ -161,5 +213,27 @@ class User implements JsonSerializable
 
         //@TODO check the user's role
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordResetToken(): string
+    {
+        return $this->password_reset_token;
+    }
+
+    /**
+     * @param string $password_reset_token
+     */
+    public function setPasswordResetToken(string $password_reset_token): void
+    {
+        $this->password_reset_token = $password_reset_token;
+    }
+
+    public function setSessionCookie(){
+        $id = $this->getUserId();
+        $expiry =  time()+60*60*24*30;
+        setcookie('freshMartUserId', $id, $expiry, '/');
     }
 }

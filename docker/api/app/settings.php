@@ -5,11 +5,15 @@ declare(strict_types=1);
 use App\Application\Settings\Settings;
 use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
+use Dotenv\Dotenv;
 use Monolog\Logger;
 
 if(!defined('APP_ROOT')) {
     define('APP_ROOT', __DIR__);
 }
+
+$dotenv = Dotenv::createImmutable(__DIR__,'.env.local');
+$dotenv->load();
 
 return function (ContainerBuilder $containerBuilder) {
 
@@ -48,9 +52,9 @@ return function (ContainerBuilder $containerBuilder) {
                         'driver' => 'pdo_mysql',
                         'host' => 'db',
                         'port' => 3306,
-                        'dbname' => 'freshmart',
-                        'user' => 'root',
-                        'password' => 'notsafeforproduction',
+                        'dbname' => $_ENV['DB_NAME'],
+                        'user' => $_ENV['DB_USER'],
+                        'password' => $_ENV['DB_PASS'],
                         'charset' => 'utf8mb4'
                     ]
                 ]

@@ -8,6 +8,7 @@ use App\Application\Actions\Action;
 use App\Domain\Product\Product;
 use App\Domain\User\User;
 use App\Domain\Review\Review;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -48,7 +49,9 @@ class ReviewPostAction extends Action
         $rating = $payload['rating'];
         $reviewTitle = $payload['reviewTitle'];
         $reviewContent = $payload['reviewContent'];
-        $review = new Review($productId, $userId, $rating, $reviewTitle, $reviewContent);
+        $timezone = $payload['timezone'];
+        date_default_timezone_set($timezone);
+        $review = new Review($productId, $userId, $rating, $reviewTitle, $reviewContent, new DateTime());
 
         $product = $this->em->getRepository(Product::class)->find($productId);
         $review->setProduct($product);
