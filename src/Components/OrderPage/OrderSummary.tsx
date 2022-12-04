@@ -1,6 +1,5 @@
 
 type Props={
-    orderID: number,
     orderNum: string,
     totalPrice: number,
     itemQty: number,
@@ -12,7 +11,6 @@ type Props={
     city: string,
     zip: string,
     state: string,
-    country: string,
 }
 
 export function OrderSummary(props:Props) {
@@ -63,10 +61,7 @@ export function OrderSummary(props:Props) {
                             <div className="flex">
                                 <p className="font-medium flex-1">{props.city}, {props.state} {props.zip}</p>
                             </div>
-                            <div className="flex">
-                                <p className="font-medium flex-1">{props.country}</p>
-                                
-                            </div>
+                            
                             
                         </div>
                     </div>
