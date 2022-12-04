@@ -8,6 +8,7 @@ app.use(cors())
 
 app.get("/search/:productName", async (request, response) => {
     const rows = await search(request.params.productName)
+
     response.json(rows)
 })
 

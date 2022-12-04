@@ -44,7 +44,7 @@ export function SearchBarModal(props: Props) {
                 </div>
 
                 <div className="flex flex-wrap w-full justify-center">
-                    {products.map((p, i) => <SearchBarCard name={p.product_name} description={p.product_name} stars={0} price={p.product_price} image={p.productImageLink}/>)}  
+                    {products.map((p, i) => <SearchBarCard name={p.product_name} description={p.product_name} stars={p.rating} price={p.product_price} image={p.product_image_link}/>)}  
                 </div>
             </form>
         </div>

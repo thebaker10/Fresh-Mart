@@ -4,5 +4,7 @@ export interface Product {
     product_name:     string;
     product_msrp:     number;
     product_price:    number;
-    productImageLink: string;
+    product_description: string;
+    product_image_link: string;
+    rating: number;
 }

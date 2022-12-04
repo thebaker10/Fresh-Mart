@@ -14,9 +14,10 @@ con.connect()
 
 export async function search(productName: string) {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT `product_id`,`category_id`,`product_name`,`product_msrp`,`product_price`,`productImageLink`  FROM `product` WHERE lower(`product_name`) like lower('" + productName + "%');"
-
+        
+        const sql = "SELECT product.`product_id`,`category_id`,`product_name`,`product_msrp`,`product_price`,`product_description`,`product_image_link`, AVG(review.rating) AS rating FROM `product` LEFT JOIN (review) ON product.product_id = review.product_id WHERE lower(`product_name`) like lower('" + productName + "%') GROUP by product.product_id;"
         con.query(sql, (error, rows, fields) => {
+           
             resolve(rows)
         })
     })
