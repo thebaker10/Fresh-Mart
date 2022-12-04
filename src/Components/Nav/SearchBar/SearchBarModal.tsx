@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Product } from "../../../types/Product"
+import { Product } from "../../../Types/Product"
 import { Card } from "../../Card/Card"
 import { Input } from "../../Form/Input"
 import { UserBanner } from "../../UserSetting/UserBanner"

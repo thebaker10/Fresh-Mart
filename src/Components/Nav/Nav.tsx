@@ -8,7 +8,6 @@ import { NavItem } from "./NavItem";
 import { SearchBar } from "./SearchBar";
 import { SearchBarModal } from "./SearchBar/SearchBarModal";
 import { UserIcon } from "./UserIcon";
-import {Link} from "react-router-dom";
 
 export function Nav() {
     const [showSearch, setShowSearch] = useState(false)
