@@ -1,5 +1,5 @@
 import { IconItem } from "../Nav/IconItem";
-import {faPlus, faMinus, faHeartCirclePlus, faSpinner} from "@fortawesome/free-solid-svg-icons";
+import {faPlus, faMinus, faHeartCirclePlus, faHeartCircleMinus, faSpinner} from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
@@ -14,8 +14,11 @@ export function QuantitySelector(props:Props) {
     const [alertVisible, setAlertVisible] = React.useState(false);
     const [userId, setUserId] = React.useState<any>();
     const [added, setAdded] = React.useState(false);
+    const [addedFav, setAddedFav] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [isInCart, setIsInCart] = React.useState(false);
+    const [isInFavorite, setIsInFavorite] = React.useState(false);
+    const [loadingFav, setLoadingFav] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState('Something went wrong while adding product to cart.');
 
     function getCookie() {
@@ -32,10 +35,14 @@ export function QuantitySelector(props:Props) {
       fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
             .then((response) => response.json())
             .then((data) => {
-              console.log(data.data[0].shoppingCart.cartItems);
               data.data[0].shoppingCart.cartItems.forEach((e:any) => {
                 if(props.productID == e.product.productId){
                   setIsInCart(true);
+                }
+              });
+              data.data[0].favorites.favoriteItems.forEach((e:any) => {
+                if(props.productID == e.product.productId){
+                  setIsInFavorite(true);
                 }
               });
         })
@@ -73,6 +80,62 @@ export function QuantitySelector(props:Props) {
       }   
     }
 
+    function addToFavorites(){
+      if(!isInFavorite && !loadingFav){
+        setLoadingFav(true);
+        let data:any = {};
+        data["userId"] = userId;
+        data["productId"] = Number(props.productID);
+
+        fetch(process.env.REACT_APP_API_BASE+"/favorite/", {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        }).then((response) => {
+            response.json().then((body) => {
+            if(body.statusCode === 500) {
+                setAlertVisible(true);
+                return;
+            }else{
+                setLoadingFav(false);
+                setIsInFavorite(true);
+                setAddedFav(true);
+                setAlertVisible(false);
+            }
+            });
+        }).catch((error) => {
+            setAlertVisible(true);
+        });
+      }else if(isInFavorite || addedFav){
+        setLoadingFav(true);
+          let data:any = {};
+          data["userId"] = userId;
+          data["productId"] = Number(props.productID);
+    
+          fetch(process.env.REACT_APP_API_BASE+"/favorite/remove", {
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              credentials: 'include'
+          }).then((response) => {
+              response.json().then((body) => {
+              if(body.statusCode === 500) {
+                  return;
+              }else{
+                  setLoadingFav(false);
+                  setAddedFav(false);
+                  setIsInFavorite(false);
+              }
+              });
+          })
+      }   
+    }
+
     function incNumber(){
       count++;
       setCount(count);
@@ -96,8 +159,10 @@ export function QuantitySelector(props:Props) {
       <p className="text-center text-2xl">${(props.price * count).toFixed(2)}</p>
       <div className="flex gap-1 flex-row justify-center items-center">
         <button onClick={addToCart} className="px-3 py-3 bg-green w-full text-white text-xs font-bold uppercase rounded">{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : added || isInCart ? "In Cart" : "Add To Cart"}</button>
-        <ul className="flex gap-8 justify-center items-center mt-2 mb-2">
-          <button className="px-2 pt-2 bg-green text-white text-xs font-bold uppercase rounded"><IconItem icon={faHeartCirclePlus} /></button>
+        <ul>
+          <button  onClick={addToFavorites} className={addedFav || isInFavorite ? "bg-[red] px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]":"bg-green px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]"}>
+            {loadingFav ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"2x"} /> : addedFav || isInFavorite ?<IconItem color = {"black"} icon={faHeartCircleMinus}/> : <IconItem color = {"white"} icon={faHeartCirclePlus} />}
+          </button>
         </ul>
       </div>
     </div>
