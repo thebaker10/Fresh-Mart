@@ -25,7 +25,7 @@ export function UserSettingsModal(props: Props) {
         <div className="fixed inset-0">
             <div className=" bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center w-screen h-screen absolute z-20" onClick={props.onClose}></div>
 
-            <form className="bg-white text-black rounded px-4 py-4 max-w-[40vw] max-h-[90vh] absolute inset-0 m-auto overflow-y-auto z-20">
+            <form id="user-settings-form" className="bg-white text-black rounded px-4 py-4 max-w-[40vw] max-h-[90vh] absolute inset-0 m-auto overflow-y-auto z-20">
                 <div className="flex justify-end text-xl text-gray-300 font-bold">
                     <button onClick={props.onClose}>X</button>
                 </div>
@@ -33,9 +33,9 @@ export function UserSettingsModal(props: Props) {
 
                 <UserBanner />
 
+                { alertVisible && <div className="p-4 mt-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">{alertMessage}</div> }
 
                 <div className="mt-4 grid grid-cols-2 gap-3">
-                    { alertVisible && <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">{alertMessage}</div> }
                     <Input label="First Name" autoComplete="given-name" placeHolder="Jack" value={user?.firstName} onChange={(value) => updateUser('firstName', value)} />
                     <Input label="Last Name" autoComplete="family-name" placeHolder="Green" value={user?.lastName}  onChange={(value) => updateUser('lastName', value)} />
 
@@ -99,14 +99,33 @@ export function UserSettingsModal(props: Props) {
             $User.next(user);
             setLoading(false);
             setAlertVisible(false);
-            props.onClose();
+
             if(!response.ok){
-                throw Error();
+                response.json().then((error) => {
+                    let errorMsg = error?.data?.message;
+                    showAlert(errorMsg);
+                });
             }
+
+           // props.onClose();
         }).catch((error) => {
-            console.error(error);
-            setAlertMessage(error.message);
-            setAlertVisible(true);
+            showAlert(error);
         });
+    }
+
+    function scrollToTop(){
+        let settingsForm = document.getElementById('user-settings-form');
+        if(settingsForm) {
+            settingsForm.scrollTop = 0;
+        }
+    }
+
+    function showAlert(errorMessage:string){
+        if(errorMessage) {
+            console.error(errorMessage);
+            setAlertMessage(errorMessage);
+            setAlertVisible(true);
+            scrollToTop();
+        }
     }
 }
