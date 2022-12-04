@@ -56,7 +56,7 @@ export function ProductPage() {
             .then((data) => {
                 setUserData(data.data)
         })  
-    },[]);
+    },[params.productID]);
 
     return (
         <div className="bg-lightGray">

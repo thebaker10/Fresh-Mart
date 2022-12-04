@@ -1,8 +1,5 @@
 import { useState } from "react"
 import { Product } from "../../../Types/Product"
-import { Card } from "../../Card/Card"
-import { Input } from "../../Form/Input"
-import { UserBanner } from "../../UserSetting/UserBanner"
 import { SearchBarCard } from "./SearchBarCard"
 
 
@@ -44,7 +41,8 @@ export function SearchBarModal(props: Props) {
                 </div>
 
                 <div className="flex flex-wrap w-full justify-center">
-                    {products.map((p, i) => <SearchBarCard name={p.product_name} description={p.product_name} stars={p.rating} price={p.product_price} image={p.product_image_link}/>)}  
+                    {products.map((p, i) => <SearchBarCard name={p.product_name} description={p.product_name} stars={p.rating} 
+                    price={p.product_price} image={p.product_image_link} productID={p.product_id} onClick={props.onClose}/>)}  
                 </div>
             </form>
         </div>
