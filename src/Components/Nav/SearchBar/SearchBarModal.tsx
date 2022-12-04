@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Product } from "../../../Types/Product"
 import { SearchBarCard } from "./SearchBarCard"
 
@@ -22,7 +22,9 @@ export function SearchBarModal(props: Props) {
         setProducts([...results])
     }
 
-
+    useEffect(()=> {
+        setProducts([])
+    },[props.visible])
 
 
     if (!props.visible) return null
