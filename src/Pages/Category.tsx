@@ -18,7 +18,7 @@ export function Category() {
     },[]);
 
     return (
-        <div className="min-h-screen bg-lightGray">
+        <div className="min-h-screen bg-lightGray mt-16">
             <Nav></Nav>
             
             <div className="px-10 py-5">

@@ -45,7 +45,7 @@ export function CheckOut() {
     return (
         <div>
             <Nav></Nav>
-            <div className="h-screen grid grid-cols-3">
+            <div className="h-screen grid grid-cols-3 mt-16">
                 <div className="lg:col-span-2 col-span-3 bg-lightGray space-y-8 px-12">
                     <div className="mt-8 p-4 relative flex flex-col sm:flex-row sm:items-center bg-white shadow rounded-md">
                         <div className="flex flex-row items-center border-b sm:border-b-0 w-full sm:w-auto pb-4 sm:pb-0">
