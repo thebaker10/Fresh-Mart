@@ -2,6 +2,9 @@ import { Product } from "../Components/Checkout/Product";
 import { Nav } from "../Components/Nav/Nav"
 import TawkTo from "../Components/TawkTo";
 import React, { useState, useEffect } from 'react';
+import { useNavigate} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -9,7 +12,12 @@ import React, { useState, useEffect } from 'react';
 export function CheckOut() {
     let [cartData, setCartData] = useState<any[]>([]);
     let [cartTotal, setCartTotal] = useState<any>();
+    let [userId, setUserId] = useState<any>();
     let [userData, setUserData] = useState<any[]>([]);
+    const [loading, setLoading] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState('Something went wrong while adding product to cart.');
+    const [alertVisible, setAlertVisible] = React.useState(false);
+    const navigate = useNavigate();
 
     function getCookie() {
         function escape(s:any) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
@@ -26,6 +34,7 @@ export function CheckOut() {
 
     useEffect(() => {
         let cookie = getCookie();
+        setUserId(cookie);
         fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
             .then((response) => response.json())
             .then((data) => {
@@ -42,6 +51,37 @@ export function CheckOut() {
         })
 
     },[]);
+
+    function placeOrder(){
+        if(!loading){
+            setLoading(true);
+            let data:any = {};
+            data["userId"] = Number(userId);
+            
+      
+            fetch(process.env.REACT_APP_API_BASE+"/order/", {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            }).then((response) => {
+                response.json().then((body) => {
+                if(body.statusCode === 500) {
+                    setAlertMessage(body.data.message);
+                    setAlertVisible(true);
+                    setLoading(false);
+                    return;
+                }else{
+                    setLoading(false);
+                    setAlertVisible(false);  
+                    navigate('/OrderDetails/'+body.data.OrderId);
+                }
+                });
+            })
+          } 
+    }
     return (
         <div>
             <Nav></Nav>
@@ -136,8 +176,9 @@ export function CheckOut() {
                         </section>
                     </div>
                     <div className="grid justify-center">
-                        <button className="submit-button px-4 py-3 rounded-full bg-green text-white focus:ring focus:outline-none w-96 text-xl font-semibold transition-colors">
-                            Pay ${cartTotal && (cartTotal).toFixed(2)}
+                        { alertVisible && <div className="p-4 mb-4 text-sm text-center text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">{alertMessage}</div> }
+                        <button onClick={placeOrder} className="submit-button px-4 py-3 rounded-full bg-green text-white focus:ring focus:outline-none w-96 text-xl font-semibold transition-colors">
+                            {loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> :'Pay $'+(cartTotal ? (cartTotal).toFixed(2) : 0)}
                         </button>
                     </div>
                 </div>
