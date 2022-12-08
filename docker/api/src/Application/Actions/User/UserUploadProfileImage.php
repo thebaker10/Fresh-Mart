@@ -48,12 +48,11 @@ class UserUploadProfileImage extends Action
     {
 
         try {
-            $userId = $this->resolveArg('user_id');
             $uploadedFiles = $this->request->getUploadedFiles();
             $directory = '/var/www/html/api/public/profileimages';
-          // if (empty($uploadFiles)) {
-          //      throw new InvalidImageUploaded();
-          //  }
+          if (empty($uploadFiles)) {
+             throw new InvalidImageUploaded();
+          }
 
 
            // https://www.slimframework.com/docs/v4/cookbook/uploading-files.html
