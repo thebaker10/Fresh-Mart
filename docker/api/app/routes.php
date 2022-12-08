@@ -84,7 +84,7 @@ return function (App $app) {
          * https://www.postman.com/downloads/
          */
         $group->post('/', UserPostAction::class);
-        $group->post('/login', UserLoginAction::class);
+        $group->post('/login', UserLoginAction::class)->addMiddleware();
         $group->post('/forgot-password', UserForgotPasswordAction::class);
         $group->post('/password-reset', UserPasswordResetAction::class);
 
