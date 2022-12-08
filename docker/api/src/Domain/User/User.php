@@ -193,8 +193,13 @@ class User implements JsonSerializable
         return password_verify($password, $this->password_hash);
     }
 
-    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array', 'address' => "string",'city' => "string",'state' => "string",'zip' => "string",'country' => "string"])]
+    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array', 'address' => "string",'city' => "string",'state' => "string",'zip' => "string",'country' => "string", 'profileImage' => 'string'])]
     public function jsonSerialize(): array{
+
+        //Profile Image
+        $userId = $_COOKIE['freshMartUserId'];
+        $basename = md5($userId.'-freshMart-user-profile-image');
+        $filename = sprintf('%s.%0.8s', $basename, 'jpg');
 
         //The null coalesce operator below prevents accessing a shopping cart that does not exist
         return [
@@ -208,7 +213,8 @@ class User implements JsonSerializable
             'city' => $this->city ?? null,
             'state' => $this->state ?? null,
             'zip' => $this-> zip ?? null,
-            'country' => $this-> country ?? null
+            'country' => $this-> country ?? null,
+            'profileImage' => $_ENV['REACT_APP_API_BASE'] . '/profileimages/' . $filename
         ];
     }
 

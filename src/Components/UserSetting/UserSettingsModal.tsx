@@ -31,7 +31,7 @@ export function UserSettingsModal(props: Props) {
                 </div>
 
 
-                <UserBanner />
+                <UserBanner userId={user?.userId} />
 
                 { alertVisible && <div className="p-4 mt-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">{alertMessage}</div> }
 
@@ -101,7 +101,7 @@ export function UserSettingsModal(props: Props) {
             setAlertVisible(false);
 
             if(!response.ok){
-                response.json().then((error) => {
+                response.json().then((error)    => {
                     let errorMsg = error?.data?.message;
                     showAlert(errorMsg);
                 });
