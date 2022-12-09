@@ -9,7 +9,8 @@ type Props={
     name: string,
     description: string,
     stars: number,
-    price: number 
+    price: number,
+    image?: string
 }
 
 export function Card(props:Props) {
@@ -90,6 +91,7 @@ export function Card(props:Props) {
           <div className="flex max-w-md m-auto bg-white shadow-lg rounded-lg overflow-hidden cursor-pointer" onClick={goToProductPage}>
             <div  className="w-1/3">
                 <img id="cardImage" src={"https://source.unsplash.com/400x600/?" + props.name + " food"} alt="" />
+
             </div> 
             <div className="flex flex-col w-2/3 p-4">
               <div className="flex-auto mb-4">

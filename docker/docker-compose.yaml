@@ -19,6 +19,18 @@ services:
       - MARIADB_ROOT_PASSWORD=notsafeforproduction
     command:
       --lower_case_table_names=1
+
+    hostname: db
+
+  search:
+    build:
+      context: ./search/
+    ports:
+      - 5050:5050
+    depends_on:
+      - db
+    restart: always
+
   phpmyadmin:
     image: phpmyadmin
     ports:

@@ -17,7 +17,7 @@ export function SpecialBanner(props:Props) {
                     
                     <div className="font-bold ml-12  text-5xl">
                         
-                        <p className="text-white absolute z-10 max-w-screen-xl leading-relaxed">Never overpay for your groceries</p>
+                        <p className="text-white absolute max-w-screen-xl leading-relaxed">Never overpay for your groceries</p>
                     </div>
                     <div className="font-bold ml-12 mt-20 mb-5 text-1xl ">
                         

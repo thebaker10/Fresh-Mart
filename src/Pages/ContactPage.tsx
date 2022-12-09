@@ -6,7 +6,7 @@ import TawkTo from "../Components/TawkTo";
 
 export function ContactPage() {
     return (
-        <div className="min-h-screen bg-lightGray">
+        <div className="min-h-screen bg-lightGray mt-20">
             <Nav></Nav>
             <div className="rounded-md max-w-4xl m-auto">
                 
