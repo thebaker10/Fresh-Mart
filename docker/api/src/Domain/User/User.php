@@ -244,6 +244,9 @@ class User implements JsonSerializable
         $id = $this->getUserId();
         $expiry =  time()+60*60*24*30;
         setcookie('freshMartUserId', $id, $expiry, '/');
+
+        $freshMartHash = hash('sha256', $_ENV['COOKIE_SALT']);
+        setcookie('freshMartHash', $id.$freshMartHash, $expiry, '/');
     }
 
     /**

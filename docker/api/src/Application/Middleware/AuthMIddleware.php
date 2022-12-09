@@ -9,21 +9,27 @@ use DI\NotFoundException;
 use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Exception\HttpUnauthorizedException;
 use Slim\Factory\AppFactory;
+use Slim\MiddlewareDispatcher;
 
 class AuthMiddleware
 {
     /**
      * Example middleware invokable class
      *
-     * @param ServerRequestInterface $request  PSR7 request
-     * @param ResponseInterface $response PSR7 response
-     * @param callable $next     Next middleware
-     *
+     * @param ServerRequestInterface $request PSR7 request
+     * @param RequestHandlerInterface $requestHandler
      * @return ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next): ResponseInterface{
+    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $requestHandler): ResponseInterface{
+
+        $user_id = $request->getAttribute('user_id');
+
+        if(empty($user_id)){
+            return $requestHandler->handle($request);
+        }
 
         if(!$this->validateCookie()){
 
@@ -31,7 +37,6 @@ class AuthMiddleware
         }
 
 
-        $user_id = $request->getAttribute('user_id');
         if($user_id !== $_COOKIE['freshMartUserId'] && $request->getMethod() !== 'GET'){
             $container = new Container();
             AppFactory::setContainer($container);
@@ -49,17 +54,18 @@ class AuthMiddleware
             }
         }
 
-        return $next($request, $response);
+        return $requestHandler->handle($request);
     }
 
     private function validateCookie(): bool{
-        if(empty($_COOKIE) || empty($_COOKIE['freshMartHash'])){
+        if(empty($_COOKIE)){
             return false;
         }
 
         $userId = $_COOKIE['freshMartUserId'];
         $cookieSalt = $_ENV['COOKIE_SALT'] ?? '';
         $cookieHash = hash('sha256',$userId.$cookieSalt);
-        return $_COOKIE['freshMartHash'] === $cookieHash;
+        $freshMartHash = $_COOKIE['freshMartHash'] ?? '';
+        return $freshMartHash === $cookieHash;
     }
 }

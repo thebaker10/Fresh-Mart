@@ -50,7 +50,7 @@ class UserUploadProfileImage extends Action
         try {
             $uploadedFiles = $this->request->getUploadedFiles();
             $directory = '/var/www/html/api/public/profileimages';
-          if (empty($uploadFiles)) {
+          if (empty($uploadedFiles)) {
              throw new InvalidImageUploaded();
           }
 

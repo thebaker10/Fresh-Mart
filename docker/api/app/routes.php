@@ -29,6 +29,7 @@ use App\Application\Actions\User\UserUpdateAction;
 use App\Application\Actions\User\UserUploadProfileImage;
 use App\Application\Actions\User\UserViewAction;
 use App\Application\Actions\User\UserDetailsAction;
+use App\Application\Middleware\AuthMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -84,16 +85,16 @@ return function (App $app) {
          * https://www.postman.com/downloads/
          */
         $group->post('/', UserPostAction::class);
-        $group->post('/login', UserLoginAction::class)->addMiddleware();
+        $group->post('/login', UserLoginAction::class);
         $group->post('/forgot-password', UserForgotPasswordAction::class);
         $group->post('/password-reset', UserPasswordResetAction::class);
 
 
-        $group->get('[/{user_id}]', UserViewAction::class);
-        $group->post('/{user_id}', UserUpdateAction::class);
-        $group->post('/{user_id}/profile-image', UserUploadProfileImage::class);
-        $group->get('/details/{user_id}', UserDetailsAction::class);
-        $group->get('/{user_id}/orders', UserOrderListAction::class);
-        $group->get('/{user_id}/orders/{order_id}', UserOrderViewAction::class);
+        $group->get('[/{user_id}]', UserViewAction::class)->add( new AuthMiddleware());
+        $group->post('/{user_id}', UserUpdateAction::class)->add( new AuthMiddleware());
+        $group->post('/{user_id}/profile-image', UserUploadProfileImage::class)->add( new AuthMiddleware());
+        $group->get('/details/{user_id}', UserDetailsAction::class)->add( new AuthMiddleware());
+        $group->get('/{user_id}/orders', UserOrderListAction::class)->add( new AuthMiddleware());
+        $group->get('/{user_id}/orders/{order_id}', UserOrderViewAction::class)->add( new AuthMiddleware());
     });
 };
