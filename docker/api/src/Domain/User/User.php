@@ -209,6 +209,7 @@ class User implements JsonSerializable
             'email' => $this->getUsername(),
             'balance' => $this->getUserBalance(),
             'shoppingCart' => $this->cart ?? [],
+            'favorites' => $this->favorites ?? [],
             'address' => $this->address ?? null,
             'city' => $this->city ?? null,
             'state' => $this->state ?? null,

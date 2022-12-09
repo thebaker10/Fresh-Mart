@@ -145,7 +145,7 @@ class Review implements JsonSerializable{
             'rating' => $this->rating,
             'reviewTitle' => $this->review_title,
             'reviewContent' => $this->review_content,
-            'reviewDate' => $this->review_date
+            'reviewDate' => $this->review_date->format("m-d-Y")
         ];
     }
 }

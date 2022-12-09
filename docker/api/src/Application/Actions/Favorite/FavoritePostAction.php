@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Actions\Review;
+namespace App\Application\Actions\Favorite;
 
 use App\Application\Actions\Action;
+use App\Domain\Favorite\Favorite;
+use App\Domain\Favorite\FavoriteItem;
 use App\Domain\Product\Product;
-use App\Domain\User\User;
-use App\Domain\Review\Review;
-use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -19,7 +18,7 @@ use Slim\Factory\AppFactory;
 use Slim\Logger;
 use Slim\Psr7\Response;
 
-class ReviewPostAction extends Action
+class FavoritePostAction extends Action
 {
 
     private EntityManager $em;
@@ -44,34 +43,29 @@ class ReviewPostAction extends Action
     {
 
         $payload = $this->request->getParsedBody();
-        $productId = $payload['productId'];
         $userId = $payload['userId'];
-        $rating = $payload['rating'];
-        $reviewTitle = $payload['reviewTitle'];
-        $reviewContent = $payload['reviewContent'];
-        $timezone = $payload['timezone'];
-        date_default_timezone_set($timezone);
-        $review = new Review($productId, $userId, $rating, $reviewTitle, $reviewContent, new DateTime());
+        $productId = $payload['productId'];
+        $favorite = $this->em->getRepository(Favorite::class)->findBy(array('user_id' => $userId))[0];
+
+        $favoriteItem = new FavoriteItem($productId, $favorite->getFavoriteId());
 
         $product = $this->em->getRepository(Product::class)->find($productId);
-        $review->setProduct($product);
+        $favoriteItem->setProduct($product);
 
-        $user = $this->em->getRepository(User::class)->find($userId);
-        $review->setUser($user);
 
-        //TESTING product_id
-        //return $this->respondWithData(['product_id'  => $review->getProductId()], 500);
-        
+
+        $favoriteItem -> setFavorite($favorite);
+
         try {
-            $this->em->persist($review);
+            $this->em->persist($favoriteItem);
             $this->em->flush();
         } catch (OptimisticLockException | ORMException | TransactionRequiredException $e) {
             $this->logger->error($e->getMessage());
-            return $this->respondWithData([$e->getMessage() => 'Error while creating new review.'], 500);
+            return $this->respondWithData([$e->getMessage() => 'Error while adding to favorites.'], 500);
         }
 
         $this->response->withHeader('Access-Control-Allow-Origin', '*');
 
-        return $this->respondWithData(['message' => 'Review successfully added', 'review_id' => $review->getReviewId()], 201);
+        return $this->respondWithData(['message' => 'Item successfully added to favorites', 'favorite_item_id' => $favoriteItem->getFavoriteItemId()], 201);
     }
 }
