@@ -48,8 +48,36 @@ export function UserSettingsModal(props: Props) {
                     <Input type="text" label="City" placeHolder="Minneapolis" autoComplete="address-level2" value={user?.city}  onChange={(value) => updateUser('city', value)} />
                     <Input type="text" label="State" placeHolder="MN" autoComplete="address-level1" value={user?.state}  onChange={(value) => updateUser('state', value)} />
                     <Input type="text" label="Zip Code" placeHolder="55555" autoComplete="postal-code" value={user?.zip}  onChange={(value) => updateUser('zip', value)} />
-                    <Input type="text" label="Country" placeHolder="USA" autoComplete="country" value={user?.country}  onChange={(value) => updateUser('country', value)} />
-
+                    <div>
+                    <label className="flex border-t border-gray-200 h-12 py-3 items-center select relative">
+                        Country
+                    </label>
+                            <select id="countrySelect" value={user?.country} name="country" autoComplete="country" onChange={(e) => updateUser('country', e.target.value)} className="bg-transparent flex-1 cursor-pointer appearance-none focus:outline-none">
+                                <option value="AU">Australia</option>
+                                <option value="BE">Belgium</option>
+                                <option value="BR">Brazil</option>
+                                <option value="CA">Canada</option>
+                                <option value="CN">China</option>
+                                <option value="DK">Denmark</option>
+                                <option value="FI">Finland</option>
+                                <option value="FR">France</option>
+                                <option value="DE">Germany</option>
+                                <option value="HK">Hong Kong</option>
+                                <option value="IE">Ireland</option>
+                                <option value="IT">Italy</option>
+                                <option value="JP">Japan</option>
+                                <option value="LU">Luxembourg</option>
+                                <option value="MX">Mexico</option>
+                                <option value="NL">Netherlands</option>
+                                <option value="PL">Poland</option>
+                                <option value="PT">Portugal</option>
+                                <option value="SG">Singapore</option>
+                                <option value="ES">Spain</option>
+                                <option value="TN">Tunisia</option>
+                                <option value="GB">United Kingdom</option>
+                                <option value="US">United States</option>
+                            </select>
+                        </div>
                 </div>
 
                 <p className={(loading) ? 'visible text-center' : 'invisible text-center'}>
