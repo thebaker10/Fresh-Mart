@@ -196,10 +196,15 @@ class User implements JsonSerializable
     #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array', 'address' => "string",'city' => "string",'state' => "string",'zip' => "string",'country' => "string", 'profileImage' => 'string'])]
     public function jsonSerialize(): array{
 
-        //Profile Image
-        $userId = $_COOKIE['freshMartUserId'];
-        $basename = md5($userId.'-freshMart-user-profile-image');
-        $filename = sprintf('%s.%0.8s', $basename, 'jpg');
+
+        if(!empty($_COOKIE['freshMartUserId'])) {
+            //Profile Image
+            $userId = $_COOKIE['freshMartUserId'];
+            $basename = md5($userId . '-freshMart-user-profile-image');
+            $filename = sprintf('%s.%0.8s', $basename, 'jpg');
+        }else{
+            $filename = null;
+        }
 
         //The null coalesce operator below prevents accessing a shopping cart that does not exist
         return [
