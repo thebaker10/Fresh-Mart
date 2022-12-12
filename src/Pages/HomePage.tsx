@@ -34,7 +34,7 @@ export function HomePage() {
                 </div>
             </div>
 
-            <Slider categoryID={1} title={"Deals"}></Slider>
+            <Slider categoryID={1} title={"Deals"} showDeal></Slider>
             <Slider categoryID={1} title={"Popular"}></Slider>
             
             <Footer/>
