@@ -24,6 +24,13 @@ export function CheckOut() {
         }  
     }
 
+    function onDeleteHandler(index: number) {
+        cartData.splice(index, 1)
+        setCartData([...cartData])
+        let price = cartData[index].quantity * cartData[index].product.product_price;
+        setCartTotal(cartTotal - price);
+    }
+
     useEffect(() => {
         let cookie = getCookie();
         fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
@@ -144,7 +151,7 @@ export function CheckOut() {
                 <div className="col-span-1 bg-white lg:block hidden">
                     <h1 className="py-6 border-b-2 text-xl text-gray-600 px-8">Order Summary</h1>
                     <ul className="py-6 border-b space-y-6 px-8">
-                        {cartData ? cartData.map((c) => <Product productID={c.product.productId} name={c.product.productName} imageLink = {""} quantity={c.quantity} price={c.product.product_price}></Product>): <div></div>}
+                        {cartData ? cartData.map((c, i) => <Product productID={c.product.productId} name={c.product.productName} onDelete={()=> onDeleteHandler(i)} imageLink = {""} quantity={c.quantity} price={c.product.product_price}></Product>): <div></div>}
                     </ul>
                     <div className="px-8 border-b">
                         <div className="flex justify-between py-4 text-gray-600">
