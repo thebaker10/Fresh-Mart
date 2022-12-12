@@ -47,6 +47,10 @@ class CartItem implements JsonSerializable{
         $this->product = $product;
     }
 
+    public function getProduct(): Product{
+        return $this->product;
+    }
+
     public function setCart(Cart $cart): void{
         $this->cart = $cart;
     }
@@ -73,6 +77,11 @@ class CartItem implements JsonSerializable{
     public function setQuantity(int $quantity): void
     {
         $this->quantity = $quantity;
+    }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
     }
 
     /**

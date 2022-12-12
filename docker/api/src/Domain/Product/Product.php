@@ -52,6 +52,11 @@ class Product implements JsonSerializable{
     #[JoinColumn(name: 'product_id', referencedColumnName: 'product_id')]
     private PersistentCollection $reviews;
 
+    public function getProductPrice(): float
+    {
+        return $this->product_price;
+    }
+
 
     #[ArrayShape(['productId' => "int", 'categoryId' => "int", 'productName' => "string", 'product_msrp' => "float", 'product_price' => "float", 'product_description' => "string"])] public function jsonSerialize(): array{
         return [

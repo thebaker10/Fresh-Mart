@@ -4,15 +4,19 @@
 namespace App\Domain\Order;
 
 use App\Domain\User\User;
+use App\Domain\LineItem\LineItem;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use JetBrains\PhpStorm\ArrayShape;
+use Doctrine\ORM\PersistentCollection;
 use JsonSerializable;
 
 #[Entity, Table(name: 'user_order')]
@@ -34,6 +38,18 @@ class Order implements JsonSerializable{
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private User $user;
 
+    #[OneToMany(mappedBy:"order",targetEntity: LineItem::class)]
+    #[JoinColumn(name: 'order_id', referencedColumnName: 'order_id')]
+    private PersistentCollection $line_items;
+
+
+    public function __construct(int $user_id, DateTime $order_date, float $order_price){
+        $this->setUserId($user_id);
+        $this->setOrderDate($order_date);
+        $this->setOrderPrice($order_price);
+
+    }
+
     public function setUser(User $user): void{
         $this->user = $user;
     }
@@ -45,14 +61,9 @@ class Order implements JsonSerializable{
         return $this->order_id;
     }
 
-    public function __construct(int $order_id, int $user_id, DateTime $order_date, float $order_price){
-        $this->setOrderId($order_id);
-        $this->setUserId($user_id);
-        $this->setOrderDate($order_date);
-        $this->setOrderPrice($order_price);
-
+    public function getLineItems(){
+        return $this->line_items->getValues();
     }
-
 
     public function setOrderId(int $order_id): void
     {
