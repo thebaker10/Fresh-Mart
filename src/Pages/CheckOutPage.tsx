@@ -27,6 +27,8 @@ export function CheckOut() {
     function onDeleteHandler(index: number) {
         cartData.splice(index, 1)
         setCartData([...cartData])
+        let price = cartData[index].quantity * cartData[index].product.product_price;
+        setCartTotal(cartTotal - price);
     }
 
     useEffect(() => {
