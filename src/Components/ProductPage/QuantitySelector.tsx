@@ -14,8 +14,6 @@ export function QuantitySelector(props:Props) {
 
     const [alertVisible, setAlertVisible] = React.useState(false);
     const [userId, setUserId] = React.useState<any>();
-    const [added, setAdded] = React.useState(false);
-    const [addedFav, setAddedFav] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [isInCart, setIsInCart] = React.useState(false);
     const [isInFavorite, setIsInFavorite] = React.useState(false);
@@ -75,7 +73,7 @@ export function QuantitySelector(props:Props) {
                 return;
             }else{
                 setLoading(false);
-                setAdded(true);
+                setIsInCart(true);
                 setAlertVisible(false);
             }
             });
@@ -110,14 +108,13 @@ export function QuantitySelector(props:Props) {
             }else{
                 setLoadingFav(false);
                 setIsInFavorite(true);
-                setAddedFav(true);
                 setAlertVisible(false);
             }
             });
         }).catch((error) => {
             setAlertVisible(true);
         });
-      }else if(isInFavorite || addedFav){
+      }else if(isInFavorite){
         setLoadingFav(true);
           let data:any = {};
           data["userId"] = userId;
@@ -136,7 +133,6 @@ export function QuantitySelector(props:Props) {
                   return;
               }else{
                   setLoadingFav(false);
-                  setAddedFav(false);
                   setIsInFavorite(false);
               }
               });
@@ -171,10 +167,10 @@ export function QuantitySelector(props:Props) {
         </div>
       <p className="text-center text-2xl">${(props.price * count).toFixed(2)}</p>
       <div className="flex gap-1 flex-row justify-center items-center">
-        <button onClick={addToCart} className="px-3 py-3 bg-green w-full text-white text-xs font-bold uppercase rounded">{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : added || isInCart ? "In Cart" : "Add To Cart"}</button>
+        <button onClick={addToCart} className="px-3 py-3 bg-green w-full text-white text-xs font-bold uppercase rounded">{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : isInCart ? "In Cart" : "Add To Cart"}</button>
         <ul>
-          <button  onClick={addToFavorites} className={addedFav || isInFavorite ? "bg-[red] px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]":"bg-green px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]"}>
-            {loadingFav ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"2x"} /> : addedFav || isInFavorite ?<IconItem color = {"black"} icon={faHeartCircleMinus}/> : <IconItem color = {"white"} icon={faHeartCirclePlus} />}
+          <button  onClick={addToFavorites} className={isInFavorite ? "bg-[red] px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]":"bg-green px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]"}>
+            {loadingFav ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"2x"} /> : isInFavorite ?<IconItem color = {"black"} icon={faHeartCircleMinus}/> : <IconItem color = {"white"} icon={faHeartCirclePlus} />}
           </button>
         </ul>
       </div>

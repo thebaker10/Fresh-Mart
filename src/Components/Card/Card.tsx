@@ -16,7 +16,6 @@ type Props={
 export function Card(props:Props) {
   let [average, setAverageData] = useState<any>();
   const [userId, setUserId] = React.useState<any>();
-  const [added, setAdded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [isInCart, setIsInCart] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState('Something went wrong while adding product to cart.');
@@ -82,7 +81,7 @@ export function Card(props:Props) {
               return;
           }else{
               setLoading(false);
-              setAdded(true);   
+              setIsInCart(true);   
           }
           });
       })
@@ -116,7 +115,7 @@ export function Card(props:Props) {
                 { alertVisible && <div className="p-4 absolute bottom-14 right-8 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">{alertMessage}</div> }
                 <div className="flex  item-center justify-between mt-3">
                   <h1 className="text-black font-bold text-xl">${props.price.toFixed(2)}</h1>
-                  <button className="px-3 py-2 min-w-[50%] bg-green text-white text-xs font-bold uppercase rounded" onClick={(event) => addToCart(event)}>{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : added || isInCart ? "In Cart" : "Add To Cart"}</button>
+                  <button className="px-3 py-2 min-w-[50%] bg-green text-white text-xs font-bold uppercase rounded" onClick={(event) => addToCart(event)}>{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : isInCart ? "In Cart" : "Add To Cart"}</button>
                 </div>
               </div>
               
