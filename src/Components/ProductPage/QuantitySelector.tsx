@@ -2,6 +2,7 @@ import { IconItem } from "../Nav/IconItem";
 import {faPlus, faMinus, faHeartCirclePlus, faHeartCircleMinus, faSpinner} from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { ColdObservable } from "rxjs/internal/testing/ColdObservable";
 
 type Props={
   price: number,
@@ -30,9 +31,9 @@ export function QuantitySelector(props:Props) {
 
     useEffect(() => {
       let cookie = getCookie();
-      setUserId(cookie);
-
-      fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
+      if(cookie != null){
+        setUserId(cookie);
+        fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
             .then((response) => response.json())
             .then((data) => {
               data.data[0].shoppingCart.cartItems.forEach((e:any) => {
@@ -46,10 +47,14 @@ export function QuantitySelector(props:Props) {
                 }
               });
         })
+      }
     },[]);
 
     function addToCart(){
-      if(!isInCart && !loading){
+      if(userId == null){
+        loginAlert();
+      }
+      else if(!isInCart && !loading){
         setLoading(true);
         let data:any = {};
         data["userId"] = userId;
@@ -81,7 +86,10 @@ export function QuantitySelector(props:Props) {
     }
 
     function addToFavorites(){
-      if(!isInFavorite && !loadingFav){
+      if(userId == null){
+        loginAlert();
+      }
+      else if(!isInFavorite && !loadingFav){
         setLoadingFav(true);
         let data:any = {};
         data["userId"] = userId;
@@ -146,6 +154,11 @@ export function QuantitySelector(props:Props) {
         count--;
         setCount(count);
       }
+    }
+
+    function loginAlert(){
+      setAlertMessage("You must be logged in")
+      setAlertVisible(true);
     }
 
     return (

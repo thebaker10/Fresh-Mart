@@ -19,6 +19,8 @@ export function Card(props:Props) {
   const [added, setAdded] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [isInCart, setIsInCart] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState('Something went wrong while adding product to cart.');
+  const [alertVisible, setAlertVisible] = React.useState(false);
   const navigate = useNavigate();
 
   function getCookie() {
@@ -30,6 +32,7 @@ export function Card(props:Props) {
   useEffect(() => {
 
     let cookie = getCookie();
+    if(cookie != null){
       setUserId(cookie);
 
       fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
@@ -42,6 +45,7 @@ export function Card(props:Props) {
                 }
               });
         })
+    }
     fetch(process.env.REACT_APP_API_BASE+"/products/"+props.productID+"/reviews" )
 
         .then((response) => response.json())
@@ -54,7 +58,11 @@ export function Card(props:Props) {
 
   function addToCart(e:any){
     e.stopPropagation();
-    if(!isInCart && !loading){
+    if(userId == null){
+      setAlertMessage("You must be logged in")
+      setAlertVisible(true);
+    }
+    else if(!isInCart && !loading){
       setLoading(true);
       let data:any = {};
       data["userId"] = userId;
@@ -105,6 +113,7 @@ export function Card(props:Props) {
                 <div className="flex item-center mt-2">
                   {average ? <Rating nStars={average}/> : <Rating nStars={0}/>}
                 </div>
+                { alertVisible && <div className="p-4 absolute bottom-14 right-8 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">{alertMessage}</div> }
                 <div className="flex  item-center justify-between mt-3">
                   <h1 className="text-black font-bold text-xl">${props.price.toFixed(2)}</h1>
                   <button className="px-3 py-2 min-w-[50%] bg-green text-white text-xs font-bold uppercase rounded" onClick={(event) => addToCart(event)}>{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : added || isInCart ? "In Cart" : "Add To Cart"}</button>
