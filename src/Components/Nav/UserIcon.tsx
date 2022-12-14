@@ -1,23 +1,24 @@
-import { faUsd, faUser, faUserLarge } from "@fortawesome/free-solid-svg-icons";
+import { faUserLarge } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
 import { $User } from "../../Services/State";
+import { removeCookies } from "../../Services/Util";
 import { UserData } from "../../Types/User";
 import { UserSettingsButton } from "../UserSetting/UserSettingsButton";
 
 export function UserIcon() {
 
-    
-    const [user, setUser] = useState<UserData|null>(null)
+
+    const [user, setUser] = useState<UserData | null>(null)
     const [showDropDown, setShowDropDown] = useState(false)
 
     useEffect(() => {
         $User.subscribe(setUser)
         $User.subscribe(console.log)
 
-    //    return $User.unsubscribe()        
-    }, []) 
+        //    return $User.unsubscribe()        
+    }, [])
 
 
 
@@ -28,18 +29,16 @@ export function UserIcon() {
         // }, 500);
     }
 
-    const logoutClickHandler = () => {
+    const logoutClickHandler = async () => {
         // MDN https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
-        if(document.cookie){
-            //Expire the cookie
-            document.cookie = 'FreshMartUserId=;Expires=Thu, 01 Jan 1970 00:00:00;';
-            //Reload and go to home page
-            document.location = '/';
-        }
+        await fetch(process.env.REACT_APP_API_BASE + "/users/logout")
         $User.next(null)
+        removeCookies()
+        //Reload and go to home page
+        document.location = '/';
     }
 
-    if(user) return (
+    if (user) return (
         <div className="relative">
             <button onClick={() => setShowDropDown(!showDropDown)} id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar"
                 className={` ${showDropDown ? "ring-green ring-4" : null} flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0`} type="button">
@@ -68,14 +67,14 @@ export function UserIcon() {
                     </li>
 
                     <li>
-                        <UserSettingsButton className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"/>
+                        <UserSettingsButton className="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" />
                     </li>
                 </ul>
                 <div className="py-1">
                     <a href="#" className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" onClick={logoutClickHandler}>Sign out</a>
                 </div>
             </div>
-           
+
         </div>
     )
 
@@ -87,7 +86,7 @@ export function UserIcon() {
                 className={`block my-0 text-2xl`} type="button">
                 <span className="sr-only">Open user menu</span>
                 <div className="flex gap-8"></div>
-                <FontAwesomeIcon icon={faUserLarge}/>
+                <FontAwesomeIcon icon={faUserLarge} />
             </button>
 
 
@@ -104,9 +103,9 @@ export function UserIcon() {
                         <Link to="/RegistrationPage" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Register</Link>
                     </li>
                 </ul>
-                
+
             </div>
-           
+
         </div>
 
     )

@@ -23,13 +23,12 @@ export function WriteReview(props:Props) {
 
     useEffect(() => {
         let cookie = getCookie();
-        setUserId(cookie);
   
         fetch(process.env.REACT_APP_API_BASE+"/products/"+props.productID+"/reviews" )
             .then((response) => response.json())
             .then((data) => {
                 data.data.forEach((review: any) => {
-                    if(review.userId == cookie){
+                    if(review.userId === cookie){
                         setHasReview(true);
                     }
                 });

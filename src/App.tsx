@@ -22,7 +22,8 @@ import {ResetPasswordPage} from "./Components/ResetPasswordPage";
 function App() {
   useEffect(() => {
     const userId = getCookie("freshMartUserId")
-    if(userId){
+    console.log(userId)
+    if(userId && userId.length > 0){
       fetch(process.env.REACT_APP_API_BASE + '/users/' + userId, { credentials: 'include' }).then(b => b.json()).then(user => $User.next(user.data))
     }
     

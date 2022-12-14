@@ -17,17 +17,6 @@ export function Product(props:Props) {
     const [userId, setUserId] = useState<any>();
     const navigate = useNavigate();
 
-    function getCookie() {
-        function escape(s:any) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
-        var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape('freshMartUserId') + '=([^;]*)'));
-        return match ? match[1] : null;
-    }
-
-    useEffect(() => {
-        let cookie = getCookie();
-        setUserId(cookie);
-    },[]);
-
     function removeFromCart(e:any){
         e.stopPropagation();
         if(!loading){

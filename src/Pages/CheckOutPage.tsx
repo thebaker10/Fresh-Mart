@@ -41,7 +41,6 @@ export function CheckOut() {
 
     useEffect(() => {
         let cookie = getCookie();
-        setUserId(cookie);
         fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
             .then((response) => response.json())
             .then((data) => {
