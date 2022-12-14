@@ -14,6 +14,7 @@ use App\Application\Actions\Favorite\FavoritePostAction;
 use App\Application\Actions\Favorite\FavoriteRemoveItemAction;
 use App\Application\Actions\HomePageAction;
 use App\Application\Actions\Order\OrderPostAction;
+use App\Application\Actions\Order\OrderAction;
 use App\Application\Actions\Product\ProductAction;
 use App\Application\Actions\Product\ProductListAction;
 use App\Application\Actions\Product\ProductReviewAction;
@@ -78,6 +79,7 @@ return function (App $app) {
 
     $app->group('/order', function(Group $group){
         $group->post('/', OrderPostAction::class);
+        $group->get('/{orderSlug}', OrderAction::class);
     });
 
     $app->group('/users', function (Group $group) {

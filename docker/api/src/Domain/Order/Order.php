@@ -101,7 +101,8 @@ class Order implements JsonSerializable{
             'orderId' => $this->order_id,
             'userId' => $this->user_id,
             'orderDate' => $this->order_date,
-            'orderPrice' => $this->order_price
+            'orderPrice' => $this->order_price,
+            'lineItems' => $this->line_items->getValues() ?? []
         ];
     }
 }

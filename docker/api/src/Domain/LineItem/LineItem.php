@@ -96,7 +96,7 @@ class LineItem implements JsonSerializable{
         return [
             'orderId' => $this->order_id,
             'productId' => $this->product_id,
-            'lineItemPrice' => $this->lineItemPrice,
+            'lineItemPrice' => $this->line_item_price,
             'quantity' => $this->quantity
         ];
     }
