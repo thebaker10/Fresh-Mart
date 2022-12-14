@@ -4,10 +4,18 @@ export interface Orders {
 }
 
 export interface Order {
-    orderId:    number;
+    orderId:    string;
     userId:     number;
     orderDate:  OrderDate;
     orderPrice: number;
+    lineItems:  LineItem[];
+}
+
+export interface LineItem {
+    orderId:       number;
+    productId:     number;
+    lineItemPrice: number;
+    quantity:      number;
 }
 
 export interface OrderDate {

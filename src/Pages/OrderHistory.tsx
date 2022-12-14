@@ -19,7 +19,7 @@ export function OrderHistory() {
             <Nav></Nav>
             <div className="mx-auto max-w-4xl mt-5">
                 <h1 className="text-gray-900 font-bold text-2xl">Order History</h1>
-                {orders.map(o => <Order orderID={o.orderId} totalPrice={o.orderPrice} date={o.orderDate.date}></Order>)}
+                {orders.map(o => <Order order={o} />)}
 
 
                 <button className="mt-2 mb-10">View more</button>
