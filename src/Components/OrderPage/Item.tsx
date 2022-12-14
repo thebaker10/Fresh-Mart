@@ -1,20 +1,30 @@
+import { useEffect, useState } from "react"
 
 type Props={
-    name: string,
+    id: string,
     price: number,
     qty: number,
 }
 
 export function Item(props:Props) {
+    const [name, setName] = useState<string>("Loading...")
+    useEffect(() => {
+      fetch(process.env.REACT_APP_API_BASE + "/products/" + props.id).then(body => body.json()).then(r => setName(r.data.productName))
+    
+      
+    }, [])
+    
+
+
     return (
         <div className="px-5 divide-gray">
             <div className="flex space-between ">
                 <div className="flex w-1/3">
                     <div className="flex-1 ">
-                        <img src={"https://source.unsplash.com/100x100/?" + props.name + " fruit"} alt="" />
+                        <img src={"https://source.unsplash.com/100x100/?" + name + " fruit"} alt="" />
                     </div>
                     <div className="flex-1">
-                        <p className="font-bold text-lg">{props.name}</p>
+                        <p className="font-bold text-lg">{name}</p>
                         <p>${props.price.toPrecision(2).padStart(2,"0")}</p>
                     </div>
                 </div>
