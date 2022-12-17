@@ -12,10 +12,20 @@ export interface Order {
 }
 
 export interface LineItem {
+    lineItemId:    number;
     orderId:       number;
-    productId:     number;
+    product:       Product;
     lineItemPrice: number;
     quantity:      number;
+}
+
+export interface Product {
+    productId:           number;
+    categoryId:          number;
+    productName:         string;
+    product_msrp:        number;
+    product_price:       number;
+    product_description: string;
 }
 
 export interface OrderDate {

@@ -1,6 +1,6 @@
 import { Footer } from "../Components/Footer";
 import { Nav } from "../Components/Nav/Nav";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { OrderSummary } from "../Components/OrderPage/OrderSummary"
 import TawkTo from "../Components/TawkTo";
 import { useState } from "react";
@@ -14,13 +14,11 @@ export function OrderDetails() {
     const state = useLocation().state
     const [order] = useState<Order | null>(state.order)
     const [user] = useState<UserData | null>($User.value)
-    const navigate = useNavigate()
 
     if(!order || !user){
         
         return <Navigate to="/"/>
     }
-    console.log(order)
     return (
         <div className="bg-lightGray">
             <Nav></Nav>
