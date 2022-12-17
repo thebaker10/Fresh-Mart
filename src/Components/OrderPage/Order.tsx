@@ -1,3 +1,4 @@
+import { useNavigate} from "react-router-dom"
 
 type Props={
     orderID: number,
@@ -6,6 +7,11 @@ type Props={
 }
 
 export function Order(props:Props) {
+    const navigate = useNavigate();
+
+    function goToOrderDetails(){
+        navigate('/OrderDetails/'+props.orderID);
+    }
     return (
         <div className="p-3 my-5 bg-white shadow-lg rounded-lg overflow-hidden">
             
@@ -27,7 +33,7 @@ export function Order(props:Props) {
                 
                 <div className="flex-auto m-auto">
                     
-                    <a href={"http://localhost:3000/OrderDetails/"+props.orderID} className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded">View order details</a>
+                    <a onClick={goToOrderDetails} className="px-3 py-2 bg-green text-white cursor-pointer text-xs font-bold uppercase rounded">View order details</a>
                 </div>
             </div>
         </div>

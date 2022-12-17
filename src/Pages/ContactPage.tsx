@@ -13,7 +13,7 @@ export function ContactPage() {
                 <h2 className="uppercase tracking-wide text-lg font-semibold text-gray-700 my-2 mt-8">Chat with our support team</h2>
                 <div className="mb-8 bg-white shadow-lg rounded text-gray-600 flex">
                     
-                    <p className="text-center px-2 py-3"><a href=""><FontAwesomeIcon className="text-black text-2xl px-2" icon={faComments}></FontAwesomeIcon></a>Use the chat button in the lower right of the screen to chat with our support in realtime.</p>
+                    <p className="text-center px-2 py-3"><FontAwesomeIcon className="text-black text-2xl px-2" icon={faComments}></FontAwesomeIcon>Use the chat button in the lower right of the screen to chat with our support in realtime.</p>
                 </div>
                 
                 <form id="ticket-form" method="POST" action="">
@@ -44,7 +44,7 @@ export function ContactPage() {
                 
                 <h2 className="uppercase tracking-wide text-lg font-semibold text-gray-700 my-2">View chat & ticket history</h2>
                 <div className="mb-8 bg-white shadow-lg rounded text-gray-600 flex">
-                    <p className="text-center px-3 py-3"><a href="http://localhost:3000/Support"><FontAwesomeIcon className="text-black text-2xl pr-2" icon={faList}></FontAwesomeIcon></a><span className="align-top">Chat and Ticket history can be viewed by logging in to your account and navigating to the <span className="font-bold">Support</span> tab in the profile dropdown or by clicking <a className="text-green underline font-bold" href="http://localhost:3000/Support">here</a>.</span></p>
+                    <p className="text-center px-3 py-3"><FontAwesomeIcon className="text-black text-2xl pr-2" icon={faList}></FontAwesomeIcon><span className="align-top">Chat and Ticket history can be viewed using the chat bubble in the bottom right</span></p>
                 </div>
             </div>
             <Footer></Footer>

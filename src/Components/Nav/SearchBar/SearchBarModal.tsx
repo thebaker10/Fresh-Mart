@@ -18,7 +18,7 @@ export function SearchBarModal(props: Props) {
             return
         }
     
-        const results:Product[] = await fetch("http://localhost:5050/search/" + userInputSearch).then(data => data.json())
+        const results:Product[] = await fetch(process.env.REACT_APP_API_BASE+":5050/search/" + userInputSearch).then(data => data.json())
         setProducts([...results])
     }
 
