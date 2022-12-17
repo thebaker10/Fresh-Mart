@@ -19,7 +19,10 @@ use JsonSerializable;
 #[Entity, Table(name: 'line_item')]
 class LineItem implements JsonSerializable{
 
-    #[Id, Column(type: 'integer', unique: false, nullable: false) ]
+    #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
+    private int $line_item_id;
+
+    #[Column(type: 'integer', unique: false, nullable: false) ]
     private int $order_id;
 
     #[Column(type: 'integer', unique: false, nullable: false)]
@@ -48,6 +51,10 @@ class LineItem implements JsonSerializable{
 
     public function setProduct(Product $product): void{
         $this->product = $product;
+    }
+
+    public function getProduct(): Product{
+        return $this->product;
     }
 
     public function setOrder(Order $order): void{
@@ -92,10 +99,12 @@ class LineItem implements JsonSerializable{
         return $this->product_id;
     }
 
-    #[ArrayShape(['orderId' => "int", 'productId' => "int", 'lineItemPrice' => "float", 'quantity' => "int"])] public function jsonSerialize(): array{
+    #[ArrayShape(['lineItemId'=>'int','orderId' => "int", 'product' => "\App\Domain\Product\Product", 'lineItemPrice' => "float", 'quantity' => "int"])] 
+    public function jsonSerialize(): array{
         return [
+            'lineItemId'=> $this->line_item_id,
             'orderId' => $this->order_id,
-            'productId' => $this->product_id,
+            'product' => $this->product,
             'lineItemPrice' => $this->line_item_price,
             'quantity' => $this->quantity
         ];
