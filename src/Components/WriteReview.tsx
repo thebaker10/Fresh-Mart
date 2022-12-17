@@ -23,7 +23,7 @@ export function WriteReview(props:Props) {
 
     useEffect(() => {
         let cookie = getCookie();
-  
+        setUserId(cookie);
         fetch(process.env.REACT_APP_API_BASE+"/products/"+props.productID+"/reviews" )
             .then((response) => response.json())
             .then((data) => {
