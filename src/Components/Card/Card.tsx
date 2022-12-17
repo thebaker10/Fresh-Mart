@@ -30,6 +30,7 @@ export function Card(props: Props) {
   useEffect(() => {
 
     let cookie = getCookie();
+
     setUserId(cookie);
     fetch(process.env.REACT_APP_API_BASE + "/users/details/" + cookie)
       .then((response) => response.json())
@@ -42,6 +43,7 @@ export function Card(props: Props) {
         });
       })
     fetch(process.env.REACT_APP_API_BASE + "/products/" + props.productID + "/reviews")
+
 
       .then((response) => response.json())
       .then((data) => {

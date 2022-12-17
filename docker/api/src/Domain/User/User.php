@@ -84,6 +84,9 @@ class User implements JsonSerializable
     #[JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private PersistentCollection $orders;
 
+    /**
+     * @throws InvalidEmailException
+     */
     public function __construct(string $first_name, string $last_name, string $username, string $password, float $user_balance, int $role_id){
         $this->setFirstName($first_name);
         $this->setLastName($last_name);
@@ -190,8 +193,18 @@ class User implements JsonSerializable
         return password_verify($password, $this->password_hash);
     }
 
-    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array', 'address' => "string",'city' => "string",'state' => "string",'zip' => "string",'country' => "string"])]
+    #[Pure] #[ArrayShape(['userId' => "int", 'firstName' => "string", 'lastName' => "string", 'email' => "string", 'balance' => "string", 'shoppingCart' => 'array', 'address' => "string",'city' => "string",'state' => "string",'zip' => "string",'country' => "string", 'profileImage' => 'string'])]
     public function jsonSerialize(): array{
+
+
+        if(!empty($_COOKIE['freshMartUserId'])) {
+            //Profile Image
+            $userId = $_COOKIE['freshMartUserId'];
+            $basename = md5($userId . '-freshMart-user-profile-image');
+            $filename = sprintf('%s.%0.8s', $basename, 'jpg');
+        }else{
+            $filename = null;
+        }
 
         //The null coalesce operator below prevents accessing a shopping cart that does not exist
         return [
@@ -206,7 +219,8 @@ class User implements JsonSerializable
             'city' => $this->city ?? null,
             'state' => $this->state ?? null,
             'zip' => $this-> zip ?? null,
-            'country' => $this-> country ?? null
+            'country' => $this-> country ?? null,
+            'profileImage' => $_ENV['REACT_APP_API_BASE'] . '/profileimages/' . $filename
         ];
     }
 
@@ -236,5 +250,88 @@ class User implements JsonSerializable
         $id = $this->getUserId();
         $expiry =  time()+60*60*24*30;
         setcookie('freshMartUserId', $id, $expiry, '/');
+
+        $freshMartHash = hash('sha256', $_ENV['COOKIE_SALT']);
+        setcookie('freshMartHash', $id.$freshMartHash, $expiry, '/');
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress(): string
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string $address
+     */
+    public function setAddress(string $address): void
+    {
+        $this->address = $address;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity(): string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string $city
+     */
+    public function setCity(string $city): void
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $state
+     */
+    public function setState(string $state): void
+    {
+        $this->state = $state;
+    }
+
+    /**
+     * @return string
+     */
+    public function getZip(): string
+    {
+        return $this->zip;
+    }
+
+    /**
+     * @param string $zip
+     */
+    public function setZip(string $zip): void
+    {
+        $this->zip = $zip;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry(): string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string $country
+     */
+    public function setCountry(string $country): void
+    {
+        $this->country = $country;
     }
 }

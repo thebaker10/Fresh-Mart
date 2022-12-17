@@ -16,7 +16,6 @@ export function LoginPage() {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
 
-        //@TODO Add Loading Indicator
 
         const data:{[key:string]:FormDataEntryValue} = {};
 
