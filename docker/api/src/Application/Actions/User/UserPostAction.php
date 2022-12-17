@@ -114,7 +114,7 @@ class UserPostAction extends Action
             return $this->respondWithData(['message' => 'Error while creating new cart.'], 500);
         }
 
-        
+
 
         $this->response->withHeader('Access-Control-Allow-Origin', '*');
 

@@ -32,7 +32,11 @@ export function Card(props:Props) {
     let cookie = getCookie();
       setUserId(cookie);
 
-      fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
+      fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie,
+          {
+              credentials: 'include'
+          }
+      )
             .then((response) => response.json())
             .then((data) => {
               console.log(data.data[0].shoppingCart.cartItems);
