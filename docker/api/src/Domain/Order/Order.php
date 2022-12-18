@@ -96,12 +96,13 @@ class Order implements JsonSerializable{
     }
 
 
-    #[ArrayShape(['orderId' => "int", 'userId' => "int", 'orderDate' => "DateTime", 'orderPrice' => "float"])] public function jsonSerialize(): array{
+    #[ArrayShape(['orderId' => "int", 'userId' => "int", 'orderDate' => "DateTime", 'orderPrice' => "float", 'lineItems' => "\Doctrine\Common\Collections\ArrayCollection"])] public function jsonSerialize(): array{
         return [
             'orderId' => $this->order_id,
             'userId' => $this->user_id,
             'orderDate' => $this->order_date,
-            'orderPrice' => $this->order_price
+            'orderPrice' => $this->order_price,
+            'lineItems' => $this->line_items->getValues() ?? []
         ];
     }
 }

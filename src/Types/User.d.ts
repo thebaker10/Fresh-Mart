@@ -15,4 +15,5 @@ export interface UserData {
     state: string;
     zip: string;
     country: string;
+    profileImage: string;
 }
