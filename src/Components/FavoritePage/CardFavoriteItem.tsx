@@ -11,7 +11,6 @@ type Props={
 
 export function CardFavoriteItem(props:Props) {
     const [userId, setUserId] = React.useState<any>();
-    const [added, setAdded] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [loadingFav, setLoadingFav] = React.useState(false);
     const [isInCart, setIsInCart] = React.useState(false);
@@ -60,8 +59,9 @@ export function CardFavoriteItem(props:Props) {
               if(body.statusCode === 500) {
                   return;
               }else{
+                console.log("flag");
                   setLoading(false);
-                  setAdded(true);   
+                  setIsInCart(true);   
               }
               });
           })
@@ -122,7 +122,7 @@ export function CardFavoriteItem(props:Props) {
                             {loadingFav ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> :  "Remove"}
                         </button>
                         <button className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded" onClick={(event) => addToCart(event)}>
-                            {loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : added || isInCart ? "In Cart" : "Add To Cart"}
+                            {loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : isInCart ? "In Cart" : "Add To Cart"}
                         </button>
                     </div>
                 </div>
