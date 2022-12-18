@@ -249,10 +249,10 @@ class User implements JsonSerializable
     public function setSessionCookie(){
         $id = $this->getUserId();
         $expiry =  time()+60*60*24*30;
-        setcookie('freshMartUserId', $id, $expiry, '/', $_ENV['REACT_APP_FRONTEND_BASE']);
+        setcookie('freshMartUserId', $id, $expiry, '/', str_replace('https://', '', $_ENV['REACT_APP_FRONTEND_BASE']));
 
         $freshMartHash = hash('sha256', $id.$_ENV['COOKIE_SALT']);
-        setcookie('freshMartHash', $freshMartHash, $expiry, '/', $_ENV['REACT_APP_FRONTEND_BASE']);
+        setcookie('freshMartHash', $freshMartHash, $expiry, '/', str_replace('https://', '', $_ENV['REACT_APP_FRONTEND_BASE']));
     }
 
     /**
