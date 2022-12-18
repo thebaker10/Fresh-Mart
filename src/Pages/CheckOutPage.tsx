@@ -33,9 +33,9 @@ export function CheckOut() {
     }
 
     function onDeleteHandler(index: number) {
-        cartData.splice(index, 1)
-        setCartData([...cartData])
         let price = cartData[index].quantity * cartData[index].product.product_price;
+        cartData.splice(index, 1)
+        setCartData([...cartData])  
         setCartTotal(cartTotal - price);
     }
 
