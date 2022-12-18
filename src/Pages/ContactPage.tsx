@@ -44,7 +44,7 @@ export function ContactPage() {
                 
                 <h2 className="uppercase tracking-wide text-lg font-semibold text-gray-700 my-2">View chat & ticket history</h2>
                 <div className="mb-8 bg-white shadow-lg rounded text-gray-600 flex">
-                    <p className="text-center px-3 py-3"><a href="http://localhost:3000/Support"><FontAwesomeIcon className="text-black text-2xl pr-2" icon={faList}></FontAwesomeIcon></a><span className="align-top">Chat and Ticket history can be viewed by logging in to your account and navigating to the <span className="font-bold">Support</span> tab in the profile dropdown or by clicking <a className="text-green underline font-bold" href="http://localhost:3000/Support">here</a>.</span></p>
+                    <p className="text-center px-3 py-3"><a href="/Support"><FontAwesomeIcon className="text-black text-2xl pr-2" icon={faList}></FontAwesomeIcon></a><span className="align-top">Chat and Ticket history can be viewed by logging in to your account and navigating to the <span className="font-bold">Support</span> tab in the profile dropdown or by clicking <a className="text-green underline font-bold" href="/Support">here</a>.</span></p>
                 </div>
             </div>
             <Footer></Footer>
