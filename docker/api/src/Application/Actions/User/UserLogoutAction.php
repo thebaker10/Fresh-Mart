@@ -39,6 +39,8 @@ class UserLogoutAction extends Action
             'id' => null
         ];
 
+        setcookie('freshMartUserId', "", -1, '/');
+
         return $this->respondWithData([], 200);
     }
 }

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom"
 import { Rating } from "./Rating"
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeartCircleMinus, faHeartCirclePlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {  FontAwesomeIcon  } from "@fortawesome/react-fontawesome";
+import { faHeartCircleMinus, faHeartCirclePlus,  faSpinner  } from "@fortawesome/free-solid-svg-icons";
 import { IconItem } from "../Nav/IconItem";
 
 

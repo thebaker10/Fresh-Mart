@@ -35,12 +35,12 @@ export function QuantitySelector(props:Props) {
             .then((response) => response.json())
             .then((data) => {
               data.data[0].shoppingCart.cartItems.forEach((e:any) => {
-                if(props.productID == e.product.productId){
+                if(props.productID === e.product.productId){
                   setIsInCart(true);
                 }
               });
               data.data[0].favorites.favoriteItems.forEach((e:any) => {
-                if(props.productID == e.product.productId){
+                if(props.productID === e.product.productId){
                   setIsInFavorite(true);
                 }
               });
