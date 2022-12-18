@@ -2,6 +2,7 @@ import { IconItem } from "../Nav/IconItem";
 import {faPlus, faMinus, faHeartCirclePlus, faHeartCircleMinus, faSpinner} from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { ColdObservable } from "rxjs/internal/testing/ColdObservable";
 
 type Props={
   price: number,
@@ -13,8 +14,6 @@ export function QuantitySelector(props:Props) {
 
     const [alertVisible, setAlertVisible] = React.useState(false);
     const [userId, setUserId] = React.useState<any>();
-    const [added, setAdded] = React.useState(false);
-    const [addedFav, setAddedFav] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [isInCart, setIsInCart] = React.useState(false);
     const [isInFavorite, setIsInFavorite] = React.useState(false);
@@ -30,8 +29,9 @@ export function QuantitySelector(props:Props) {
 
     useEffect(() => {
       let cookie = getCookie();
-      setUserId(cookie);
-      fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
+      if(cookie != null){
+        setUserId(cookie);
+        fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
             .then((response) => response.json())
             .then((data) => {
               data.data[0].shoppingCart.cartItems.forEach((e:any) => {
@@ -45,10 +45,14 @@ export function QuantitySelector(props:Props) {
                 }
               });
         })
+      }
     },[]);
 
     function addToCart(){
-      if(!isInCart && !loading){
+      if(userId == null){
+        loginAlert();
+      }
+      else if(!isInCart && !loading){
         setLoading(true);
         let data:any = {};
         data["userId"] = userId;
@@ -69,7 +73,7 @@ export function QuantitySelector(props:Props) {
                 return;
             }else{
                 setLoading(false);
-                setAdded(true);
+                setIsInCart(true);
                 setAlertVisible(false);
             }
             });
@@ -80,7 +84,10 @@ export function QuantitySelector(props:Props) {
     }
 
     function addToFavorites(){
-      if(!isInFavorite && !loadingFav){
+      if(userId == null){
+        loginAlert();
+      }
+      else if(!isInFavorite && !loadingFav){
         setLoadingFav(true);
         let data:any = {};
         data["userId"] = userId;
@@ -101,14 +108,13 @@ export function QuantitySelector(props:Props) {
             }else{
                 setLoadingFav(false);
                 setIsInFavorite(true);
-                setAddedFav(true);
                 setAlertVisible(false);
             }
             });
         }).catch((error) => {
             setAlertVisible(true);
         });
-      }else if(isInFavorite || addedFav){
+      }else if(isInFavorite){
         setLoadingFav(true);
           let data:any = {};
           data["userId"] = userId;
@@ -127,7 +133,6 @@ export function QuantitySelector(props:Props) {
                   return;
               }else{
                   setLoadingFav(false);
-                  setAddedFav(false);
                   setIsInFavorite(false);
               }
               });
@@ -147,6 +152,11 @@ export function QuantitySelector(props:Props) {
       }
     }
 
+    function loginAlert(){
+      setAlertMessage("You must be logged in")
+      setAlertVisible(true);
+    }
+
     return (
     <div>
         { alertVisible && <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">{alertMessage}</div> }
@@ -157,10 +167,10 @@ export function QuantitySelector(props:Props) {
         </div>
       <p className="text-center text-2xl">${(props.price * count).toFixed(2)}</p>
       <div className="flex gap-1 flex-row justify-center items-center">
-        <button onClick={addToCart} className="px-3 py-3 bg-green w-full text-white text-xs font-bold uppercase rounded">{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : added || isInCart ? "In Cart" : "Add To Cart"}</button>
+        <button onClick={addToCart} className="px-3 py-3 bg-green w-full text-white text-xs font-bold uppercase rounded">{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : isInCart ? "In Cart" : "Add To Cart"}</button>
         <ul>
-          <button  onClick={addToFavorites} className={addedFav || isInFavorite ? "bg-[red] px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]":"bg-green px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]"}>
-            {loadingFav ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"2x"} /> : addedFav || isInFavorite ?<IconItem color = {"black"} icon={faHeartCircleMinus}/> : <IconItem color = {"white"} icon={faHeartCirclePlus} />}
+          <button  onClick={addToFavorites} className={isInFavorite ? "bg-[red] px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]":"bg-green px-2 pt-2 text-white text-xs font-bold uppercase rounded min-h-[40px] min-w-[45px]"}>
+            {loadingFav ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"2x"} /> : isInFavorite ?<IconItem color = {"black"} icon={faHeartCircleMinus}/> : <IconItem color = {"white"} icon={faHeartCirclePlus} />}
           </button>
         </ul>
       </div>

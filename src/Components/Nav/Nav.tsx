@@ -1,16 +1,16 @@
-import { faCartShopping, faHeart, faSearch, faSearchDollar, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faHeart, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { AddToCart } from "./AddToCart";
 import { IconItem } from "./IconItem";
 import { Logo } from "./Logo";
 import { NavItem } from "./NavItem";
-import { SearchBar } from "./SearchBar";
 import { SearchBarModal } from "./SearchBar/SearchBarModal";
 import { UserIcon } from "./UserIcon";
 
 export function Nav() {
     const [showSearch, setShowSearch] = useState(false)
+
+    const location = window.location.pathname
 
     return (
 
@@ -18,10 +18,10 @@ export function Nav() {
             <nav className="flex justify-evenly py-4 bg-white shadow-lg fixed w-screen z-20 top-0">
                 <Logo></Logo>
                 <ul className="flex gap-7">
-                  <NavItem text="Home" link= "/" active/>
-                  <NavItem text="Category" link= "/Category"/>
-                  <NavItem text="About" link= "/About"/>
-                  <NavItem text="Contact Us" link="/Contact"/>
+                  <NavItem text="Home" link= "/" active={location === "/"}/>
+                  <NavItem text="Category" link= "/Category" active={location === "/Category"}/>
+                  <NavItem text="About" link= "/About" active={location === "/About"}/>
+                  <NavItem text="Contact Us" link="/Contact" active={location === "/Contact"}/>
                 </ul>
 
                 <ul className="flex gap-8">

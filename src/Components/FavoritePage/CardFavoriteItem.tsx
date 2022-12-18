@@ -11,7 +11,6 @@ type Props = {
 
 export function CardFavoriteItem(props: Props) {
     const [userId, setUserId] = React.useState<any>();
-    const [added, setAdded] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [loadingFav, setLoadingFav] = React.useState(false);
     const [isInCart, setIsInCart] = React.useState(false);
@@ -40,31 +39,32 @@ export function CardFavoriteItem(props: Props) {
 
     function addToCart(e: any) {
         e.stopPropagation();
-        if (!isInCart && !loading) {
-            setLoading(true);
-            let data: any = {};
-            data["userId"] = userId;
-            data["productId"] = Number(props.productID);
-            data["quantity"] = 1;
-
-            fetch(process.env.REACT_APP_API_BASE + "/cart/", {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            }).then((response) => {
-                response.json().then((body) => {
-                    if (body.statusCode === 500) {
-                        return;
-                    } else {
-                        setLoading(false);
-                        setAdded(true);
-                    }
-                });
-            })
-        }
+        if(!isInCart && !loading){
+          setLoading(true);
+          let data:any = {};
+          data["userId"] = userId;
+          data["productId"] = Number(props.productID);
+          data["quantity"] = 1;
+    
+          fetch(process.env.REACT_APP_API_BASE+"/cart/", {
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              credentials: 'include'
+          }).then((response) => {
+              response.json().then((body) => {
+              if(body.statusCode === 500) {
+                  return;
+              }else{
+                console.log("flag");
+                  setLoading(false);
+                  setIsInCart(true);   
+              }
+              });
+          })
+        }   
     }
 
     function removeFromFavorites(e: any) {
@@ -121,7 +121,7 @@ export function CardFavoriteItem(props: Props) {
                             {loadingFav ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : "Remove"}
                         </button>
                         <button className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded" onClick={(event) => addToCart(event)}>
-                            {loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : added || isInCart ? "In Cart" : "Add To Cart"}
+                            {loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : isInCart ? "In Cart" : "Add To Cart"}
                         </button>
                     </div>
                 </div>

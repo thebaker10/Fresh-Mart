@@ -4,6 +4,7 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 
 type Props={
     productID: string
+    handleClick(data:Array<any>): void
 }
 
 export function WriteReview(props:Props) {
@@ -13,6 +14,7 @@ export function WriteReview(props:Props) {
     const [hasReview, setHasReview] = useState(false);
     const [userId, setUserId] = useState<any>(null);
     const [rating, setRatingScore] = useState<any>(5);
+    const [userData, setUserData] = useState<any[any]>([]);
 
 
     function getCookie() {
@@ -33,6 +35,11 @@ export function WriteReview(props:Props) {
                     }
                 });
                 
+        })
+        fetch(process.env.REACT_APP_API_BASE+"/users/details/"+cookie)
+            .then((response) => response.json())
+            .then((data) => {
+                setUserData(data.data);  
         })
       },[]);
 
@@ -71,7 +78,13 @@ export function WriteReview(props:Props) {
                     return;
                 }else{
                     setLoading(false);
-                    window.location.reload();
+                    toggleHiddenContainer();
+                    if(props.handleClick){
+                        data["reviewDate"] = new Date().toLocaleDateString().slice(0, 10);
+                        data["name"] = userData[0].firstName +" "+userData[0].lastName;
+                        props.handleClick(data);
+                    }
+                    
                 }
                 });
             }).catch((error) => {
