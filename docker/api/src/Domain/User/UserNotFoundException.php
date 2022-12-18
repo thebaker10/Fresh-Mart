@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
-use App\Domain\DomainException\DomainRecordNotFoundException;
+use App\Domain\DomainException\DomainException;
+use Exception;
 
-class UserNotFoundException extends DomainRecordNotFoundException
+class UserNotFoundException extends Exception
 {
-    public $message = 'The user you requested does not exist.';
+    public $message = 'An account was not found.';
 }

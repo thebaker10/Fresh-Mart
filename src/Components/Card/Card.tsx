@@ -5,13 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeartCircleMinus, faHeartCirclePlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { IconItem } from "../Nav/IconItem";
 
-type Props = {
-  productID: number,
-  name: string,
-  description: string,
-  stars: number,
-  price: number,
-  image?: string
+
+type Props={
+    productID: number,
+    name: string,
+    description: string,
+    stars: number,
+    price: number,
+    image?: string,
+    showDeal?: boolean,
+    msrp?: number
 }
 
 export function Card(props: Props) {
@@ -58,6 +61,7 @@ export function Card(props: Props) {
   }, []);
 
   function addToCart(e: any) {
+
     e.stopPropagation();
     if (!isInCart && !loading) {
       setLoading(true);
@@ -158,6 +162,20 @@ export function Card(props: Props) {
 
             <div className="h-auto max-h-16 w-auto">
               <p id="truncatedText" className="mt-2 text-black text-sm">{props.description}</p>
+                </div>
+              </div>
+              <div className="flex-end">
+                <div className="flex item-center mt-2">
+                  {average ? <Rating nStars={average}/> : <Rating nStars={0}/>}
+                </div>
+                <div className="flex  item-center justify-between mt-3">
+                  {props.showDeal?
+                  <h1 className={`text-black font-bold text-xl line-through decoration-red-600 decoration-[2.5px] decoration-wavy`}>${props.msrp?.toFixed(2)}</h1>:null}
+                  <h1 className={`text-black font-bold text-xl`}>${props.price.toFixed(2)}</h1>
+                  <button className="px-3 py-2 min-w-[50%] bg-green text-white text-xs font-bold uppercase rounded" onClick={(event) => addToCart(event)}>{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> : added || isInCart ? "In Cart" : "Add To Cart"}</button>
+                </div>
+              </div>
+              
             </div>
           </div>
           <div className="flex-end">

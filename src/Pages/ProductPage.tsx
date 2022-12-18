@@ -58,6 +58,16 @@ export function ProductPage() {
         })  
     },[params.productID]);
 
+    function handleWriteReview(data:any){
+        console.log(data.name);
+        userData.push(data.name);
+        setUserData([...userData]);
+        reviewData.push(data);
+        setReviewData([...reviewData]);
+        let thisAverage = average == 0 ?  data.rating : (average + data.rating)/2;
+        setAverageData(thisAverage);
+    }
+
     return (
         <div className="bg-lightGray pt-16">
             <Nav></Nav>
@@ -66,7 +76,7 @@ export function ProductPage() {
                 {sliderProducts.length !== 0 ? <MiniSlider title="Similar Products"  products={sliderProducts} productID={product.productId}></MiniSlider> : <MiniSliderPlaceholder></MiniSliderPlaceholder>}
             </div>
             
-            {product ? <ReviewContainer productID = {product.productId} reviews={reviewData} users={userData} stars={average} numOfReviews={reviewData.length}></ReviewContainer>:<ReviewContainerPlaceholder></ReviewContainerPlaceholder>}
+            {product ? <ReviewContainer handleClick={(data:Array<any>)=> handleWriteReview(data)} productID = {product.productId} reviews={reviewData} users={userData} stars={average} numOfReviews={reviewData.length}></ReviewContainer>:<ReviewContainerPlaceholder></ReviewContainerPlaceholder>}
             <Footer></Footer>
             <TawkTo></TawkTo>
         </div>

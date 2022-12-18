@@ -9,11 +9,12 @@ type Props={
     imageLink: string,
     quantity: number,
     price: number,
+    onDelete?: ()=> void
 }
 
 export function Product(props:Props) {
-    const [loading, setLoading] = React.useState(false);
-    const [userId, setUserId] = React.useState<any>();
+    const [loading, setLoading] = useState(false);
+    const [userId, setUserId] = useState<any>();
     const navigate = useNavigate();
 
     function getCookie() {
@@ -49,11 +50,14 @@ export function Product(props:Props) {
                   return;
               }else{
                   setLoading(false); 
-                  window.location.href = "/Checkout"
+                //   window.location.href = "/Checkout"
               }
               });
           })
-        }   
+        }  
+        if(props.onDelete){
+            props.onDelete()
+        } 
     }
 
     function goToProductPage(){
@@ -77,7 +81,7 @@ export function Product(props:Props) {
                             
                         </div>
                         <div className="flex-end pt-3">
-                            <button className="px-3 py-2 bg-red-600 text-white text-xs w-full font-bold uppercase rounded" onClick={(event) => removeFromCart(event)}>{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> :  "Remove"}</button>
+                            <button className="px-3 py-2 bg-red-600 text-white text-xs w-full font-bold uppercase rounded" onClick={removeFromCart}>{loading ? <FontAwesomeIcon icon={faSpinner} spinPulse={true} color={'white'} size={"1x"} /> :  "Remove"}</button>
                         </div>
                     </div>  
                 </div>
