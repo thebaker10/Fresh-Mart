@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom";
 
 type Props={
     orderID: number,
@@ -27,7 +28,7 @@ export function Order(props:Props) {
                 
                 <div className="flex-auto m-auto">
                     
-                    <a href={"/OrderDetails/"+props.orderID} className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded">View order details</a>
+                    <Link to={"/OrderDetails/"+props.orderID} className="px-3 py-2 bg-green text-white text-xs font-bold uppercase rounded">View order details</Link>
                 </div>
             </div>
         </div>
