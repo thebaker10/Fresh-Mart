@@ -24,7 +24,8 @@ const responsive = {
 
 type Props={
   categoryID: number,
-  title: string
+  title: string,
+  showDeal?: boolean
 }
 
 
@@ -62,7 +63,7 @@ if(!products){
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         > 
-        {products.length != 0 ? products.map((r) => <Card productID={r.productId} name={r.productName}  stars={4} price={r.product_price} description={r.product_description}/>) : arr.map((a)=> <CardPlaceholder></CardPlaceholder>)}
+        {products.length !== 0 ? products.map((r) => <Card productID={r.productId} msrp={r.product_msrp} name={r.productName} showDeal={props.showDeal} stars={4} price={r.product_price} description={r.product_description}/>) : arr.map((a)=> <CardPlaceholder></CardPlaceholder>)}
           
         </Carousel>
       </div>
