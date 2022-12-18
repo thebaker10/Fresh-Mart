@@ -24,9 +24,9 @@ export function FavoritePage() {
     },[]);
     
     return (
-        <div className="bg-lightGray">
+        <div className="bg-lightGray min-h-screen flex flex-col">
             <Nav/>
-                <div className="mx-auto max-w-4xl mt-5">
+                <div className="mx-auto max-w-4xl mt-10 min-w-[45%]">
                     <h1 className="text-gray-900 font-bold text-2xl">My Favorites</h1>
                     <FavoriteItem items = {favoriteData}></FavoriteItem>
 
