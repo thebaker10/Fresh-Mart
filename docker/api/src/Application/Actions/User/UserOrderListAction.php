@@ -34,10 +34,10 @@ class UserOrderListAction extends Action
     /**
      * {@inheritdoc}
      */
-    protected function action(): \Psr\Http\Message\ResponseInterface 
+    protected function action(): Response
     {   
         $slug = $this->resolveArg('user_id');
-        $order = $this->em->getRepository(Order::class)->findAll();
+        $order = $this->em->getRepository(Order::class)->findBy(array('user_id' => $slug));
         return $this->respondWithData($order);
     }
 
