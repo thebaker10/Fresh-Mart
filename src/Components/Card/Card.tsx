@@ -98,7 +98,11 @@ export function Card(props: Props) {
 
   }
   function addToFavorites() {
-    if (!isInFavorite && !loadingFav) {
+    if(userId == null){
+      setAlertMessage("You must be logged in")
+      setAlertVisible(true);
+    }
+    else if (!isInFavorite && !loadingFav) {
       setLoadingFav(true);
       let data: any = {};
       data["userId"] = userId;
