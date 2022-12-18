@@ -83,7 +83,7 @@ export function CheckOut() {
                 }else{
                     setLoading(false);
                     setAlertVisible(false);  
-                    navigate('/OrderDetails/'+body.data.OrderId);
+                    navigate('/OrderHistory/');
                 }
                 });
             })
