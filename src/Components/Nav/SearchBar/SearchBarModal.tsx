@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Product } from "../../../Types/Product"
+import { SearchProductType } from "../../../Types/Product"
 import { SearchBarCard } from "./SearchBarCard"
 
 
@@ -10,7 +10,7 @@ type Props = {
 
 export function SearchBarModal(props: Props) {
 
-    const [products, setProducts] = useState<Product[]>([])
+    const [products, setProducts] = useState<SearchProductType[]>([])
 
     const onUserSearchHandler = async (userInputSearch: string) => {
         if(userInputSearch === ""){
@@ -18,7 +18,7 @@ export function SearchBarModal(props: Props) {
             return
         }
     
-        const results:Product[] = await fetch(process.env.REACT_APP_SEARCH_BASE + "/search/" + userInputSearch).then(data => data.json())
+        const results:SearchProductType[] = await fetch(process.env.REACT_APP_SEARCH_BASE + "/search/" + userInputSearch).then(data => data.json())
         setProducts([...results])
     }
 

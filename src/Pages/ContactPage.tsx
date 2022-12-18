@@ -6,9 +6,9 @@ import TawkTo from "../Components/TawkTo";
 
 export function ContactPage() {
     return (
-        <div className="min-h-screen bg-lightGray mt-20">
+        <div className="min-h-screen bg-lightGray flex flex-col">
             <Nav></Nav>
-            <div className="rounded-md max-w-4xl m-auto">
+            <div className="rounded-md max-w-4xl mt-20 mx-auto">
                 
                 <h2 className="uppercase tracking-wide text-lg font-semibold text-gray-700 my-2 mt-8">Chat with our support team</h2>
                 <div className="mb-8 bg-white shadow-lg rounded text-gray-600 flex">

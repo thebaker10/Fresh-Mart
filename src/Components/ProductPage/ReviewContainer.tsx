@@ -1,21 +1,29 @@
 import { Rating } from "../Card/Rating"
 import { WriteReview } from "../WriteReview";
 import { Review } from "./Review";
+import React, { useState, useEffect } from 'react';
 
 type Props={
     productID: string,
     stars: number,
     numOfReviews: number,
     reviews: Array<any>,
-    users: Array<any>
+    users: Array<any>,
+    handleClick(data:Array<any>): void
 }
 
+
+
 export function ReviewContainer(props:Props) {
+
+    function handleWriteReview(data:Array<any>){
+        props.handleClick(data);
+    }
     return (
         <div className="mx-auto max-w-5xl mt-20 divide-gray mb-10">
             <div className="flex">
                 <h1 className="flex-auto text-gray-900 font-bold text-2xl">Customer Reviews</h1>
-                <WriteReview productID={props.productID}></WriteReview>
+                <WriteReview handleClick={(data:Array<any>)=> handleWriteReview(data)} productID={props.productID}></WriteReview>
             </div>
             
             <div className="flex item-center mt-2">
