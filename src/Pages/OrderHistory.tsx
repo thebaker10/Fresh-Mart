@@ -10,8 +10,15 @@ import { $User } from "../Services/State";
 export function OrderHistory() {
     const [orders, setOrders] = useState<OrderType[]>([])
 
+    function getCookie() {
+        function escape(s:any) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
+        var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape('freshMartUserId') + '=([^;]*)'));
+        return match ? match[1] : null;
+    }
+
     useEffect(() => {
-        fetch(process.env.REACT_APP_API_BASE + "/users/" + $User.value + "/orders").then(b => b.json()).then(data => setOrders(data.data))
+        let cookie = getCookie();
+        fetch(process.env.REACT_APP_API_BASE + "/users/" + cookie + "/orders").then(b => b.json()).then(data => setOrders(data.data))
     }, [])
 
     return (
